@@ -59,39 +59,65 @@ const projects = {
   ],
   webDevelopment: [
     {
-      title: "E-commerce Platform",
+      title: "Penito Furniture",
       description: "A full-stack e-commerce platform with real-time inventory",
-      technologies: ["React", "Node.js", "MongoDB", "Express"],
+      technologies: ["React.js", "Redux Toolkit"],
       imageUrl: "https://via.placeholder.com/400x300",
-      projectUrl: "https://github.com/yourusername/ecommerce",
+      projectUrl: "https://penito-furniture.netlify.app/",
       github: "https://github.com/FemiOje"
     },
     {
-      title: "Social Media Dashboard",
+      title: "Dashboard",
       description: "A real-time social media analytics dashboard",
-      technologies: ["Vue.js", "D3.js", "Firebase", "Tailwind CSS"],
+      technologies: ["React.js", "D3.js", "Firebase", "Tailwind CSS"],
       imageUrl: "https://via.placeholder.com/400x300",
-      projectUrl: "https://github.com/yourusername/social-dashboard",
-      github: "https://github.com/FemiOje"
+      projectUrl: "https://dashboard-femioje.vercel.app/",
+      github: "https://github.com/FemiOje/dashboard"
+    },
+    {
+      title: "Star Wars API",
+      description: "Star Wars info web application",
+      technologies: ["React.js", "Star Wars API", "Tailwind CSS"],
+      imageUrl: "https://via.placeholder.com/400x300",
+      projectUrl: "https://star-wars-api-femioje.vercel.app/",
+      github: "https://github.com/FemiOje/star-wars-api"
+    },
+    {
+      title: "Metabnb Clone",
+      description: "Metabnb clone- submission for HNG internship stage 3",
+      technologies: ["React", "React Router", "CSS"],
+      imageUrl: "https://via.placeholder.com/400x300",
+      projectUrl: "https://metabnb-clone-oluwafemi.vercel.app/",
+      github: "https://github.com/FemiOje/metabnb-clone"
     }
   ],
-  others: [
+  school: [
     {
-      title: "Mobile App",
-      description: "A cross-platform mobile app for task management",
-      technologies: ["React Native", "Redux", "Firebase"],
+      title: "Assets Management System",
+      description: "An Assets Management System that allows employees to request, track office items,\
+        maintains records of assigned assets for \
+        easy retrieval. (Group Project)",
+      technologies: ["HTML", "CSS", "PHP", "MySQL", "XAMPP"],
       imageUrl: "https://via.placeholder.com/400x300",
-      projectUrl: "https://github.com/yourusername/task-app",
-      github: "https://github.com/FemiOje"
+      projectUrl: "https://github.com/FemiOje/assets-management-system",
+      github: "https://github.com/FemiOje/assets-management-system"
     },
     {
-      title: "AI Chat Bot",
-      description: "An AI-powered chatbot using natural language processing",
-      technologies: ["Python", "TensorFlow", "Flask", "React"],
+      title: "CryptoTracker",
+      description: "Support system web application used to review data and information on crypto. (Group Project)",
+      technologies: ["HTML", "CSS", "PHP", "MySQL", "XAMPP"],
       imageUrl: "https://via.placeholder.com/400x300",
-      projectUrl: "https://github.com/yourusername/ai-chatbot",
-      github: "https://github.com/FemiOje"
-    }
+      projectUrl: "https://cryptotracker-hazel.vercel.app/",
+      github: "https://github.com/FemiOje/cryptotracker"
+    },
+    {
+      title: "Logistics Company Dashboard",
+      description: "A responsive, interactive dashboard for a logistics company to track shipments in real-time.",
+      technologies: ["HTML", "CSS", "PHP", "MySQL", "XAMPP"],
+      imageUrl: "https://via.placeholder.com/400x300",
+      projectUrl: "https://github.com/FemiOje/logistics-company-dashboard",
+      github: "https://github.com/FemiOje/logistics-company-dashboard"
+    },
   ]
 };
 
@@ -99,7 +125,7 @@ const categories = [
   { id: 'smartContracts', name: 'Smart Contracts' },
   { id: 'gameDevelopment', name: 'Game Development' },
   { id: 'webDevelopment', name: 'Web Development' },
-  { id: 'others', name: 'Others' }
+  { id: 'school', name: 'School Projects' }
 ];
 
 function App() {
@@ -142,57 +168,57 @@ function App() {
           Projects
         </motion.section>
 
-      {/* Category Navigation */}
-      <motion.div
-        className="sticky top-[4rem] z-10 bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6, duration: 0.6 }}
-      >
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex overflow-x-auto space-x-4 py-4">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                className={`px-4 py-2 rounded-full whitespace-nowrap transition-colors duration-300 ${activeCategory === category.id
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                  }`}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Projects Section */}
-      <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeCategory}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-              {projects[activeCategory].map((project, index) => (
-                <motion.div
-                  key={project.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
+        {/* Category Navigation */}
+        <motion.div
+          className="sticky top-[4rem] z-10 bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.6 }}
+        >
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex overflow-x-auto space-x-4 py-4">
+              {categories.map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => setActiveCategory(category.id)}
+                  className={`px-4 py-2 rounded-full whitespace-nowrap transition-colors duration-300 ${activeCategory === category.id
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                    }`}
                 >
-                  <ProjectCard {...project} />
-                </motion.div>
+                  {category.name}
+                </button>
               ))}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </section>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Projects Section */}
+        <section className="py-16 px-4">
+          <div className="max-w-7xl mx-auto">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeCategory}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              >
+                {projects[activeCategory].map((project, index) => (
+                  <motion.div
+                    key={project.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <ProjectCard {...project} />
+                  </motion.div>
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </section>
       </div>
 
 
