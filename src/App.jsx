@@ -27,14 +27,14 @@ function App() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-4xl mx-auto">
           <motion.h1
             className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
-            Ohayo 👋
+            Ohayo, my name is Femi 👋
           </motion.h1>
           <motion.p
             className="text-xl text-gray-600 dark:text-gray-300 mb-8"
@@ -42,22 +42,27 @@ function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
           >
-            I&apos;m a passionate software engineer creating amazing applications across different domains.
+            I&apos;m a computer science student creating amazing applications across different domains. My skills/interests include but are not limited to the following:
           </motion.p>
+          <motion.ul className="text-xl text-gray-600 dark:text-gray-300 mb-8 list-disc">
+            <motion.li><strong>Frontend web development,</strong> with HTML, CSS, Javascript, ReactJS, PHP, SQL</motion.li>
+            <motion.li><strong>Game development:</strong> Unity, C#, Dojo</motion.li>
+            <motion.li><strong>Smart Contract development</strong> with Cairo and fully onchain games with the Dojo Game Engine</motion.li>
+          </motion.ul>
         </div>
       </motion.section>
 
       <div className="flex-grow">
         <div className="max-w-7xl mx-auto px-4">
-          <motion.h2 
+          <motion.h4 
             id="projects" 
-            className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-8 text-center"
+            className="text-4xl md:text-6xl font-normal text-gray-900 dark:text-white mb-8 text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
           >
-            Projects
-          </motion.h2>
+            Check out some personal and group projects I have worked on:
+          </motion.h4>
         </div>
 
         {/* Category Navigation */}
