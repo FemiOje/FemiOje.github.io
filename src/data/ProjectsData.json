@@ -9,7 +9,7 @@
                 "Snforge",
                 "Starkli"
             ],
-            "imageUrl": "public/smart-contracts/student-registry-contract.png",
+            "imageUrl": "/smart-contracts/student-registry-contract.png",
             "projectUrl": "https://sepolia.starkscan.co/contract/0x079862ff1faa276c4d398e0dcaedc63245f289ad3099e84c9e3d6fdd40d5bf02",
             "github": "https://github.com/FemiOje/student_registry_contract"
         },
@@ -22,7 +22,7 @@
                 "TailwindCSS",
                 "Starknet-React"
             ],
-            "imageUrl": "public/smart-contracts/student-registry-frontend.png",
+            "imageUrl": "/smart-contracts/student-registry-frontend.png",
             "projectUrl": "https://student-registry-frontend.vercel.app/",
             "github": "https://github.com/FemiOje/student-registry-frontend"
         },
@@ -35,7 +35,7 @@
                 "Snforge",
                 "Starkli"
             ],
-            "imageUrl": "public/smart-contracts/bookstore-contract.png",
+            "imageUrl": "/smart-contracts/bookstore-contract.png",
             "projectUrl": "https://sepolia.starkscan.co/contract/0x03af4bd17d75ded7eb9322a3d5dfbcc76310498dd53827b88ca40d38d9512985",
             "github": "https://github.com/FemiOje/bookstore"
         }
@@ -51,7 +51,7 @@
                 "Casual",
                 "Endless"
             ],
-            "imageUrl": "public/game-dev/fishfest_gamejam.png",
+            "imageUrl": "/game-dev/fishfest_gamejam.png",
             "projectUrl": "https://femioje.itch.io/fishfest-gamejamnew-build",
             "github": "https://github.com/FemiOje/Fish-Fest-Game-Jam"
         },
@@ -66,7 +66,7 @@
                 "Combat",
                 "Survival"
             ],
-            "imageUrl": "public/game-dev/adventure-of-the-thing.png",
+            "imageUrl": "/game-dev/adventure-of-the-thing.png",
             "projectUrl": "https://femioje.itch.io/adventure-of-the-thing",
             "github": "https://github.com/FemiOje/adventure-of-the-thing"
         },
@@ -78,7 +78,7 @@
                 "C#",
                 "Casual"
             ],
-            "imageUrl": "public/game-dev/pong-clone.png",
+            "imageUrl": "/game-dev/pong-clone.png",
             "projectUrl": "https://femioje.itch.io/pong-clone",
             "github": "https://github.com/FemiOje/pong-clone"
         }
@@ -94,7 +94,7 @@
                 "localStorage",
                 "react-hot-toast"
             ],
-            "imageUrl": "public/web-dev/penito-furniture.png",
+            "imageUrl": "/web-dev/penito-furniture.png",
             "projectUrl": "https://penito-furniture.netlify.app/",
             "github": "https://github.com/FemiOje/penitoFurniture"
         },
@@ -107,7 +107,7 @@
                 "Firebase",
                 "Tailwind CSS"
             ],
-            "imageUrl": "public/web-dev/dashboard.png",
+            "imageUrl": "/web-dev/dashboard.png",
             "projectUrl": "https://dashboard-femioje.vercel.app/",
             "github": "https://github.com/FemiOje/dashboard"
         },
@@ -120,7 +120,7 @@
                 "Tailwind CSS",
                 "Dark/Light Mode"
             ],
-            "imageUrl": "public/web-dev/star-wars.png",
+            "imageUrl": "/web-dev/star-wars.png",
             "projectUrl": "https://star-wars-api-femioje.vercel.app/",
             "github": "https://github.com/FemiOje/star-wars-api"
         },
@@ -132,7 +132,7 @@
                 "React Router",
                 "CSS"
             ],
-            "imageUrl": "public/web-dev/metabnb-clone.png",
+            "imageUrl": "/web-dev/metabnb-clone.png",
             "projectUrl": "https://metabnb-clone-oluwafemi.vercel.app/",
             "github": "https://github.com/FemiOje/metabnb-clone"
         },
@@ -144,7 +144,7 @@
                 "APIs",
                 "CSS"
             ],
-            "imageUrl": "public/web-dev/meme-generator.png",
+            "imageUrl": "/web-dev/meme-generator.png",
             "projectUrl": "https://meme-generator-femioje.vercel.app/",
             "github": "https://github.com/FemiOje/meme-generator"
         }
@@ -160,7 +160,7 @@
                 "MySQL",
                 "XAMPP"
             ],
-            "imageUrl": "public/school/assets-management-system.png",
+            "imageUrl": "/school/assets-management-system.png",
             "projectUrl": "https://github.com/FemiOje/assets-management-system",
             "github": "https://github.com/FemiOje/assets-management-system"
         },
@@ -173,7 +173,7 @@
                 "CoinGeckoAPI",
                 "Documentation"
             ],
-            "imageUrl": "public/school/crypto-tracker.png",
+            "imageUrl": "/school/crypto-tracker.png",
             "projectUrl": "https://cryptotracker-hazel.vercel.app/",
             "github": "https://github.com/FemiOje/cryptotracker"
         },
@@ -187,7 +187,7 @@
                 "React Router",
                 "lazy-loading"
             ],
-            "imageUrl": "public/school/logistics-dashboard.png",
+            "imageUrl": "/school/logistics-dashboard.png",
             "projectUrl": "https://github.com/FemiOje/logistics-company-dashboard",
             "github": "https://github.com/FemiOje/logistics-company-dashboard"
         }
