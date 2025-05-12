@@ -34,7 +34,7 @@ function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
-            Ohayo, my name is Femi 👋
+            Ohayo👋
           </motion.h1>
           <motion.p
             className="text-xl text-gray-600 dark:text-gray-300 mb-8"
