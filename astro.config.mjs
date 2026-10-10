@@ -48,6 +48,24 @@ export default defineConfig({
       },
     },
     {
+      // Variable, with the width axis: the web lens sets its display type condensed.
+      provider: fontProviders.local(),
+      name: 'Archivo',
+      cssVariable: '--font-archivo',
+      fallbacks: ['Helvetica Neue', 'Arial', 'sans-serif'],
+      options: {
+        variants: [
+          {
+            src: ['@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2'],
+            weight: '100 900',
+            stretch: '62% 125%',
+            style: 'normal',
+            unicodeRange: [LATIN],
+          },
+        ],
+      },
+    },
+    {
       provider: fontProviders.local(),
       name: 'Zen Kaku Gothic New',
       cssVariable: '--font-gothic',

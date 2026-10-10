@@ -4,9 +4,10 @@ slug: aux
 summary: A live, music-app-agnostic shared space where people share their music taste and discover new music through each other.
 role: Own idea, built with a hackathon team
 status: in-progress
-lenses: [classic, web, chain]
+lenses: [classic, web, blockchain]
 featured_in: [classic, web]
-order: { classic: 1, web: 1, chain: 1 }
+order: { classic: 1, web: 1, blockchain: 1 }
+tags: [web, onchain]
 stack: [React, Node, Postgres, Redis, Monad]
 links: { live: "", repo: "https://github.com/Kelechikizito/aux" }
 ---

@@ -4,9 +4,10 @@ slug: loot-survivor-2
 summary: "[one line on what you built]"
 role: Open-source contributor
 status: contributor
-lenses: [classic, web, games, chain]
+lenses: [classic, web, games, blockchain]
 featured_in: [games]
-order: { classic: 3, web: 3, games: 1, chain: 2 }
+order: { classic: 3, web: 3, games: 1, blockchain: 2 }
+tags: [games, onchain, open-source]
 stack: [onchain game, open source]
 links: { live: "", repo: "" }
 ---

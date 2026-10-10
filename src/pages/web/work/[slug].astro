@@ -1,27 +1,30 @@
 ---
+import { Image } from 'astro:assets';
 import { render } from 'astro:content';
-import { getLensProjects, type Project } from '../../../lib/content';
+import { getLensProjects, statusLabel, type Project } from '../../../lib/content';
 import { workHref } from '../../../lib/lenses';
-import { modelNumber } from '../../../lib/models';
+import Header from '../../../lenses/web/Header.astro';
+import Icon from '../../../lenses/web/Icon.astro';
 import Layout from '../../../lenses/web/Layout.astro';
-import Status from '../../../lenses/web/Status.astro';
-import Well from '../../../lenses/web/Well.astro';
+import Motif from '../../../lenses/web/Motif.astro';
+import { pad, posterField, posterMotif } from '../../../lenses/web/poster';
 
 export async function getStaticPaths() {
-  const { featuredFirst: units } = await getLensProjects('web');
-  return units.map((project, i) => ({
+  const { featuredFirst: projects } = await getLensProjects('web');
+  return projects.map((project, index) => ({
     params: { slug: project.data.slug },
-    props: { project, model: modelNumber(i), next: units[(i + 1) % units.length] },
+    props: { project, index, next: projects[(index + 1) % projects.length] },
   }));
 }
 
 interface Props {
   project: Project;
-  model: string;
+  /** Place in the lens order; the same number, field and motif as its poster card. */
+  index: number;
   next: Project;
 }
-const { project, model, next } = Astro.props;
-const { title, summary, role, status, stack, links, years } = project.data;
+const { project, index, next } = Astro.props;
+const { title, summary, role, status, stack, links, years, cover } = project.data;
 const { Content } = await render(project);
 
 const outbound = [
@@ -30,62 +33,89 @@ const outbound = [
 ];
 ---
 
-<Layout title={`${title} — data sheet — Femi Ojetokun`} description={summary}>
-  <article class="br-sheet br-container">
-    <header class="br-sheet__head">
-      <p class="br-sheet__meta">
-        <span>{model}</span>
-        <Status status={status} />
-        <span>data sheet</span>
-      </p>
-      <h1 class="br-h1">{title}</h1>
-      <p class="br-lead">{summary}</p>
+<Layout title={`${title} — Femi Ojetokun`} description={summary}>
+  <article>
+    <header class="sw-hero sw-hero--sheet sw-on-blue">
+      <div class="sw-container sw-hero__inner">
+        <Header />
+        <div class="sw-sheet__head" id="content" tabindex="-1">
+          <a class="sw-back" href="/web#work">
+            <Icon name="arrow" />
+            all work
+          </a>
+          <p class="sw-sheet__meta">
+            <span class="sw-numeral" aria-hidden="true">{pad(index + 1)}</span>
+            <span>{statusLabel[status]}</span>
+          </p>
+          <h1 class="sw-h1">{title}</h1>
+          <p class="sw-lead">{summary}</p>
+        </div>
+      </div>
     </header>
 
-    <dl class="br-table">
-      <div>
-        <dt class="br-label br-muted">role</dt>
-        <dd>{role.toLowerCase()}</dd>
-      </div>
-      <div>
-        <dt class="br-label br-muted">stack</dt>
-        <dd>{stack.map((item) => item.toLowerCase()).join(' · ')}</dd>
-      </div>
-      <div>
-        <dt class="br-label br-muted">status</dt>
-        <dd><Status status={status} /></dd>
-      </div>
-      <div>
-        <dt class="br-label br-muted">links</dt>
-        <dd>
-          <ul>
-            {
-              outbound.map(({ label, url, missing }) => (
-                <li>{url ? <a class="br-link" href={url}>{label}</a> : missing}</li>
-              ))
-            }
-          </ul>
-        </dd>
-      </div>
-      <div>
-        <dt class="br-label br-muted">years</dt>
-        <dd>{years}</dd>
-      </div>
-    </dl>
+    <div class="sw-section sw-on-paper">
+      <div class="sw-container sw-sheet">
+        <dl class="sw-table">
+          <div>
+            <dt>role</dt>
+            <dd>{role}</dd>
+          </div>
+          <div>
+            <dt>stack</dt>
+            <dd>{stack.join(' · ')}</dd>
+          </div>
+          <div>
+            <dt>status</dt>
+            <dd>{statusLabel[status]}</dd>
+          </div>
+          <div>
+            <dt>links</dt>
+            <dd>
+              <ul>
+                {outbound.map(({ label, url, missing }) => <li>{url ? <a href={url}>{label}</a> : missing}</li>)}
+              </ul>
+            </dd>
+          </div>
+          <div>
+            <dt>years</dt>
+            <dd>{years}</dd>
+          </div>
+        </dl>
 
-    <Well project={project} class="br-sheet__well" sizes="(min-width: 1280px) 1184px, 92vw" loading="eager" />
+        <div class="sw-sheet__main">
+          {
+            cover ? (
+              <div class="sw-frame sw-frame--cover">
+                <div class="sw-cover">
+                  <Image
+                    src={cover}
+                    alt={`${title} screenshot`}
+                    widths={[480, 800, 1200]}
+                    sizes="(min-width: 1280px) 690px, (min-width: 900px) 55vw, 92vw"
+                    loading="eager"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div class="sw-frame" data-field={posterField(index)}>
+                <p class="sw-label">[project screenshot]</p>
+                <Motif kind={posterMotif(index)} />
+              </div>
+            )
+          }
 
-    <div class="br-prose"><Content /></div>
+          <div class="sw-prose"><Content /></div>
 
-    {
-      next !== project && (
-        <a class="br-next br-link" href={workHref('web', next.data.slug)}>
-          next unit — {next.data.title.toLowerCase()}
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path d="M2 8h12M9.5 3.5 14 8l-4.5 4.5" />
-          </svg>
-        </a>
-      )
-    }
+          {
+            next !== project && (
+              <a class="sw-btn sw-btn--secondary sw-sheet__next" href={workHref('web', next.data.slug)}>
+                next — {next.data.title}
+                <Icon name="arrow" />
+              </a>
+            )
+          }
+        </div>
+      </div>
+    </div>
   </article>
 </Layout>

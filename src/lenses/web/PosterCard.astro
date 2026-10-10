@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import { statusLabel, type Project } from '../../lib/content';
+import { workHref } from '../../lib/lenses';
+import Motif from './Motif.astro';
+import { pad, posterField, posterMotif } from './poster';
+
+interface Props {
+  project: Project;
+  /** Place in the lens order; sets the number, colour field and motif. */
+  index: number;
+}
+const { project, index } = Astro.props;
+const { title, slug, summary, status, stack, tags, cover } = project.data;
+---
+
+<li class="sw-poster sw-reveal" data-field={posterField(index)} data-tags={tags.join(' ')}>
+  <div class="sw-poster__top">
+    <span class="sw-poster__num" aria-hidden="true">{pad(index + 1)}</span>
+    <span class="sw-poster__status">{statusLabel[status]}</span>
+  </div>
+  {
+    cover ? (
+      <div class="sw-cover">
+        <Image
+          src={cover}
+          alt={`${title} screenshot`}
+          widths={[480, 800]}
+          sizes="(min-width: 1280px) 340px, (min-width: 820px) 45vw, 90vw"
+        />
+      </div>
+    ) : (
+      <Motif kind={posterMotif(index)} />
+    )
+  }
+  <div class="sw-poster__body">
+    <h3 class="sw-poster__title"><a href={workHref('web', slug)}>{title}</a></h3>
+    <p class="sw-poster__summary">{summary}</p>
+    <p class="sw-poster__stack">{stack.map((item) => item.toLowerCase()).join(' · ')}</p>
+  </div>
+</li>

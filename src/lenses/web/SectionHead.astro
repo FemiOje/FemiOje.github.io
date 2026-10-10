@@ -1,19 +1,21 @@
 ---
 interface Props {
-  /** e.g. `01 — selected work` */
+  /** e.g. `01` */
+  numeral: string;
+  /** e.g. `selected work` */
   label: string;
   id: string;
-  /** Optional readout on the right, e.g. `03 units`. */
-  count?: string;
-  class?: string;
 }
-const { label, id, count, class: className = 'br-h2' } = Astro.props;
+const { numeral, label, id } = Astro.props;
 ---
 
-<div class="br-section-head">
-  <div class="br-section-head__text">
-    <p class="br-label br-muted">{label}</p>
-    <h2 id={id} class={className}><slot /></h2>
+<div class="sw-section-head">
+  <div class="sw-section-head__title">
+    <span class="sw-numeral" aria-hidden="true">{numeral}</span>
+    <div>
+      <p class="sw-section-label">{label}</p>
+      <h2 class="sw-h2" id={id}><slot /></h2>
+    </div>
   </div>
-  {count && <p class="br-label br-muted">{count}</p>}
+  <slot name="controls" />
 </div>

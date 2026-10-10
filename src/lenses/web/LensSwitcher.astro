@@ -2,20 +2,19 @@
 import { lenses } from '../../lib/lenses';
 ---
 
-<nav class="br-lens" aria-label="Choose a lens">
+<nav class="sw-lens" aria-label="Choose a lens">
   <ul>
     {
       lenses.map(({ id, href, ready }) => (
         <li>
           {ready ? (
-            <a class="br-lens__item" href={href} data-lens-link={id} aria-current={id === 'web' ? 'page' : undefined}>
-              <span class:list={['br-dot', { 'br-dot--on': id === 'web' }]} aria-hidden="true" />
+            <a class="sw-lens__item" href={href} data-lens-link={id} aria-current={id === 'web' ? 'page' : undefined}>
               {id}
             </a>
           ) : (
-            <span class="br-lens__item" aria-disabled="true">
-              <span class="br-dot" aria-hidden="true" />
-              {id} — soon
+            <span class="sw-lens__item" aria-disabled="true">
+              {id}
+              <span class="sw-visually-hidden">, coming soon</span>
             </span>
           )}
         </li>

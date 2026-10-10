@@ -2,7 +2,7 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-const lens = z.enum(['classic', 'web', 'games', 'chain']);
+const lens = z.enum(['classic', 'web', 'games', 'blockchain']);
 
 const profile = defineCollection({
   loader: glob({ pattern: 'profile.md', base: './src/content' }),
@@ -32,6 +32,8 @@ const projects = defineCollection({
       lenses: z.array(lens),
       featured_in: z.array(lens).default([]),
       order: z.partialRecord(lens, z.number()),
+      // Drives the web lens's project filters.
+      tags: z.array(z.enum(['web', 'onchain', 'games', 'open-source'])).default([]),
       stack: z.array(z.string()),
       links: z.object({ live: z.string().default(''), repo: z.string().default('') }),
       years: z.string().default('[years]'),

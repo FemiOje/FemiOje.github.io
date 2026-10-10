@@ -4,9 +4,9 @@ import { getProfile } from '../../lib/content';
 const { data: profile } = await getProfile();
 ---
 
-<footer class="br-footer">
-  <div class="br-footer__row br-container">
-    <p>© {new Date().getFullYear()} {profile.fullName.toLowerCase()}</p>
-    <p>designed in lagos · less, but better</p>
+<footer class="sw-footer">
+  <div class="sw-footer__row sw-container">
+    <p>© {new Date().getFullYear()} {profile.fullName}</p>
+    <p>set in Archivo · built on a 12-column grid</p>
   </div>
 </footer>

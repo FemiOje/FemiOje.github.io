@@ -1,6 +1,6 @@
 # AGENTS.md — Femi Ojetokun's portfolio
 
-Read this file first. It explains what you are building, who it is for, how the site is structured, and which skill to load for which part. The visual rules live in the skills; this file holds the context and the contracts that all four designs share.
+Read this file first. It explains what you are building, who it is for, how the site is structured, and which skill to load for which part. The visual rules live in the skills; this file holds the context and the contracts that all four lenses share.
 
 ---
 
@@ -10,10 +10,9 @@ Read this file first. It explains what you are building, who it is for, how the 
 - **Role:** Frontend / software engineer, based in Lagos, Nigeria.
 - **Education:** B.Sc. Computer Science, University of Lagos (recent graduate).
 - **Works at the intersection of:** frontend web, blockchain, and games.
-- **Experience:** Provable Labs (a past role) — one-person team working directly under the CEO/co-founder.
-- **Contact:** 0xjinius@gmail.com · X: [0xjinius](https://x.com/0xjinius) · itch.io: [femioje](https://femioje.itch.io).
+- **Experience:** Provable Labs — one-person team working directly under the CEO/co-founder.
 - **Open source:** contributor to **Dope Wars** and **Loot Survivor 2** (onchain games).
-- **Own project:** **Aux** — a live, music-app-agnostic shared space where people share their music taste and discover new music through each other. Stack: React, Node, Postgres, Redis; Monad onchain features (drop records, tips to curators) are core to it. Status: in progress. Originally Femi's idea; entered into a hackathon as a team, so the code lives in a teammate's repo ([Kelechikizito/aux](https://github.com/Kelechikizito/aux)), which Femi forked.
+- **Own project:** **Aux** — a live, music-app-agnostic shared space where people share their music taste and discover new music through each other. Stack: React, Node, Postgres, Redis; Monad onchain features (drop records, tips to curators) are core to it. Status: in progress.
 - **Currently learning:** smart contracts — Speedrun Ethereum → Ethernaut → Damn Vulnerable DeFi.
 
 **Never invent facts.** No made-up metrics, dates, employers, testimonials, client names, or project descriptions. Anything not listed here is a visible placeholder in square brackets, e.g. `[one line on what you built]`, `[years]`, `[your email]`, until Femi supplies it.
@@ -24,23 +23,19 @@ Read this file first. It explains what you are building, who it is for, how the 
 
 The site presents the same person and the same work through **four lenses**. A visitor picks the lens that matches why they came:
 
-| Lens | Who it speaks to | Design | Skill to load | Status |
+| Lens | Route | Who it speaks to | Design | Skill to load |
 |---|---|---|---|---|
-| `classic` | everyone; the home page | **Ma** — entering a Japanese home: washi paper, Mincho type, vast space, subtle bamboo | `ma-web` | ready |
-| `web` | people hiring a frontend / web engineer | **Braun** — Dieter Rams-era hardware: cream chassis, instrument dials, one orange accent | `braun-games` | ready |
-| `games` | game studios, onchain game teams | not designed yet | — | **pending** |
-| `chain` | blockchain / protocol teams | not designed yet | — | **pending** |
+| `classic` | `/` | everyone (the home page) | **Ma** — entering a Japanese home: washi paper, Mincho type, vast space, subtle bamboo | `skills/ma-classic/` |
+| `web` | `/web` | people hiring a frontend / web engineer | **Swiss Blue Poster** — full-bleed blue fields, 12-column grid, giant condensed type, geometric rings | `skills/swiss-web/` |
+| `games` | `/games` | game studios, onchain game teams | as currently built by Femi (`skills/braun-games/` is the earlier Braun direction; use it only if Femi says so) | — |
+| `blockchain` | `/blockchain` | blockchain / protocol teams | as currently built by Femi | — |
 
 The lenses share **content**, **routes** and **the switcher contract** (below). They do **not** share layout components or styling: each lens is its own visual world, built strictly from its skill.
 
-**Skill names predate this layout.** `ma-web` now builds the `classic` lens and `braun-games` now builds the `web` lens. Where a skill or its DESIGN.md says `[data-lens="web"]` (Ma) or `[data-lens="games"]` (Braun), read `[data-lens="classic"]` and `[data-lens="web"]`. Where Braun's copy is written for games (headline, readouts), keep the visual rules and write the copy for the web.
-
-The `games` and `chain` lenses are where the design and code should go furthest: each is meant to show what Femi can do, while the code stays clean and minimal.
-
-### Until the `games` and `chain` lenses exist
-- Show each in the switcher as disabled, labelled `games — soon` / `chain — soon`, with `aria-disabled="true"` and no link.
-- Do not improvise a design for either, and do not reuse another lens's design under their names.
-- When a skill for one is added, wire it in exactly like the other two.
+### Lenses without a skill in this folder
+- Leave their existing design alone unless Femi asks for changes.
+- Never restyle them with another lens's tokens, and never improvise a new design for them.
+- When a new skill is added for a lens, wire it in exactly like the others.
 
 ---
 
@@ -50,14 +45,14 @@ Defaults below; Femi may override any of them, and his instructions win.
 
 - **Framework:** Astro (static output, near-zero client JS). [Astro Keel](https://github.com/kpab/astro-keel) (MIT) is an acceptable starting point for content collections, RSS and SEO, but strip its styling; every visible style comes from a lens skill. Keep Astro Keel's MIT license notice if you start from it.
 - **Routes:** each lens is a real page, so it is linkable, crawlable and fast:
-  - `/` → the `classic` lens (default, the home page)
+  - `/` → the `classic` lens (default)
   - `/web` → the `web` lens
-  - `/games` → the `games` lens (once it exists)
-  - `/chain` → the `chain` lens (once it exists)
+  - `/games` → the `games` lens
+  - `/blockchain` → the `blockchain` lens
   - Project detail pages per lens: `/<lens>/work/<slug>` (`/work/<slug>` for `classic`).
-- **Remembering the choice:** store the last chosen lens in `localStorage` (`lens`). On `/`, if a different lens is remembered, offer it with a single quiet link ("continue in web") rather than auto-redirecting. Wrap storage access in try/catch; the site must work without it.
+- **Remembering the choice:** store the last chosen lens in `localStorage` (`lens`). On `/`, if a different lens is remembered, offer it with a single quiet link ("continue in games") rather than auto-redirecting. Wrap storage access in try/catch; the site must work without it.
 - **Transitions:** Astro View Transitions between lenses, crossfade only, 200–300 ms, disabled under `prefers-reduced-motion`.
-- **Styling:** each lens's tokens are CSS custom properties scoped to `[data-lens="classic"]`, `[data-lens="web"]`, etc. on `<html>`. No shared global palette.
+- **Styling:** each lens's tokens are CSS custom properties scoped to `[data-lens="classic"]`, `[data-lens="web"]`, `[data-lens="games"]`, `[data-lens="blockchain"]` on `<html>`. No shared global palette.
 - **Fonts:** self-host via `@fontsource` packages where available; never hotlink fonts in production.
 
 ### Content model (shared by every lens)
@@ -77,9 +72,10 @@ slug: loot-survivor-2
 summary: "[one line on what you built]"
 role: Open-source contributor
 status: contributor        # contributor | shipped | in-progress
-lenses: [classic, web, games, chain]  # which lenses show it
-featured_in: [games]       # lenses where it is the featured project
-order: { classic: 3, web: 3, games: 1, chain: 2 }
+lenses: [classic, web, games, blockchain]   # which lenses show it
+featured_in: [games]                        # lenses where it is the featured project
+order: { classic: 2, web: 2, games: 1, blockchain: 2 }
+tags: [games, onchain, open-source]         # drives the web lens's project filters
 stack: [onchain game, open source]
 links: { live: "", repo: "" }
 cover: ./cover.png         # optional; placeholder box if absent
@@ -87,11 +83,11 @@ cover: ./cover.png         # optional; placeholder box if absent
 
 Default lens assignments (adjust when Femi says otherwise):
 
-| Project | classic | web | games | chain | Featured in |
-|---|---|---|---|---|---|
-| Aux | ✓ | ✓ | | ✓ | classic, web |
-| Loot Survivor 2 | ✓ | ✓ | ✓ | ✓ | games |
-| Dope Wars | ✓ | ✓ | ✓ | ✓ | — |
+| Project | classic | web | games | blockchain | Featured in | Tags |
+|---|---|---|---|---|---|---|
+| Aux | ✓ | ✓ | | ✓ | classic, web | web, onchain |
+| Loot Survivor 2 | ✓ | ✓ | ✓ | ✓ | games | games, onchain, open-source |
+| Dope Wars | ✓ | ✓ | ✓ | ✓ | — | games, onchain, open-source |
 
 ---
 
@@ -99,9 +95,9 @@ Default lens assignments (adjust when Femi says otherwise):
 
 Every lens renders the switcher **in its own visual language**, but it must behave identically everywhere:
 
-- Exactly four options, always in this order: `classic`, `web`, `games`, `chain`.
-- Labels are those lowercase words. Each lens may add its own flourish around them (Ma: a small seal mark; Braun: a tuning dial), but the words stay readable.
-- Each option is a real `<a href>` to that lens's route (disabled options per §2). The current lens has `aria-current="page"`.
+- Exactly four options, always in this order: `classic`, `web`, `games`, `blockchain`.
+- Labels are those lowercase words. Each lens may add its own flourish around them (Ma: a small seal mark; Swiss: a square marker), but the words stay readable.
+- Each option is a real `<a href>` to that lens's route. The current lens has `aria-current="page"`.
 - Wrap the options in `<nav aria-label="Choose a lens">`.
 - Placement: in the header on every page, plus one prominent instance in the hero.
 - Keyboard: Tab reaches every option; visible focus ring; touch targets ≥ 44 × 44 px.
@@ -125,9 +121,16 @@ Every lens renders the switcher **in its own visual language**, but it must beha
 
 ```
 AGENTS.md                  # this file
-DESIGN(MA).md              # tokens, type, components for the classic lens (ma-web skill)
-DESIGN (BRAUN).md          # tokens, type, components for the web lens (braun-games skill)
-licenses/                  # upstream license notices
+skills/
+  ma-classic/              # the CLASSIC lens (/)
+    SKILL.md               # options, defaults, tokens, components, decor limits, anti-patterns
+    DESIGN.md              # design guidelines + the approved Japanese vocabulary
+  swiss-web/               # the WEB lens (/web)
+    SKILL.md               # options, defaults, tokens, components, interactions, anti-patterns
+    DESIGN.md              # design guidelines: palette, type, layout, components, replication notes
+  braun-games/             # earlier Braun direction; not active unless Femi says so
+    SKILL.md
+    DESIGN.md
 src/                       # the Astro site
 ```
 

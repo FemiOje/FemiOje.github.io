@@ -1,107 +1,137 @@
 ---
-import { getEntry, render } from 'astro:content';
+import { render } from 'astro:content';
 import { getExperience, getLensProjects, getProfile } from '../../lib/content';
-import { modelNumber } from '../../lib/models';
+import Header from '../../lenses/web/Header.astro';
+import Icon from '../../lenses/web/Icon.astro';
 import Layout from '../../lenses/web/Layout.astro';
+import PosterCard from '../../lenses/web/PosterCard.astro';
 import SectionHead from '../../lenses/web/SectionHead.astro';
-import Tuner from '../../lenses/web/Tuner.astro';
-import UnitCard from '../../lenses/web/UnitCard.astro';
+import { pad } from '../../lenses/web/poster';
 
 const profile = await getProfile();
 const { Content: Bio } = await render(profile);
-const { name, role, focus, location, intro, email, links } = profile.data;
-const { featuredFirst: units } = await getLensProjects('web');
+const { name, focus, location, timeZone, intro, email, links } = profile.data;
+const { featuredFirst: projects } = await getLensProjects('web');
 const experience = await getExperience();
-const education = await getEntry('experience', 'education');
-const previously = await getEntry('experience', 'provable-labs');
 
-const plate = [
-  { label: 'based in', value: location },
-  { label: 'focus', value: focus },
-  { label: 'education', value: education ? `${education.data.title}, ${education.data.detail}` : '[education]' },
-  { label: 'previously', value: previously?.data.title ?? '[previous role]' },
+const [city, ...region] = location.split(', ');
+const utcOffset = new Intl.DateTimeFormat('en-GB', { timeZone, timeZoneName: 'shortOffset' })
+  .formatToParts(new Date())
+  .find(({ type }) => type === 'timeZoneName')
+  ?.value.replace('GMT', 'UTC');
+const meta = [
+  { label: '01', value: 'Frontend engineering' },
+  { label: city, value: [...region, utcOffset].filter(Boolean).join(', ') },
+  { label: 'Focus', value: focus.charAt(0).toUpperCase() + focus.slice(1) },
 ];
-const count = (n: number) => `${String(n).padStart(2, '0')} ${n === 1 ? 'unit' : 'units'}`;
+
+// Labels are what the visitor reads; `tag` matches the project frontmatter.
+const filters = [
+  { tag: 'all', label: 'all' },
+  { tag: 'web', label: 'web' },
+  { tag: 'onchain', label: 'onchain' },
+  { tag: 'games', label: 'games' },
+  { tag: 'open-source', label: 'open source' },
+];
+const count = (n: number) => `${pad(n)} ${n === 1 ? 'project' : 'projects'}`;
 ---
 
-<Layout title={`${name} — ${role.toLowerCase()} for the web`} description={intro.web ?? ''}>
-  <section class="br-hero br-container" aria-labelledby="hero-title">
-    <div class="br-hero__row">
-      <div class="br-hero__text">
-        <p class="br-status">
-          <span class="br-dot br-dot--on" aria-hidden="true"></span>
-          {role.toLowerCase()} — {focus}
-        </p>
-        <h1 class="br-h1" id="hero-title">{role} for the web.</h1>
-        <p class="br-lead">{intro.web}</p>
-        <div class="br-actions">
-          <a class="br-button" href="#work">
-            see the units
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <path d="M2 8h12M9.5 3.5 14 8l-4.5 4.5"></path>
-            </svg>
+<Layout title={`${name} — frontend engineering for the web`} description={intro.web ?? ''}>
+  <section class="sw-hero sw-on-blue" data-comp="0" aria-labelledby="hero-title">
+    <div class="sw-container sw-hero__inner">
+      <Header />
+      <div class="sw-meta">
+        {
+          meta.map(({ label, value }) => (
+            <p>
+              <strong>{label}</strong>
+              {value}
+            </p>
+          ))
+        }
+        <button class="sw-toggle" type="button" data-recompose>
+          <Icon name="cycle" />
+          recompose <span data-comp-label>1/3</span>
+        </button>
+      </div>
+      <div class="sw-stage" aria-hidden="true">
+        <div class="sw-shape sw-rings"><span></span><span></span><span></span><span></span></div>
+        <div class="sw-shape sw-overprint"></div>
+        <div class="sw-shape sw-bar"></div>
+      </div>
+      <div class="sw-hero__copy" id="content" tabindex="-1">
+        <div class="sw-hero__text">
+          <h1 class="sw-h1" id="hero-title">Frontend engineering, built on a grid.</h1>
+          <p class="sw-hero__intro">{intro.web}</p>
+        </div>
+        <div class="sw-actions">
+          <a class="sw-btn sw-btn--primary" href="#work">
+            see the work
+            <Icon name="arrow" />
           </a>
-          <a class="br-link" href="#contact">get in touch</a>
+          <a class="sw-btn sw-btn--secondary" href="#contact">say hello</a>
         </div>
       </div>
-      <Tuner />
+      <div class="sw-giant" aria-hidden="true">Web.</div>
     </div>
   </section>
 
-  <div class="br-container">
-    <dl class="br-plate">
-      {
-        plate.map(({ label, value }) => (
-          <div>
-            <dt class="br-label br-muted">{label}</dt>
-            <dd>{value}</dd>
+  <section class="sw-section sw-on-paper" aria-labelledby="work">
+    <div class="sw-container">
+      <SectionHead numeral="01" label="selected work" id="work">
+        Work.
+        <div class="sw-section-head__controls" slot="controls">
+          <div class="sw-filters" role="group" aria-label="Filter projects">
+            {
+              filters.map(({ tag, label }) => (
+                <button class="sw-toggle" type="button" aria-pressed={tag === 'all' ? 'true' : 'false'} data-filter={tag}>
+                  {label}
+                </button>
+              ))
+            }
           </div>
-        ))
-      }
-    </dl>
-  </div>
-
-  <section class="br-section br-container" aria-labelledby="work">
-    <div class="br-stack">
-      <SectionHead label="01 — selected work" id="work" count={count(units.length)}>Units shipped.</SectionHead>
-      <ul class="br-units">
-        {units.map((project, i) => <UnitCard project={project} model={modelNumber(i)} />)}
+          <p class="sw-count" aria-live="polite" data-count>{count(projects.length)}</p>
+        </div>
+      </SectionHead>
+      <ul class="sw-cards">
+        {projects.map((project, i) => <PosterCard project={project} index={i} />)}
       </ul>
     </div>
   </section>
 
-  <section class="br-section br-container" aria-labelledby="about">
-    <div class="br-stack">
-      <SectionHead label="02 — about" id="about">Spec sheet.</SectionHead>
-      <div class="br-bio"><Bio /></div>
-      <dl class="br-rows">
-        {
-          experience.map(({ data }) => (
-            <div>
-              <dt class="br-label br-muted">{data.label}</dt>
-              <dd>{data.title}</dd>
-              <dd class="br-detail br-muted">{data.detail}</dd>
-              <dd class="br-years br-label br-muted">{data.years}</dd>
-            </div>
-          ))
-        }
-      </dl>
+  <section class="sw-section sw-field-navy" aria-labelledby="about">
+    <div class="sw-container">
+      <SectionHead numeral="02" label="about" id="about">Spec.</SectionHead>
+      <div class="sw-spec sw-reveal">
+        <div class="sw-bio"><Bio /></div>
+        <dl class="sw-rows">
+          {
+            experience.map(({ data }) => (
+              <div class="sw-row">
+                <dt>{data.label}</dt>
+                <dd>{data.title}</dd>
+                <dd>{[data.detail, data.years].filter(Boolean).join(' · ')}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
     </div>
   </section>
 
-  <section class="br-contact br-container" aria-labelledby="contact">
-    <div class="br-stack">
-      <SectionHead label="03 — contact" id="contact" class="br-contact__headline">Get in touch.</SectionHead>
-      <ul class="br-contact__links">
-        <li>
-          <span class="br-label br-muted">email</span>
-          {email.startsWith('[') ? <span>{email}</span> : <a class="br-link" href={`mailto:${email}`}>{email}</a>}
-        </li>
+  <section class="sw-section sw-field-cerulean" aria-labelledby="contact">
+    <div class="sw-container sw-contact">
+      <div class="sw-contact__head">
+        <span class="sw-numeral" aria-hidden="true">03</span>
+        <p class="sw-section-label">contact</p>
+      </div>
+      <h2 class="sw-say-hello" id="contact">Say hello.</h2>
+      <ul class="sw-contact__links">
+        <li>{email.startsWith('[') ? <span>{email}</span> : <a href={`mailto:${email}`}>{email}</a>}</li>
         {
           links.map(({ label, url }) => (
             <li>
-              <span class="br-label br-muted">{label}</span>
-              <a class="br-link" href={url}>{url.replace(/^https?:\/\//, '').toLowerCase()}</a>
+              <a href={url}>{label}</a>
             </li>
           ))
         }

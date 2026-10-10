@@ -4,9 +4,10 @@ slug: dope-wars
 summary: "[one line on what you built]"
 role: Open-source contributor
 status: contributor
-lenses: [classic, web, games, chain]
+lenses: [classic, web, games, blockchain]
 featured_in: []
-order: { classic: 2, web: 2, games: 2, chain: 3 }
+order: { classic: 2, web: 2, games: 2, blockchain: 3 }
+tags: [games, onchain, open-source]
 stack: [onchain game, open source]
 links: { live: "", repo: "" }
 ---
