@@ -3,7 +3,7 @@ import { z } from 'astro/zod';
 // The whole site renders from this one file.
 import portfolio from '../data/portfolio.js';
 
-const lens = z.enum(['classic', 'web', 'games', 'blockchain']);
+const lens = z.enum(['home', 'web', 'games', 'blockchain']);
 
 const profile = defineCollection({
   loader: () => [{ id: 'profile', ...portfolio.profile }],

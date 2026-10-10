@@ -15,7 +15,7 @@ document.addEventListener('click', (event) => {
 document.addEventListener('astro:page-load', () => {
   // Arriving on a non-default lens counts as choosing it.
   const current = document.documentElement.dataset.lens;
-  if (current !== 'classic') remember(current);
+  if (current !== 'home') remember(current);
 
   const offer = document.querySelector<HTMLElement>('[data-lens-offer]');
   if (!offer) return;

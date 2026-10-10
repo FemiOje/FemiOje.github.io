@@ -1,24 +1,24 @@
 ---
 import { getExperience, getLensProjects, getProfile } from '../lib/content';
 import { lenses } from '../lib/lenses';
-import Layout from '../lenses/classic/Layout.astro';
-import Bamboo from '../lenses/classic/Bamboo.astro';
-import BambooDivider from '../lenses/classic/BambooDivider.astro';
-import Filters from '../lenses/classic/Filters.astro';
-import LensSwitcher from '../lenses/classic/LensSwitcher.astro';
-import Rows from '../lenses/classic/Rows.astro';
-import SectionHead from '../lenses/classic/SectionHead.astro';
-import ShojiGrid from '../lenses/classic/ShojiGrid.astro';
-import Tokonoma from '../lenses/classic/Tokonoma.astro';
+import Layout from '../lenses/home/Layout.astro';
+import Bamboo from '../lenses/home/Bamboo.astro';
+import BambooDivider from '../lenses/home/BambooDivider.astro';
+import Filters from '../lenses/home/Filters.astro';
+import LensSwitcher from '../lenses/home/LensSwitcher.astro';
+import Rows from '../lenses/home/Rows.astro';
+import SectionHead from '../lenses/home/SectionHead.astro';
+import ShojiGrid from '../lenses/home/ShojiGrid.astro';
+import Tokonoma from '../lenses/home/Tokonoma.astro';
 
 const profile = await getProfile();
 const { name, role, bio, intro, email, links } = profile.data;
-const { all, featured, rest } = await getLensProjects('classic');
+const { all, featured, rest } = await getLensProjects('home');
 const experience = await getExperience();
-const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'classic');
+const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'home');
 ---
 
-<Layout title={`${name} — ${role.toLowerCase()}`} description={intro.classic ?? ''}>
+<Layout title={`${name} — ${role.toLowerCase()}`} description={intro.home ?? ''}>
   <section class="ma-hero" aria-labelledby="hero-title">
     <div class="ma-container">
       <span class="ma-hero__kanji" lang="ja" aria-hidden="true">間</span>
@@ -26,7 +26,7 @@ const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'classic');
         <div class="ma-hero__stack">
           <p class="ma-label">entryway</p>
           <h1 class="ma-h1" id="hero-title">{name}, {role.toLowerCase()}.</h1>
-          <p class="ma-lead">{intro.classic}</p>
+          <p class="ma-lead">{intro.home}</p>
           <div class="ma-actions">
             <a class="ma-enter" href="#work">
               enter

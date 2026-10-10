@@ -4,7 +4,7 @@
 - **Aesthetic**: The portfolio rendered *inside* a light browser window with developer tools docked open. The browser tabs are the lens switcher, the viewport holds a clean, typographic portfolio page, and the inspector beside it is live: select elements, untick CSS, recolour `--accent`, see the box model, run console commands
 - **Mood**: Confident, playful, transparent — "here's my work, and here's how it's built; go ahead, take it apart." The craft is the proof
 - **Inspiration**: Browser developer tools (Elements tree, Styles pane with property checkboxes, box model, grid badges, device toolbar, Console), Swiss-rooted typographic restraint for the page inside the window
-- **Lens**: This is the **web** lens (route `/web`) of Femi Ojetokun's portfolio — it speaks to people hiring a frontend / web engineer. It lives on a light ground so it sits in the same family as the classic lens (warm washi off-white) and the blockchain lens (cool whitepaper white). Never a dark theme, never a full-bleed colour field
+- **Lens**: This is the **web** lens (route `/web`) of Femi Ojetokun's portfolio — it speaks to people hiring a frontend / web engineer. It lives on a light ground so it sits in the same family as the home lens (warm washi off-white) and the blockchain lens (cool whitepaper white). Never a dark theme, never a full-bleed colour field
 - **Not a clone**: generic browser and inspector chrome — neutral grey window dots, our own icons and colours. Never copy a specific browser's logo, icons, exact UI or trade dress
 
 ## Color Palette
@@ -80,7 +80,7 @@
 - No emoji, no illustrations, no browser logos
 
 ## Components Spotted
-- **Tab strip = lens switcher**: three neutral window dots, then four tabs — `classic`, `web`, `games`, `blockchain`; the current lens is the raised white tab with `aria-current="page"`
+- **Tab strip = lens switcher**: three neutral window dots, then four tabs — `home`, `web`, `games`, `blockchain`; the current lens is the raised white tab with `aria-current="page"`
 - **Toolbar**: decorative back/forward/reload, URL field (`lock` + host + `/`**web**), "devtools" toggle on the right
 - **Viewport page**: site nav (name + work/about/contact), hero (label with Lagos time, h1, lead, CTA + console link), "Selected work" grid of cards, About (heading + paragraph + facts list), Contact ("Say hello." + links), © line
 - **Card**: 1px border, 20px padding, `#FAFAFB`; number + status row, 16:10 image well, title, summary, mono stack line

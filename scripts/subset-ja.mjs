@@ -12,7 +12,7 @@ for (const weight of WEIGHTS) {
     new URL(`../node_modules/@fontsource/shippori-mincho/files/shippori-mincho-japanese-${weight}-normal.woff2`, import.meta.url),
   );
   const subset = await subsetFont(source, GLYPHS, { targetFormat: 'woff2' });
-  const out = new URL(`../src/lenses/classic/fonts/shippori-mincho-ma-${weight}.woff2`, import.meta.url);
+  const out = new URL(`../src/lenses/home/fonts/shippori-mincho-ma-${weight}.woff2`, import.meta.url);
   await writeFile(out, subset);
   console.log(`${weight}: ${subset.length} bytes`);
 }

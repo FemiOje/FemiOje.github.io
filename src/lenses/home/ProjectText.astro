@@ -12,7 +12,7 @@ const { title, slug, summary, status, stack } = project.data;
 <div class="ma-project">
   <p class="ma-label">{statusLabel[status]}</p>
   <h3 class="ma-project__title">
-    <a href={workHref('classic', slug)}>{title}</a>
+    <a href={workHref('home', slug)}>{title}</a>
   </h3>
   <p>{summary}</p>
   <p class="ma-label">{stack.join(' · ')}</p>

@@ -8,8 +8,8 @@ import { lenses } from '../../lib/lenses';
       lenses.map(({ id, href, ready }) => (
         <li>
           {ready ? (
-            <a class="ma-lens__item" href={href} data-lens-link={id} aria-current={id === 'classic' ? 'page' : undefined}>
-              {id === 'classic' && <span class="ma-lens__mark" aria-hidden="true" />}
+            <a class="ma-lens__item" href={href} data-lens-link={id} aria-current={id === 'home' ? 'page' : undefined}>
+              {id === 'home' && <span class="ma-lens__mark" aria-hidden="true" />}
               {id}
             </a>
           ) : (

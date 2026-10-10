@@ -5,7 +5,7 @@
    profile     who the site is about. `intro` is the one line that changes per lens.
    experience  the rows in the about section, in `order`.
    projects    one entry per project:
-     lenses       which lenses show it: classic (everything), web, games, blockchain
+     lenses       which lenses show it: home (everything), web, games, blockchain
      featured_in  lenses where it is the one featured project
      order        its place in each lens it appears in
      tags         drive the project filters: web, onchain, games, open-source
@@ -32,7 +32,7 @@ export default {
       "Interested and actively building in web development, blockchain development and game development."
     ],
     intro: {
-      classic: "Working where the web, blockchains and games meet.",
+      home: "Working where the web, blockchains and games meet.",
       web: "Currently building Aux, a shared space for discovering new music through other people.",
       games: "Open-source contributor to Loot Survivor 2 and Dope Wars, two onchain games.",
       blockchain: "Author of Hex'd, a fully onchain battle royale on Starknet, and contributor to herit, an onchain inheritance platform."
@@ -71,8 +71,8 @@ export default {
     {
       title: "Hex'd", slug: "hexed", role: "Author", status: "shipped", years: "2026",
       summary: "A fully onchain asynchronous battle royale with fog of war. Players cross a hex grid where every empty tile is a gift or a curse, and walking into another player resolves combat by XP. All logic, state and randomness live on Starknet through Dojo; the client is a playable 3D board.",
-      lenses: ["classic", "games", "blockchain"], featured_in: ["games", "blockchain"],
-      order: { classic: 2, games: 1, blockchain: 1 },
+      lenses: ["home", "games", "blockchain"], featured_in: ["games", "blockchain"],
+      order: { home: 2, games: 1, blockchain: 1 },
       tags: ["onchain", "games"],
       stack: ["Cairo", "Dojo", "Starknet", "React", "Three.js", "Cartridge Controller"],
       links: { live: "", repo: "https://github.com/FemiOje/hexed" },
@@ -111,8 +111,8 @@ export default {
     {
       title: "herit", slug: "herit", role: "Contributor", status: "contributor", years: "2026",
       summary: "An onchain inheritance platform built on ENSv2 subnames and World ID: if an owner is no longer alive, their heirs gain access. Took first place for Best Use of ENSv2 at ETHOnline 2026.",
-      lenses: ["classic", "blockchain"], featured_in: [],
-      order: { classic: 3, blockchain: 2 },
+      lenses: ["home", "blockchain"], featured_in: [],
+      order: { home: 3, blockchain: 2 },
       tags: ["onchain", "open-source"],
       stack: ["TypeScript", "ENSv2", "World ID"],
       links: { live: "", repo: "https://github.com/Kelechikizito/herit" },
@@ -125,8 +125,8 @@ export default {
     {
       title: "Death Mountain Renderer", slug: "ls2-renderer", role: "Fork", status: "shipped", years: "2025",
       summary: "A Cairo contract that renders Loot Survivor adventurers as dynamic SVG NFT metadata: health bars coloured by remaining health, equipment icons, level and stats, all generated onchain and returned as Base64-encoded JSON.",
-      lenses: ["classic", "blockchain"], featured_in: [],
-      order: { classic: 4, blockchain: 3 },
+      lenses: ["home", "blockchain"], featured_in: [],
+      order: { home: 4, blockchain: 3 },
       tags: ["onchain"],
       stack: ["Cairo", "Starknet", "SVG"],
       links: { live: "", repo: "https://github.com/FemiOje/ls2-renderer" },
@@ -139,8 +139,8 @@ export default {
     {
       title: "aux", slug: "aux", role: "Contributor", status: "in-progress", years: "2026",
       summary: "For the audiophiles looking for niche music, the music nerds looking to be put on, and the hobbyists looking to refresh their taste.",
-      lenses: ["classic", "web"], featured_in: ["classic", "web"],
-      order: { classic: 1, web: 1 },
+      lenses: ["home", "web"], featured_in: ["home", "web"],
+      order: { home: 1, web: 1 },
       tags: ["web", "open-source"],
       stack: ["TypeScript", "Privy"],
       links: { live: "", repo: "https://github.com/Kelechikizito/aux" },
@@ -149,8 +149,8 @@ export default {
     {
       title: "agent-sandbox", slug: "agent-sandbox", role: "Author", status: "shipped", years: "2026",
       summary: "A Docker sandbox that lets AI coding agents work on a project without access to your computer. Outgoing traffic is denied by default and unknown sites wait for approval; the agent runs unprivileged with every Linux capability removed; no host files are mounted.",
-      lenses: ["classic"], featured_in: [],
-      order: { classic: 5 },
+      lenses: ["home"], featured_in: [],
+      order: { home: 5 },
       tags: [],
       stack: ["Shell", "Docker", "iptables", "Foundry"],
       links: { live: "", repo: "https://github.com/FemiOje/agent-sandbox" },
@@ -164,8 +164,8 @@ export default {
     {
       title: "Scar'd", slug: "scard", role: "Author", status: "shipped", years: "2025",
       summary: "A game submitted to the Dojo game jams.",
-      lenses: ["classic", "games", "blockchain"], featured_in: [],
-      order: { classic: 8, games: 3, blockchain: 4 },
+      lenses: ["home", "games", "blockchain"], featured_in: [],
+      order: { home: 8, games: 3, blockchain: 4 },
       tags: ["onchain", "games"],
       stack: ["TypeScript", "Dojo"],
       links: { live: "", repo: "https://github.com/FemiOje/scard" },
@@ -174,8 +174,8 @@ export default {
     {
       title: "daydreams", slug: "daydreams", role: "Contributor", status: "contributor", years: "2025",
       summary: "A generative agent framework for executing anything onchain. Contributed work on its Telegram client.",
-      lenses: ["classic", "blockchain"], featured_in: [],
-      order: { classic: 9, blockchain: 5 },
+      lenses: ["home", "blockchain"], featured_in: [],
+      order: { home: 9, blockchain: 5 },
       tags: ["onchain", "open-source"],
       stack: ["TypeScript"],
       links: { live: "", repo: "https://github.com/daydreamsai/daydreams" },
@@ -187,8 +187,8 @@ export default {
     {
       title: "Dojo Tic-Tac-Toe", slug: "dojo-tic-tac-toe", role: "Author", status: "shipped", years: "2025",
       summary: "The classic game with Dojo as the backend: two players join, turns and the eight winning lines are enforced by the contract.",
-      lenses: ["classic", "games", "blockchain"], featured_in: [],
-      order: { classic: 10, games: 4, blockchain: 6 },
+      lenses: ["home", "games", "blockchain"], featured_in: [],
+      order: { home: 10, games: 4, blockchain: 6 },
       tags: ["onchain", "games"],
       stack: ["Cairo", "Dojo", "TypeScript"],
       links: { live: "", repo: "https://github.com/FemiOje/dojo_tic-tac-toe" },
@@ -197,8 +197,8 @@ export default {
     {
       title: "FishFest", slug: "fish-fest", role: "Author", status: "shipped", years: "2025",
       summary: "A 2D underwater casual endless runner, built for the Fish Fest game jam by team Axolotl.",
-      lenses: ["classic", "games"], featured_in: [],
-      order: { classic: 7, games: 2 },
+      lenses: ["home", "games"], featured_in: [],
+      order: { home: 7, games: 2 },
       tags: ["games"],
       stack: ["Unity", "C#"],
       links: { live: "https://femioje.itch.io/fishfest-gamejamnew-build", repo: "https://github.com/FemiOje/Fish-Fest-Game-Jam" },
@@ -208,8 +208,8 @@ export default {
     {
       title: "Adventure of the Thing", slug: "adventure-of-the-thing", role: "Author", status: "shipped", years: "2024",
       summary: "A 2D adventure game with combat physics. Submission for the 2024 Scripto Game Jam.",
-      lenses: ["classic", "games"], featured_in: [],
-      order: { classic: 11, games: 5 },
+      lenses: ["home", "games"], featured_in: [],
+      order: { home: 11, games: 5 },
       tags: ["games"],
       stack: ["Unity", "C#"],
       links: { live: "https://femioje.itch.io/adventure-of-the-thing", repo: "https://github.com/FemiOje/Adventure-of-the-Thing" },
@@ -219,8 +219,8 @@ export default {
     {
       title: "Dungeon Generator 2D", slug: "dungeon-generator-2d", role: "Author", status: "shipped", years: "2025",
       summary: "A 2D game built around a dungeon generator.",
-      lenses: ["classic", "games"], featured_in: [],
-      order: { classic: 12, games: 6 },
+      lenses: ["home", "games"], featured_in: [],
+      order: { home: 12, games: 6 },
       tags: ["games"],
       stack: ["Unity", "C#"],
       links: { live: "", repo: "https://github.com/FemiOje/dungeon-generator-2d" },
@@ -229,8 +229,8 @@ export default {
     {
       title: "Multiplayer Racing", slug: "multiplayer-racing", role: "Author", status: "shipped", years: "2024",
       summary: "A 3D multiplayer racing game built with Unity.",
-      lenses: ["classic", "games"], featured_in: [],
-      order: { classic: 13, games: 7 },
+      lenses: ["home", "games"], featured_in: [],
+      order: { home: 13, games: 7 },
       tags: ["games"],
       stack: ["Unity", "C#"],
       links: { live: "", repo: "https://github.com/FemiOje/Multiplayer-Racing" },
@@ -239,8 +239,8 @@ export default {
     {
       title: "Collegiate Game Jam 2024", slug: "collegiate-game-jam-2024", role: "Author", status: "shipped", years: "2024",
       summary: "Entry for the 2024 Collegiate Game Jam hosted by UNC Game Dev. Theme: Out of Order.",
-      lenses: ["classic", "games"], featured_in: [],
-      order: { classic: 14, games: 8 },
+      lenses: ["home", "games"], featured_in: [],
+      order: { home: 14, games: 8 },
       tags: ["games"],
       stack: ["Unity", "C#"],
       links: { live: "", repo: "https://github.com/FemiOje/2024-Collegiate-Game-Jam" },
@@ -249,8 +249,8 @@ export default {
     {
       title: "Minecraft-Femi", slug: "minecraft-femi", role: "Author", status: "shipped", years: "2023",
       summary: "Dojo Game Jam submission.",
-      lenses: ["classic", "games"], featured_in: [],
-      order: { classic: 15, games: 9 },
+      lenses: ["home", "games"], featured_in: [],
+      order: { home: 15, games: 9 },
       tags: ["games"],
       stack: ["Unity", "C#"],
       links: { live: "", repo: "https://github.com/FemiOje/Minecraft-Femi" },
@@ -259,8 +259,8 @@ export default {
     {
       title: "Parking Simulator", slug: "parking-simulator", role: "Author", status: "shipped", years: "2023",
       summary: "Submission for the Maliyo Games Game Jam 2023.",
-      lenses: ["classic", "games"], featured_in: [],
-      order: { classic: 16, games: 10 },
+      lenses: ["home", "games"], featured_in: [],
+      order: { home: 16, games: 10 },
       tags: ["games"],
       stack: ["Unity", "C#"],
       links: { live: "", repo: "https://github.com/FemiOje/Parking-Simulator" },
@@ -269,8 +269,8 @@ export default {
     {
       title: "Penito Furniture", slug: "penito-furniture", role: "Author", status: "shipped", years: "2023",
       summary: "A furniture shopping app built with React, React Router, Redux Toolkit and localStorage.",
-      lenses: ["classic", "web"], featured_in: [],
-      order: { classic: 17, web: 2 },
+      lenses: ["home", "web"], featured_in: [],
+      order: { home: 17, web: 2 },
       tags: ["web"],
       stack: ["React", "Redux Toolkit", "React Router"],
       links: { live: "https://penito-furniture.netlify.app/", repo: "https://github.com/FemiOje/penitoFurniture" },
@@ -282,8 +282,8 @@ export default {
     {
       title: "Student Registry Contract", slug: "student-registry-contract", role: "Author", status: "shipped", years: "2025",
       summary: "A Cairo contract that maintains student records on Starknet.",
-      lenses: ["classic", "blockchain"], featured_in: [],
-      order: { classic: 18, blockchain: 7 },
+      lenses: ["home", "blockchain"], featured_in: [],
+      order: { home: 18, blockchain: 7 },
       tags: ["onchain"],
       stack: ["Cairo", "Scarb", "Snforge", "Starkli"],
       links: { live: "", repo: "https://github.com/FemiOje/student_registry_contract" },
@@ -298,8 +298,8 @@ export default {
     {
       title: "Student Registry Frontend", slug: "student-registry-frontend", role: "Author", status: "shipped", years: "2025",
       summary: "The interface for reading and updating student records on the registry contract.",
-      lenses: ["classic", "web", "blockchain"], featured_in: [],
-      order: { classic: 19, web: 3, blockchain: 8 },
+      lenses: ["home", "web", "blockchain"], featured_in: [],
+      order: { home: 19, web: 3, blockchain: 8 },
       tags: ["web", "onchain"],
       stack: ["React", "TypeScript", "Tailwind CSS", "Starknet-React"],
       links: { live: "https://student-registry-frontend.vercel.app/", repo: "https://github.com/FemiOje/student-registry-frontend" },
@@ -309,8 +309,8 @@ export default {
     {
       title: "Bookstore Contract", slug: "bookstore", role: "Author", status: "shipped", years: "2025",
       summary: "A Cairo contract that maintains book records on Starknet.",
-      lenses: ["classic", "blockchain"], featured_in: [],
-      order: { classic: 20, blockchain: 9 },
+      lenses: ["home", "blockchain"], featured_in: [],
+      order: { home: 20, blockchain: 9 },
       tags: ["onchain"],
       stack: ["Cairo", "Scarb", "Snforge", "Starkli"],
       links: { live: "", repo: "https://github.com/FemiOje/bookstore" },
@@ -325,8 +325,8 @@ export default {
     {
       title: "GIDA × Starknet Testing", slug: "gida-testing", role: "Author", status: "shipped", years: "2024",
       summary: "Week 6 assignment of the GIDA × Starknet Cairo bootcamp.",
-      lenses: ["classic", "blockchain"], featured_in: [],
-      order: { classic: 21, blockchain: 10 },
+      lenses: ["home", "blockchain"], featured_in: [],
+      order: { home: 21, blockchain: 10 },
       tags: ["onchain"],
       stack: ["Cairo"],
       links: { live: "", repo: "https://github.com/FemiOje/gida-starknet-testing-session-3" },
@@ -335,8 +335,8 @@ export default {
     {
       title: "CryptoTracker", slug: "cryptotracker", role: "Contributor", status: "contributor", years: "2025",
       summary: "A group assignment: a website for reviewing data and information on crypto.",
-      lenses: ["classic", "web"], featured_in: [],
-      order: { classic: 22, web: 4 },
+      lenses: ["home", "web"], featured_in: [],
+      order: { home: 22, web: 4 },
       tags: ["web", "open-source"],
       stack: ["Next.js", "Tailwind CSS", "CoinGecko API"],
       links: { live: "https://cryptotracker-hazel.vercel.app/", repo: "https://github.com/QuadlcorE/cryptotracker" },
@@ -349,8 +349,8 @@ export default {
     {
       title: "Assets Management System", slug: "assets-management-system", role: "Author", status: "shipped", years: "2025",
       summary: "CSC434 group project: employees request and track office items, with records of assigned assets.",
-      lenses: ["classic", "web"], featured_in: [],
-      order: { classic: 23, web: 5 },
+      lenses: ["home", "web"], featured_in: [],
+      order: { home: 23, web: 5 },
       tags: ["web"],
       stack: ["PHP", "MySQL", "HTML", "CSS"],
       links: { live: "", repo: "https://github.com/FemiOje/assets-management-system" },
@@ -360,8 +360,8 @@ export default {
     {
       title: "Logistics Company Dashboard", slug: "logistics-dashboard", role: "Author", status: "shipped", years: "2025",
       summary: "A responsive, interactive dashboard for a logistics company to track shipments in real time.",
-      lenses: ["classic", "web"], featured_in: [],
-      order: { classic: 24, web: 6 },
+      lenses: ["home", "web"], featured_in: [],
+      order: { home: 24, web: 6 },
       tags: ["web"],
       stack: ["React", "TypeScript", "WebSockets", "Jest"],
       links: { live: "", repo: "https://github.com/FemiOje/logistics-company-dashboard" },
@@ -371,8 +371,8 @@ export default {
     {
       title: "Dining Philosophers", slug: "dining-philosophers", role: "Author", status: "shipped", years: "2023",
       summary: "Solving the Dining Philosophers problem in Java.",
-      lenses: ["classic"], featured_in: [],
-      order: { classic: 25 },
+      lenses: ["home"], featured_in: [],
+      order: { home: 25 },
       tags: [],
       stack: ["Java"],
       links: { live: "", repo: "https://github.com/FemiOje/Dining-Philosophers-Problem-Java" },
@@ -381,8 +381,8 @@ export default {
     {
       title: "Pong Clone", slug: "pong-clone", role: "Author", status: "shipped", years: "2023",
       summary: "A clone of the classic Pong.",
-      lenses: ["classic", "games"], featured_in: [],
-      order: { classic: 26, games: 11 },
+      lenses: ["home", "games"], featured_in: [],
+      order: { home: 26, games: 11 },
       tags: ["games"],
       stack: ["Unity", "C#"],
       links: { live: "https://femioje.itch.io/pong-clone", repo: "https://github.com/FemiOje/Pong-Clone" },
@@ -392,8 +392,8 @@ export default {
     {
       title: "Star Wars API", slug: "star-wars-api", role: "Author", status: "shipped", years: "2023",
       summary: "A site built on the Star Wars API that displays characters, films, planets and starships.",
-      lenses: ["classic", "web"], featured_in: [],
-      order: { classic: 27, web: 7 },
+      lenses: ["home", "web"], featured_in: [],
+      order: { home: 27, web: 7 },
       tags: ["web"],
       stack: ["React", "Tailwind CSS"],
       links: { live: "https://star-wars-api-femioje.vercel.app/", repo: "https://github.com/FemiOje/star-wars-api" },
@@ -403,8 +403,8 @@ export default {
     {
       title: "Meme Generator", slug: "meme-generator", role: "Author", status: "shipped", years: "2023",
       summary: "A meme generator built to better understand APIs.",
-      lenses: ["classic", "web"], featured_in: [],
-      order: { classic: 28, web: 8 },
+      lenses: ["home", "web"], featured_in: [],
+      order: { home: 28, web: 8 },
       tags: ["web"],
       stack: ["React"],
       links: { live: "https://meme-generator-femioje.vercel.app/", repo: "https://github.com/FemiOje/meme-generator" },
@@ -414,8 +414,8 @@ export default {
     {
       title: "Dashboard", slug: "dashboard", role: "Author", status: "shipped", years: "2023",
       summary: "A fully responsive dashboard built with React and Tailwind CSS to practise grids and responsive layouts.",
-      lenses: ["classic", "web"], featured_in: [],
-      order: { classic: 29, web: 9 },
+      lenses: ["home", "web"], featured_in: [],
+      order: { home: 29, web: 9 },
       tags: ["web"],
       stack: ["React", "Tailwind CSS"],
       links: { live: "https://dashboard-femioje.vercel.app/", repo: "https://github.com/FemiOje/dashboard" },
@@ -425,8 +425,8 @@ export default {
     {
       title: "Metabnb Clone", slug: "metabnb-clone", role: "Author", status: "shipped", years: "2023",
       summary: "HNG Internship stage 3 task.",
-      lenses: ["classic", "web"], featured_in: [],
-      order: { classic: 30, web: 10 },
+      lenses: ["home", "web"], featured_in: [],
+      order: { home: 30, web: 10 },
       tags: ["web"],
       stack: ["React", "React Router", "CSS"],
       links: { live: "https://metabnb-clone-oluwafemi.vercel.app/", repo: "https://github.com/FemiOje/metabnb-clone" },

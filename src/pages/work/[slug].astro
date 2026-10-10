@@ -1,11 +1,11 @@
 ---
 import { factLabel, getLensProjects, statusLabel, type Project } from '../../lib/content';
 import { workHref } from '../../lib/lenses';
-import Layout from '../../lenses/classic/Layout.astro';
-import Well from '../../lenses/classic/Well.astro';
+import Layout from '../../lenses/home/Layout.astro';
+import Well from '../../lenses/home/Well.astro';
 
 export async function getStaticPaths() {
-  const { all } = await getLensProjects('classic');
+  const { all } = await getLensProjects('home');
   return all.map((project, i) => ({
     params: { slug: project.data.slug },
     props: { project, next: all[(i + 1) % all.length] },
@@ -79,7 +79,7 @@ const outbound = [
         next !== project && (
           <p class="ma-next">
             <span class="ma-label">next project</span>
-            <a class="ma-link" href={workHref('classic', next.data.slug)}>{next.data.title}</a>
+            <a class="ma-link" href={workHref('home', next.data.slug)}>{next.data.title}</a>
           </p>
         )
       }

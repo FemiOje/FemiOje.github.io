@@ -4,10 +4,10 @@
 - **Aesthetic**: The page is set as a scientific paper — centred title block, author line, abstract, keywords, §-numbered sections, sidenotes in the margin, booktabs tables, numbered figures, one display equation, references — and it carries a working **ledger**: work history as a SHA-256 hash chain in monospace that visitors can verify in the browser. Cool white paper, black ink, one accent that only ever means "confirmed"
 - **Mood**: Rigorous, calm, credible — a paper you would cite, written by someone who checks their work. Quiet until you ask it to prove something, then it proves it
 - **Inspiration**: Donald Knuth's TeX and Computer Modern; the LaTeX `article` class (title block, abstract environment, `\section` numbering, `definition` environment); Simon Fear's booktabs rules; Edward Tufte's sidenotes; the whitepaper as the founding document of the industry; double-entry ledgers and block explorers (as genres — no specific product's look); on the web, LaTeX.css (MIT)
-- **Lens**: This is the **blockchain** lens (route `/blockchain`) of Femi Ojetokun's portfolio — it speaks to protocol teams, onchain game studios and crypto companies hiring a smart-contract / onchain engineer. It must feel clearly different from the other three: classic (`/`, Ma) is warm washi and air; web (`/web`, Swiss) is loud blue fields; games (`/games`, Braun) is cream hardware with an orange dial. This lens is **cool white, black ink, dense, typeset and verifiable**
+- **Lens**: This is the **blockchain** lens (route `/blockchain`) of Femi Ojetokun's portfolio — it speaks to protocol teams, onchain game studios and crypto companies hiring a smart-contract / onchain engineer. It must feel clearly different from the other three: home (`/`, Ma) is warm washi and air; web (`/web`, Swiss) is loud blue fields; games (`/games`, Braun) is cream hardware with an orange dial. This lens is **cool white, black ink, dense, typeset and verifiable**
 
 ## Color Palette
-- **Paper**: `#FCFCFA` — cool near-white page background. Never washi cream (classic lens), never pure white
+- **Paper**: `#FCFCFA` — cool near-white page background. Never washi cream (home lens), never pure white
 - **Ledger**: `#F2F2EE` — ledger row hover and the "linked parent block" highlight
 - **Code**: `#F5F5F1` — code-figure background
 - **Desk**: `#E9E9E4` — behind the paper sheet in the "Sheet on desk" option only. **No text on it** (faint ink fails at 4.2:1)
@@ -17,7 +17,7 @@
 - **Rule**: `#CFCFC8` — 1px hairlines between papers, under the running head, around figures (decorative)
 - **Rule-strong**: `#8A8A84` — link underlines and non-text UI edges (3.4:1)
 - **Confirm (the one accent)**: `#1F6B45` green (6.3:1 on paper) — options: oxblood `#8E2A1F` (8.2:1) or ink only. It appears **only** on ✓ ticks and "chain valid" after verification, the status dot of a live/deployed project, the focus ring, and the `[ ]` brackets around the current lens
-- **No other colour.** No blues (that's the web lens), no orange (games), no vermilion (classic), no gradients, no colour syntax highlighting. A page with nothing verified and nothing live has no colour at all — that is correct
+- **No other colour.** No blues (that's the web lens), no orange (games), no vermilion (home), no gradients, no colour syntax highlighting. A page with nothing verified and nothing live has no colour at all — that is correct
 
 ## Typography
 - **Text face**: **Latin Modern Roman** (GUST e-foundry, GUST Font License) — the LaTeX face — 400, 400 italic, 700, 700 italic, self-hosted from the woff2 files in the latex.css package. Option: **STIX Two Text** (SIL OFL), the scientific-journal face. Fallback: `'Times New Roman', serif`
@@ -70,7 +70,7 @@
 
 ## Components Spotted
 - **Running head** (sticky, mono 13px, hairline below): `f. ojetokun — onchain systems` left · lens switcher centre · current section (`§2 selected papers`) + `lagos HH:MM` (+ optional `block #…`) right
-- **Lens switcher**: four lowercase mono links — `classic`, `web`, `games`, `blockchain` — the current one shown as `[blockchain]` with accent brackets, ink text and `aria-current="page"`; others ink-soft
+- **Lens switcher**: four lowercase mono links — `home`, `web`, `games`, `blockchain` — the current one shown as `[blockchain]` with accent brackets, ink text and `aria-current="page"`; others ink-soft
 - **Title block**: kicker `working paper · v2026.10` (version = build month), title ("Contracts you can read, interfaces you can trust."), author with sidenote ¹ (correspondence), italic affiliation (`University of Lagos · Lagos, Nigeria`), build month, abstract, keywords, equation (1) `Hₙ = SHA-256(Hₙ₋₁ ∥ eₙ)` with its number at the right edge, actions (`read the papers ↓` primary, `verify the ledger` secondary)
 - **Section heading**: number + title, bold, flush-left; `data-section` drives the running head
 - **Sidenote**: superscript number in the text; the note floats into the margin at ≥ 1100px, opens on tap below, stays inline without JS

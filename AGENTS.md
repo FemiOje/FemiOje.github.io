@@ -25,7 +25,7 @@ The site presents the same person and the same work through **four lenses**. A v
 
 | Lens | Route | Who it speaks to | Design | Skill to load |
 |---|---|---|---|---|
-| `classic` | `/` | everyone (the home page) | **Ma** — entering a Japanese home: washi paper, Mincho type, vast space, subtle bamboo | `skills/ma-classic/` |
+| `home` | `/` | everyone (the home page) | **Ma** — entering a Japanese home: washi paper, Mincho type, vast space, subtle bamboo | `skills/ma-classic/` |
 | `web` | `/web` | people hiring a frontend / web engineer | **Browser + Inspector** — the page inside a light browser window whose tabs are the lens switcher, with working developer tools docked beside it (Elements, Styles, box model, Console) | `inspector-web` (guidelines in `design/web/DESIGN.md`) |
 | `games` | `/games` | game studios, onchain game teams | **Overworld** — a light paper page carrying one tiny game: a pixel-art map where each game project is a level the visitor walks to | `overworld-games` (guidelines in `design/games/DESIGN.md`) |
 | `blockchain` | `/blockchain` | blockchain / protocol teams | **Whitepaper + Ledger** — the page set as a scientific paper carrying a SHA-256 hash chain of the work that visitors can verify | `whitepaper-blockchain` (guidelines in `design/blockchain/DESIGN.md`) |
@@ -45,14 +45,14 @@ Defaults below; Femi may override any of them, and his instructions win.
 
 - **Framework:** Astro (static output, near-zero client JS). [Astro Keel](https://github.com/kpab/astro-keel) (MIT) is an acceptable starting point for content collections, RSS and SEO, but strip its styling; every visible style comes from a lens skill. Keep Astro Keel's MIT license notice if you start from it.
 - **Routes:** each lens is a real page, so it is linkable, crawlable and fast:
-  - `/` → the `classic` lens (default)
+  - `/` → the `home` lens (default)
   - `/web` → the `web` lens
   - `/games` → the `games` lens
   - `/blockchain` → the `blockchain` lens
-  - Project detail pages per lens: `/<lens>/work/<slug>` (`/work/<slug>` for `classic`).
+  - Project detail pages per lens: `/<lens>/work/<slug>` (`/work/<slug>` for `home`).
 - **Remembering the choice:** store the last chosen lens in `localStorage` (`lens`). On `/`, if a different lens is remembered, offer it with a single quiet link ("continue in games") rather than auto-redirecting. Wrap storage access in try/catch; the site must work without it.
 - **Transitions:** Astro View Transitions between lenses, crossfade only, 200–300 ms, disabled under `prefers-reduced-motion`.
-- **Styling:** each lens's tokens are CSS custom properties scoped to `[data-lens="classic"]`, `[data-lens="web"]`, `[data-lens="games"]`, `[data-lens="blockchain"]` on `<html>`. No shared global palette.
+- **Styling:** each lens's tokens are CSS custom properties scoped to `[data-lens="home"]`, `[data-lens="web"]`, `[data-lens="games"]`, `[data-lens="blockchain"]` on `<html>`. No shared global palette.
 - **Fonts:** self-host via `@fontsource` packages where available; never hotlink fonts in production.
 
 ### Content model (shared by every lens)
@@ -72,10 +72,10 @@ slug: loot-survivor-2
 summary: "[one line on what you built]"
 role: Open-source contributor
 status: contributor        # contributor | shipped | in-progress
-lenses: [classic, web, games, blockchain]   # which lenses show it
+lenses: [home, web, games, blockchain]   # which lenses show it
 featured_in: [games]                        # lenses where it is the featured project
-order: { classic: 2, web: 2, games: 1, blockchain: 2 }
-tags: [games, onchain, open-source]         # drives the project filters (classic lens) and the web lens's console
+order: { home: 2, web: 2, games: 1, blockchain: 2 }
+tags: [games, onchain, open-source]         # drives the project filters (home lens) and the web lens's console
 stack: [onchain game, open source]
 links: { live: "", repo: "" }
 cover: ./cover.png         # optional; placeholder box if absent
@@ -83,9 +83,9 @@ cover: ./cover.png         # optional; placeholder box if absent
 
 Default lens assignments (adjust when Femi says otherwise):
 
-| Project | classic | web | games | blockchain | Featured in | Tags |
+| Project | home | web | games | blockchain | Featured in | Tags |
 |---|---|---|---|---|---|---|
-| Aux | ✓ | ✓ | | ✓ | classic, web | web, onchain |
+| Aux | ✓ | ✓ | | ✓ | home, web | web, onchain |
 | Loot Survivor 2 | ✓ | ✓ | ✓ | ✓ | games | games, onchain, open-source |
 | Dope Wars | ✓ | ✓ | ✓ | ✓ | — | games, onchain, open-source |
 
@@ -95,7 +95,7 @@ Default lens assignments (adjust when Femi says otherwise):
 
 Every lens renders the switcher **in its own visual language**, but it must behave identically everywhere:
 
-- Exactly four options, always in this order: `classic`, `web`, `games`, `blockchain`.
+- Exactly four options, always in this order: `home`, `web`, `games`, `blockchain`.
 - Labels are those lowercase words. Each lens may add its own flourish around them (Ma: a small seal mark; web: a favicon square in each browser tab), but the words stay readable.
 - Each option is a real `<a href>` to that lens's route. The current lens has `aria-current="page"`.
 - Wrap the options in `<nav aria-label="Choose a lens">`.
@@ -122,7 +122,7 @@ Every lens renders the switcher **in its own visual language**, but it must beha
 ```
 AGENTS.md                  # this file
 skills/
-  ma-classic/              # the CLASSIC lens (/)
+  ma-classic/              # the HOME lens (/)
     SKILL.md               # options, defaults, tokens, components, decor limits, anti-patterns
     DESIGN.md              # design guidelines + the approved Japanese vocabulary
 design/
