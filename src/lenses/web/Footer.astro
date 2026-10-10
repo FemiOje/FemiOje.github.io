@@ -1,14 +1,12 @@
 ---
 import { getProfile } from '../../lib/content';
-import BambooDivider from './BambooDivider.astro';
 
 const { data: profile } = await getProfile();
 ---
 
-<footer class="ma-footer ma-container">
-  <BambooDivider at="70%" />
-  <div class="ma-footer__row">
-    <p>© {new Date().getFullYear()} {profile.name}</p>
-    <p><span lang="ja">一期一会</span> — one time, one meeting</p>
+<footer class="br-footer">
+  <div class="br-footer__row br-container">
+    <p>© {new Date().getFullYear()} {profile.fullName.toLowerCase()}</p>
+    <p>designed in lagos · less, but better</p>
   </div>
 </footer>

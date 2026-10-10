@@ -12,12 +12,12 @@ const { project, class: className, sizes, loading = 'lazy' } = Astro.props;
 const { cover, title } = project.data;
 ---
 
-<div class:list={['br-well', className]}>
+<div class:list={['ma-well', className]}>
   {
     cover ? (
-      <Image src={cover} alt={`${title} screenshot`} widths={[480, 800, 1200]} sizes={sizes} loading={loading} />
+      <Image src={cover} alt={`${title} cover`} widths={[480, 800, 1200]} sizes={sizes} loading={loading} />
     ) : (
-      <p>[project screenshot]</p>
+      <p class="ma-label">[cover image]</p>
     )
   }
 </div>

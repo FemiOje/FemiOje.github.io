@@ -1,0 +1,24 @@
+---
+import { getProfile } from '../../lib/content';
+import Seal from './Seal.astro';
+import LensSwitcher from './LensSwitcher.astro';
+
+const { data: profile } = await getProfile();
+const sections = ['work', 'about', 'contact'];
+---
+
+<header class="ma-header ma-container">
+  <a class="ma-brand" href="/">
+    <Seal />
+    {profile.name}
+  </a>
+  <nav class="ma-nav" aria-label="Sections">
+    <ul>
+      {sections.map((id) => <li><a href={`/#${id}`}>{id}</a></li>)}
+    </ul>
+  </nav>
+  <LensSwitcher />
+  <p class="ma-clock">
+    lagos<span data-clock={profile.timeZone} hidden> · <time></time></span>
+  </p>
+</header>

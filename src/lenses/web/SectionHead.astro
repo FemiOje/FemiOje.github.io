@@ -1,18 +1,19 @@
 ---
 interface Props {
-  /** Vertical kanji label. Must come from DESIGN.md › Japanese vocabulary. */
-  kanji: '作品' | '経歴' | '便り';
+  /** e.g. `01 — selected work` */
   label: string;
   id: string;
+  /** Optional readout on the right, e.g. `03 units`. */
+  count?: string;
   class?: string;
 }
-const { kanji, label, id, class: className = 'ma-h2' } = Astro.props;
+const { label, id, count, class: className = 'br-h2' } = Astro.props;
 ---
 
-<div class="ma-section-head">
-  <span class="ma-vlabel" lang="ja">{kanji}</span>
-  <div class="ma-section-head__text">
-    <p class="ma-label">{label}</p>
+<div class="br-section-head">
+  <div class="br-section-head__text">
+    <p class="br-label br-muted">{label}</p>
     <h2 id={id} class={className}><slot /></h2>
   </div>
+  {count && <p class="br-label br-muted">{count}</p>}
 </div>
