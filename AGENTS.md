@@ -51,7 +51,7 @@ Defaults below; Femi may override any of them, and his instructions win.
   - `/blockchain` → the `blockchain` lens
   - Project detail pages per lens: `/<lens>/work/<slug>` (`/work/<slug>` for `home`).
 - **Remembering the choice:** store the last chosen lens in `localStorage` (`lens`). On `/`, if a different lens is remembered, offer it with a single quiet link ("continue in games") rather than auto-redirecting. Wrap storage access in try/catch; the site must work without it.
-- **Transitions:** Astro View Transitions between lenses, crossfade only, 200–300 ms, disabled under `prefers-reduced-motion`.
+- **Transitions:** Astro View Transitions. Inside a lens: crossfade only, 200–300 ms. Between lenses: a full-page CSS overlay (`src/lib/client/lens-transition.*`) in which the lens being left closes over the page in its own motif and the lens being entered opens onto the new one. Both are disabled under `prefers-reduced-motion`.
 - **Styling:** each lens's tokens are CSS custom properties scoped to `[data-lens="home"]`, `[data-lens="web"]`, `[data-lens="games"]`, `[data-lens="blockchain"]` on `<html>`. No shared global palette.
 - **Fonts:** self-host via `@fontsource` packages where available; never hotlink fonts in production.
 

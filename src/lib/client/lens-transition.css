@@ -1,0 +1,174 @@
+/* The overlay that plays when the visitor switches lens. Two layers: the lens being left
+   closes over the page in its own material, blends into the material of the lens being
+   entered, and that one opens onto the new page. Colours are copied from each lens's
+   tokens, because the overlay outlives the swap of `data-lens` on <html>. */
+.lens-shift {
+  --t: 680ms;
+  --ease: cubic-bezier(0.65, 0, 0.35, 1);
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  overflow: hidden;
+}
+.lens-shift__layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.lens-shift__layer[data-state='wait'] {
+  visibility: hidden;
+}
+.lens-shift__layer[data-state='blend'] {
+  animation: lens-shift-blend 240ms ease-in-out both;
+}
+.lens-shift__layer::before,
+.lens-shift__layer::after {
+  position: absolute;
+  box-sizing: border-box;
+  animation-duration: var(--t);
+  animation-timing-function: var(--ease);
+  animation-fill-mode: both;
+}
+@keyframes lens-shift-blend {
+  from {
+    opacity: 0;
+  }
+}
+
+/* home: two shoji screens slide shut, and slide open. */
+[data-motif='home']::before,
+[data-motif='home']::after {
+  content: '';
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background:
+    linear-gradient(#d9d1bb 1px, transparent 1px) 0 0 / 100% 25%,
+    linear-gradient(90deg, #d9d1bb 1px, transparent 1px) 0 0 / 33.34% 100%,
+    #f4f0e6;
+  will-change: transform;
+}
+[data-motif='home']::before {
+  --away: -100%;
+  left: 0;
+  border-right: 5px solid #d2c9ae;
+}
+[data-motif='home']::after {
+  --away: 100%;
+  right: 0;
+  border-left: 5px solid #d2c9ae;
+}
+[data-motif='home'][data-state='cover']::before,
+[data-motif='home'][data-state='cover']::after {
+  animation-name: lens-shift-slide-in;
+}
+[data-motif='home'][data-state='reveal']::before,
+[data-motif='home'][data-state='reveal']::after {
+  animation-name: lens-shift-slide-out;
+}
+@keyframes lens-shift-slide-in {
+  from {
+    transform: translateX(var(--away));
+  }
+}
+@keyframes lens-shift-slide-out {
+  to {
+    transform: translateX(var(--away));
+  }
+}
+
+/* web: the inspector's box model (content, padding, border, margin) grows to select the
+   whole page, and shrinks away. */
+[data-motif='web']::before {
+  content: '';
+  inset: 36px;
+  background: #c9ddf3;
+  box-shadow:
+    0 0 0 12px #d6e8c1,
+    0 0 0 24px #fbedbb,
+    0 0 0 37px #f7e2c6;
+  will-change: transform;
+}
+[data-motif='web'][data-state='cover']::before {
+  animation-name: lens-shift-grow;
+}
+[data-motif='web'][data-state='reveal']::before {
+  animation-name: lens-shift-shrink;
+}
+@keyframes lens-shift-grow {
+  from {
+    transform: scale(0);
+  }
+}
+@keyframes lens-shift-shrink {
+  to {
+    transform: scale(0);
+  }
+}
+
+/* games: an iris closes on the map ground, and opens. The hole is the content box;
+   the border is the cover. */
+[data-motif='games']::before {
+  content: '';
+  top: 50%;
+  left: 50%;
+  box-sizing: content-box;
+  width: 0;
+  height: 0;
+  border: 100vmax solid #dfe5d2;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 4px #1e1d1a;
+  transform: translate(-50%, -50%);
+}
+[data-motif='games'][data-state='cover']::before {
+  animation-name: lens-shift-iris-in;
+}
+[data-motif='games'][data-state='reveal']::before {
+  animation-name: lens-shift-iris-out;
+}
+@keyframes lens-shift-iris-in {
+  from {
+    width: 150vmax;
+    height: 150vmax;
+  }
+}
+@keyframes lens-shift-iris-out {
+  to {
+    width: 150vmax;
+    height: 150vmax;
+  }
+}
+
+/* blockchain: six blocks are appended to the chain from the top down, and taken off again. */
+[data-motif='blockchain']::before {
+  content: '';
+  inset: 0;
+  background:
+    linear-gradient(transparent calc(50% - 4px), #1f6b45 0 calc(50% + 4px), transparent 0) 24px 0 / 8px
+      calc(100% / 6) repeat-y,
+    linear-gradient(#cfcfc8, #cfcfc8) 27.5px 0 / 1px 100% no-repeat,
+    linear-gradient(to top, #cfcfc8 1px, transparent 1px) 0 0 / 100% calc(100% / 6),
+    #fcfcfa;
+}
+[data-motif='blockchain'][data-state='cover']::before {
+  animation-name: lens-shift-stack;
+}
+[data-motif='blockchain'][data-state='reveal']::before {
+  animation-name: lens-shift-unstack;
+}
+@keyframes lens-shift-stack {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes lens-shift-unstack {
+  from {
+    clip-path: inset(0 0 0 0);
+  }
+  to {
+    clip-path: inset(100% 0 0 0);
+  }
+}
