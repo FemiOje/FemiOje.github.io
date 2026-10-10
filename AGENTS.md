@@ -26,8 +26,8 @@ The site presents the same person and the same work through **four lenses**. A v
 | Lens | Route | Who it speaks to | Design | Skill to load |
 |---|---|---|---|---|
 | `classic` | `/` | everyone (the home page) | **Ma** — entering a Japanese home: washi paper, Mincho type, vast space, subtle bamboo | `skills/ma-classic/` |
-| `web` | `/web` | people hiring a frontend / web engineer | **Swiss Blue Poster** — full-bleed blue fields, 12-column grid, giant condensed type, geometric rings | `skills/swiss-web/` |
-| `games` | `/games` | game studios, onchain game teams | as currently built by Femi (`skills/braun-games/` is the earlier Braun direction; use it only if Femi says so) | — |
+| `web` | `/web` | people hiring a frontend / web engineer | **Browser + Inspector** — the page inside a light browser window whose tabs are the lens switcher, with working developer tools docked beside it (Elements, Styles, box model, Console) | `inspector-web` (guidelines in `design/web/DESIGN.md`) |
+| `games` | `/games` | game studios, onchain game teams | **Overworld** — a light paper page carrying one tiny game: a pixel-art map where each game project is a level the visitor walks to | `overworld-games` (guidelines in `design/games/DESIGN.md`) |
 | `blockchain` | `/blockchain` | blockchain / protocol teams | **Whitepaper + Ledger** — the page set as a scientific paper carrying a SHA-256 hash chain of the work that visitors can verify | `whitepaper-blockchain` (guidelines in `design/blockchain/DESIGN.md`) |
 
 The lenses share **content**, **routes** and **the switcher contract** (below). They do **not** share layout components or styling: each lens is its own visual world, built strictly from its skill.
@@ -75,7 +75,7 @@ status: contributor        # contributor | shipped | in-progress
 lenses: [classic, web, games, blockchain]   # which lenses show it
 featured_in: [games]                        # lenses where it is the featured project
 order: { classic: 2, web: 2, games: 1, blockchain: 2 }
-tags: [games, onchain, open-source]         # drives the web lens's project filters
+tags: [games, onchain, open-source]         # drives the project filters (classic lens) and the web lens's console
 stack: [onchain game, open source]
 links: { live: "", repo: "" }
 cover: ./cover.png         # optional; placeholder box if absent
@@ -96,10 +96,10 @@ Default lens assignments (adjust when Femi says otherwise):
 Every lens renders the switcher **in its own visual language**, but it must behave identically everywhere:
 
 - Exactly four options, always in this order: `classic`, `web`, `games`, `blockchain`.
-- Labels are those lowercase words. Each lens may add its own flourish around them (Ma: a small seal mark; Swiss: a square marker), but the words stay readable.
+- Labels are those lowercase words. Each lens may add its own flourish around them (Ma: a small seal mark; web: a favicon square in each browser tab), but the words stay readable.
 - Each option is a real `<a href>` to that lens's route. The current lens has `aria-current="page"`.
 - Wrap the options in `<nav aria-label="Choose a lens">`.
-- Placement: in the header on every page, plus one prominent instance in the hero.
+- Placement: in the header on every page, plus one prominent instance in the hero. Exception: in the `web` lens the browser tabs are the only switcher; it has no second instance.
 - Keyboard: Tab reaches every option; visible focus ring; touch targets ≥ 44 × 44 px.
 
 ---
@@ -125,12 +125,8 @@ skills/
   ma-classic/              # the CLASSIC lens (/)
     SKILL.md               # options, defaults, tokens, components, decor limits, anti-patterns
     DESIGN.md              # design guidelines + the approved Japanese vocabulary
-  swiss-web/               # the WEB lens (/web)
-    SKILL.md               # options, defaults, tokens, components, interactions, anti-patterns
-    DESIGN.md              # design guidelines: palette, type, layout, components, replication notes
-  braun-games/             # earlier Braun direction; not active unless Femi says so
-    SKILL.md
-    DESIGN.md
+design/
+  <lens>/DESIGN.md         # design guidelines for the web, games and blockchain lenses (their skills are loaded by name)
 src/                       # the Astro site
 ```
 

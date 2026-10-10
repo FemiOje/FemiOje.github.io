@@ -48,7 +48,7 @@ export default defineConfig({
       },
     },
     {
-      // Variable, with the width axis: the web lens sets its display type condensed.
+      // The web lens's page and chrome face, at normal width.
       provider: fontProviders.local(),
       name: 'Archivo',
       cssVariable: '--font-archivo',
@@ -56,13 +56,22 @@ export default defineConfig({
       options: {
         variants: [
           {
-            src: ['@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2'],
+            src: ['@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2'],
             weight: '100 900',
-            stretch: '62% 125%',
             style: 'normal',
             unicodeRange: [LATIN],
           },
         ],
+      },
+    },
+    {
+      // The web lens's code face: everything inside its developer tools.
+      provider: fontProviders.local(),
+      name: 'JetBrains Mono',
+      cssVariable: '--font-jetbrains-mono',
+      fallbacks: ['ui-monospace', 'Menlo', 'Consolas', 'monospace'],
+      options: {
+        variants: [latin('jetbrains-mono', 400), latin('jetbrains-mono', 500), latin('jetbrains-mono', 700)],
       },
     },
     {
@@ -88,6 +97,21 @@ export default defineConfig({
       options: {
         variants: [latin('ibm-plex-mono', 400), latin('ibm-plex-mono', 500), latin('ibm-plex-mono', 600)],
       },
+    },
+    {
+      // The games lens's display face: headings, labels, buttons. Never paragraphs.
+      provider: fontProviders.local(),
+      name: 'Pixelify Sans',
+      cssVariable: '--font-pixelify',
+      fallbacks: ['Courier New', 'monospace'],
+      options: { variants: [latin('pixelify-sans', 400), latin('pixelify-sans', 500)] },
+    },
+    {
+      provider: fontProviders.local(),
+      name: 'Atkinson Hyperlegible',
+      cssVariable: '--font-atkinson',
+      fallbacks: ['system-ui', 'Segoe UI', 'sans-serif'],
+      options: { variants: [latin('atkinson-hyperlegible', 400), latin('atkinson-hyperlegible', 700)] },
     },
     {
       provider: fontProviders.local(),

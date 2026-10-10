@@ -1,127 +1,50 @@
 ---
 import { getExperience, getLensProjects, getProfile, gmtOffset } from '../../lib/content';
-import { filtersFor } from '../../lib/filters';
-import Header from '../../lenses/web/Header.astro';
-import Icon from '../../lenses/web/Icon.astro';
 import Layout from '../../lenses/web/Layout.astro';
-import PosterCard from '../../lenses/web/PosterCard.astro';
-import SectionHead from '../../lenses/web/SectionHead.astro';
-import { pad } from '../../lenses/web/poster';
+import ProjectCard from '../../lenses/web/ProjectCard.astro';
 
 const profile = await getProfile();
-const { name, bio, focus, timeZone, intro, email, links } = profile.data;
+const { name, bio, timeZone, intro } = profile.data;
 const { featuredFirst: projects } = await getLensProjects('web');
 const experience = await getExperience();
-
-const meta = [
-  { label: '01', value: 'Frontend engineering' },
-  { label: 'Time', value: gmtOffset(timeZone) },
-  { label: 'Focus', value: focus.charAt(0).toUpperCase() + focus.slice(1) },
-];
-
-const count = (n: number) => `${pad(n)} ${n === 1 ? 'project' : 'projects'}`;
 ---
 
 <Layout title={`${name} — frontend engineering for the web`} description={intro.web ?? ''}>
-  <section class="sw-hero sw-on-blue" data-comp="0" aria-labelledby="hero-title">
-    <div class="sw-container sw-hero__inner">
-      <Header />
-      <div class="sw-meta">
+  <section class="hero" aria-labelledby="hero-title">
+    <span class="hero__label">
+      frontend engineer · {gmtOffset(timeZone).toLowerCase()}<span data-clock={timeZone} hidden>{' '}<time></time></span>
+    </span>
+    <h1 class="hero__title" id="hero-title" data-inspect="h1">Interfaces that hold up under inspection.</h1>
+    <p class="hero__lead" data-inspect="lead">
+      {intro.web} Go ahead, take this page apart in the developer tools.
+    </p>
+    <div class="hero__actions">
+      <a class="btn" href="#work" data-inspect="cta">see the work</a>
+      <button class="link-btn" type="button" data-open-console>or type <code>help()</code> in the console</button>
+    </div>
+  </section>
+
+  <section id="work" class="work" aria-labelledby="work-title">
+    <h2 id="work-title">Selected work</h2>
+    <div class="projects__grid" data-inspect="grid">
+      {projects.map((project, index) => <ProjectCard project={project} index={index} />)}
+    </div>
+  </section>
+
+  <section id="about" class="about" aria-labelledby="about-title" data-inspect="about">
+    <h2 id="about-title">About</h2>
+    <div class="about__body">
+      {bio.map((paragraph) => <p>{paragraph}</p>)}
+      <dl class="facts">
         {
-          meta.map(({ label, value }) => (
-            <p>
-              <strong>{label}</strong>
-              {value}
-            </p>
+          experience.map(({ data }) => (
+            <div>
+              <dt>{data.label}</dt>
+              <dd>{[data.title, data.detail, data.years].filter(Boolean).join(' · ')}</dd>
+            </div>
           ))
         }
-        <button class="sw-toggle" type="button" data-recompose>
-          <Icon name="cycle" />
-          recompose <span data-comp-label>1/3</span>
-        </button>
-      </div>
-      <div class="sw-stage" aria-hidden="true">
-        <div class="sw-shape sw-rings"><span></span><span></span><span></span><span></span></div>
-        <div class="sw-shape sw-overprint"></div>
-        <div class="sw-shape sw-bar"></div>
-      </div>
-      <div class="sw-hero__copy" id="content" tabindex="-1">
-        <div class="sw-hero__text">
-          <h1 class="sw-h1" id="hero-title">Frontend engineering, built on a grid.</h1>
-          <p class="sw-hero__intro">{intro.web}</p>
-        </div>
-        <div class="sw-actions">
-          <a class="sw-btn sw-btn--primary" href="#work">
-            see the work
-            <Icon name="arrow" />
-          </a>
-          <a class="sw-btn sw-btn--secondary" href="#contact">say hello</a>
-        </div>
-      </div>
-      <div class="sw-giant" aria-hidden="true">Web.</div>
-    </div>
-  </section>
-
-  <section class="sw-section sw-on-paper" aria-labelledby="work">
-    <div class="sw-container">
-      <SectionHead numeral="01" label="selected work" id="work">
-        Work.
-        <div class="sw-section-head__controls" slot="controls">
-          <div class="sw-filters" role="group" aria-label="Filter projects">
-            {
-              filtersFor(projects).map(({ tag, label }) => (
-                <button class="sw-toggle" type="button" aria-pressed={tag === 'all' ? 'true' : 'false'} data-filter={tag}>
-                  {label}
-                </button>
-              ))
-            }
-          </div>
-          <p class="sw-count" aria-live="polite" data-count data-count-pad="2">{count(projects.length)}</p>
-        </div>
-      </SectionHead>
-      <ul class="sw-cards">
-        {projects.map((project, i) => <PosterCard project={project} index={i} />)}
-      </ul>
-    </div>
-  </section>
-
-  <section class="sw-section sw-field-navy" aria-labelledby="about">
-    <div class="sw-container">
-      <SectionHead numeral="02" label="about" id="about">Spec.</SectionHead>
-      <div class="sw-spec sw-reveal">
-        <div class="sw-bio">{bio.map((paragraph) => <p>{paragraph}</p>)}</div>
-        <dl class="sw-rows">
-          {
-            experience.map(({ data }) => (
-              <div class="sw-row">
-                <dt>{data.label}</dt>
-                <dd>{data.title}</dd>
-                <dd>{[data.detail, data.years].filter(Boolean).join(' · ')}</dd>
-              </div>
-            ))
-          }
-        </dl>
-      </div>
-    </div>
-  </section>
-
-  <section class="sw-section sw-field-cerulean" aria-labelledby="contact">
-    <div class="sw-container sw-contact">
-      <div class="sw-contact__head">
-        <span class="sw-numeral" aria-hidden="true">03</span>
-        <p class="sw-section-label">contact</p>
-      </div>
-      <h2 class="sw-say-hello" id="contact">Say hello.</h2>
-      <ul class="sw-contact__links">
-        <li>{email.startsWith('[') ? <span>{email}</span> : <a href={`mailto:${email}`}>{email}</a>}</li>
-        {
-          links.map(({ label, url }) => (
-            <li>
-              <a href={url}>{label}</a>
-            </li>
-          ))
-        }
-      </ul>
+      </dl>
     </div>
   </section>
 </Layout>

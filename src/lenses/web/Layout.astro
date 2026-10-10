@@ -1,15 +1,32 @@
 ---
+// The whole lens is one browser window: tab strip (the lens switcher), toolbar, the page in the
+// viewport and the developer tools docked beside it. Pages fill the page's <main>.
 import { Font } from 'astro:assets';
 import { ClientRouter, fade } from 'astro:transitions';
-import Footer from './Footer.astro';
-import GridOverlay from './GridOverlay.astro';
-import './swiss.css';
+import { getProfile } from '../../lib/content';
+import Devtools from './Devtools.astro';
+import Icon from './Icon.astro';
+import LensTabs from './LensTabs.astro';
+import { accents } from './registry';
+import { getInspectorData } from './sources';
+import './inspector.css';
 
 interface Props {
   title: string;
   description: string;
 }
 const { title, description } = Astro.props;
+const { data: profile } = await getProfile();
+const { name, fullName, email, links } = profile;
+
+const path = Astro.url.pathname.replace(/\/$/, '').split('/');
+const page = path.pop();
+// Section links work from project pages too.
+const home = path.length === 1 ? '' : '/web';
+
+// `<` is escaped so nothing in the content can close the script element.
+const inspectorData = JSON.stringify(await getInspectorData()).replaceAll('<', '\\u003c');
+const accentHexes = accents.map(([hex]) => hex);
 ---
 
 <!doctype html>
@@ -19,23 +36,90 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#1F3BD6" />
+    <meta name="theme-color" content="#ECEEF2" />
     <link rel="icon" type="image/svg+xml" href="/favicon-web.svg" />
     <Font cssVariable="--font-archivo" preload />
+    <Font cssVariable="--font-jetbrains-mono" preload={[{ weight: 400 }]} />
     <ClientRouter />
+    <!-- Before first paint: whether the developer tools start open, and the visitor's accent. -->
+    <script is:inline data-astro-rerun define:vars={{ accentHexes }}>
+      const root = document.documentElement;
+      root.dataset.devtools = matchMedia('(min-width: 720px)').matches ? 'open' : 'closed';
+      try {
+        const accent = localStorage.getItem('web-accent');
+        if (accentHexes.includes(accent)) root.style.setProperty('--accent', accent);
+      } catch {}
+    </script>
   </head>
   <body>
-    <a class="sw-skip" href="#content">skip to content</a>
-    <!-- The header lives inside each page's top field, so pages render it themselves. -->
-    <main id="main">
-      <slot />
-    </main>
-    <Footer />
-    <GridOverlay />
+    <a class="skip" href="#vp-main">Skip to content</a>
+    <div class="desk">
+      <div class="window">
+        <div class="tabstrip">
+          <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          <LensTabs />
+        </div>
+        <div class="toolbar">
+          <div class="nav-icons" aria-hidden="true">
+            <Icon name="back" />
+            <Icon name="forward" />
+            <Icon name="reload" />
+          </div>
+          <div class="url">
+            <Icon name="lock" size={12} />
+            <span><span data-url-host>localhost:4321</span>{path.join('/')}/<strong>{page}</strong></span>
+          </div>
+          <button class="dt-toggle" type="button" aria-controls="devtools" aria-pressed="false">
+            <Icon name="code" />
+            devtools
+          </button>
+        </div>
+        <div class="panes">
+          <div class="viewport" data-device="desktop">
+            <div class="vp-frame">
+              <div class="page">
+                <nav class="site-nav" aria-label="Site" data-inspect="nav">
+                  <a class="site-name" href="/web">{name}</a>
+                  <div class="site-links">
+                    <a href={`${home}#work`}>work</a>
+                    <a href={`${home}#about`}>about</a>
+                    <a href="#contact">contact</a>
+                  </div>
+                </nav>
+                <main id="vp-main" tabindex="-1">
+                  <slot />
+                </main>
+                <footer id="contact" class="contact">
+                  <h2>Say hello.</h2>
+                  <ul class="contact__links">
+                    <li>{email.startsWith('[') ? <span>{email}</span> : <a href={`mailto:${email}`}>{email}</a>}</li>
+                    {
+                      links.map(({ label, url }) => (
+                        <li>
+                          <a href={url}>{label}</a>
+                        </li>
+                      ))
+                    }
+                  </ul>
+                  <small>© {new Date().getFullYear()} {fullName}</small>
+                </footer>
+              </div>
+              <!-- The inspect label and chips are drawn here; they scroll with the page. -->
+              <div class="overlay"></div>
+            </div>
+          </div>
+          <Devtools />
+        </div>
+      </div>
+      <p class="caption">
+        The developer tools are live: pick an element, untick a CSS property, swap <code>--accent</code>, toggle the
+        grid, switch to a phone, or type <code>help()</code> in the Console.
+      </p>
+    </div>
+    <script type="application/json" id="inspector-data" set:html={inspectorData} />
     <script>
       import '../../lib/client/lens-memory';
       import '../../lib/client/clock';
-      import '../../lib/client/project-filter';
       import './interactions';
     </script>
   </body>
