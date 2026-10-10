@@ -1,0 +1,77 @@
+---
+import { render } from 'astro:content';
+import { getLensProjects, statusLabel, type Project } from '../../lib/content';
+import { workHref } from '../../lib/lenses';
+import Layout from '../../lenses/web/Layout.astro';
+import Well from '../../lenses/web/Well.astro';
+
+export async function getStaticPaths() {
+  const { all } = await getLensProjects('web');
+  return all.map((project, i) => ({
+    params: { slug: project.data.slug },
+    props: { project, next: all[(i + 1) % all.length] },
+  }));
+}
+
+interface Props {
+  project: Project;
+  next: Project;
+}
+const { project, next } = Astro.props;
+const { title, summary, role, status, stack, links } = project.data;
+const { Content } = await render(project);
+
+const rows = [
+  { label: 'role', title: role },
+  { label: 'status', title: statusLabel[status] },
+  { label: 'stack', title: stack.join(' · ') },
+];
+const outbound = [
+  { label: 'live', url: links.live, missing: '[live link]' },
+  { label: 'repo', url: links.repo, missing: '[repo link]' },
+];
+---
+
+<Layout title={`${title} — Femi Ojetokun`} description={summary}>
+  <article class="ma-detail ma-container">
+    <header class="ma-detail__head">
+      <p class="ma-label"><span lang="ja">作品</span> · {title.toLowerCase()}</p>
+      <h1 class="ma-h1">{title}</h1>
+      <p class="ma-lead">{summary}</p>
+    </header>
+
+    <Well project={project} class="ma-detail__well" sizes="(min-width: 1200px) 1072px, 90vw" loading="eager" />
+
+    <div class="ma-detail__body">
+      <div class="ma-prose"><Content /></div>
+
+      <dl class="ma-rows ma-detail__meta">
+        {
+          rows.map(({ label, title }) => (
+            <div>
+              <dt class="ma-label">{label}</dt>
+              <dd>{title}</dd>
+            </div>
+          ))
+        }
+        {
+          outbound.map(({ label, url, missing }) => (
+            <div>
+              <dt class="ma-label">{label}</dt>
+              <dd>{url ? <a class="ma-link" href={url}>{url.replace(/^https?:\/\//, '')}</a> : missing}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      {
+        next !== project && (
+          <p class="ma-next">
+            <span class="ma-label">next project</span>
+            <a class="ma-link" href={workHref('web', next.data.slug)}>{next.data.title}</a>
+          </p>
+        )
+      }
+    </div>
+  </article>
+</Layout>

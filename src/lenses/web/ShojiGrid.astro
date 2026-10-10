@@ -1,0 +1,22 @@
+---
+import type { Project } from '../../lib/content';
+import Well from './Well.astro';
+import ProjectText from './ProjectText.astro';
+
+interface Props {
+  projects: Project[];
+}
+const { projects } = Astro.props;
+const numerals = ['一', '二', '三', '四', '五'];
+---
+
+<ul class="ma-shoji">
+  {
+    projects.map((project, i) => (
+      <li class="ma-shoji__cell">
+        <Well project={project} sizes="(min-width: 800px) 45vw, 90vw" />
+        <ProjectText project={project} numeral={numerals[i]} />
+      </li>
+    ))
+  }
+</ul>

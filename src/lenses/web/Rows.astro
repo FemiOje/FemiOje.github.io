@@ -1,0 +1,18 @@
+---
+interface Props {
+  rows: { label: string; title: string; detail?: string }[];
+}
+const { rows } = Astro.props;
+---
+
+<dl class="ma-rows">
+  {
+    rows.map(({ label, title, detail }) => (
+      <div>
+        <dt class="ma-label">{label}</dt>
+        <dd>{title}</dd>
+        {detail && <dd class="ma-soft">{detail}</dd>}
+      </div>
+    ))
+  }
+</dl>
