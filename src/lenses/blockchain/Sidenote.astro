@@ -1,0 +1,9 @@
+---
+// A margin note at ≥ 1100px, tap-to-open below, inline without JS. Number them in page order.
+interface Props {
+  n: number;
+}
+const { n } = Astro.props;
+---
+
+<span class="sn"><button class="sn-ref" type="button" aria-label={`note ${n}`} aria-expanded="false" aria-controls={`sn-${n}`}>{n}</button><span class="sidenote" id={`sn-${n}`} role="note"><span class="sn-num">{n}</span><slot /></span></span>

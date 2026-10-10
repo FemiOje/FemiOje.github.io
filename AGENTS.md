@@ -28,7 +28,7 @@ The site presents the same person and the same work through **four lenses**. A v
 | `classic` | `/` | everyone (the home page) | **Ma** — entering a Japanese home: washi paper, Mincho type, vast space, subtle bamboo | `skills/ma-classic/` |
 | `web` | `/web` | people hiring a frontend / web engineer | **Swiss Blue Poster** — full-bleed blue fields, 12-column grid, giant condensed type, geometric rings | `skills/swiss-web/` |
 | `games` | `/games` | game studios, onchain game teams | as currently built by Femi (`skills/braun-games/` is the earlier Braun direction; use it only if Femi says so) | — |
-| `blockchain` | `/blockchain` | blockchain / protocol teams | as currently built by Femi | — |
+| `blockchain` | `/blockchain` | blockchain / protocol teams | **Whitepaper + Ledger** — the page set as a scientific paper carrying a SHA-256 hash chain of the work that visitors can verify | `whitepaper-blockchain` (guidelines in `design/blockchain/DESIGN.md`) |
 
 The lenses share **content**, **routes** and **the switcher contract** (below). They do **not** share layout components or styling: each lens is its own visual world, built strictly from its skill.
 

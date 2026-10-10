@@ -1,0 +1,18 @@
+---
+// A booktabs-ruled code figure with monochrome highlighting. The caption goes in the slot.
+import { Code } from 'astro:components';
+import { paperMono } from './paper';
+
+interface Props {
+  n: number;
+  code: string;
+  lang: string;
+  file: string;
+}
+const { n, code, lang, file } = Astro.props;
+---
+
+<figure class="codefig wide">
+  <Code code={code.trim()} lang={lang as any} theme={paperMono} />
+  <figcaption><b>Figure {n}:</b> <code class="mono">{file}</code> — <slot /></figcaption>
+</figure>

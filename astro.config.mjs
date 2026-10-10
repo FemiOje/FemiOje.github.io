@@ -66,6 +66,30 @@ export default defineConfig({
       },
     },
     {
+      // The blockchain lens's text face: the LaTeX one, from the files latex.css ships (GUST Font License).
+      provider: fontProviders.local(),
+      name: 'Latin Modern Roman',
+      cssVariable: '--font-latin-modern',
+      fallbacks: ['Times New Roman', 'serif'],
+      options: {
+        variants: [
+          { src: ['latex.css/fonts/LM-regular.woff2'], weight: 400, style: 'normal' },
+          { src: ['latex.css/fonts/LM-italic.woff2'], weight: 400, style: 'italic' },
+          { src: ['latex.css/fonts/LM-bold.woff2'], weight: 700, style: 'normal' },
+          { src: ['latex.css/fonts/LM-bold-italic.woff2'], weight: 700, style: 'italic' },
+        ],
+      },
+    },
+    {
+      provider: fontProviders.local(),
+      name: 'IBM Plex Mono',
+      cssVariable: '--font-plex-mono',
+      fallbacks: ['ui-monospace', 'Menlo', 'monospace'],
+      options: {
+        variants: [latin('ibm-plex-mono', 400), latin('ibm-plex-mono', 500), latin('ibm-plex-mono', 600)],
+      },
+    },
+    {
       provider: fontProviders.local(),
       name: 'Zen Kaku Gothic New',
       cssVariable: '--font-gothic',

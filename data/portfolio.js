@@ -12,6 +12,8 @@
      status       shipped | contributor | in-progress
      years        from the dates of its entries in `txs`
      cover        image path from the repo root; a placeholder shows when absent
+     excerpt      optional code figure for the blockchain lens: real lines from the repo (18 at most), with the
+                  permalink they were copied from. `lang` picks the highlighting grammar; Cairo reads best as "rust"
      net          "mainnet" = shipped / professional / open-source work.  "testnet" = coursework, bootcamps, learning.
    txs         something that happened to a project (`to` is its slug). status "pending" = work in progress.
                src says where the date came from: "push" (GitHub last-push date) or "commit" (dated upstream commit). */
@@ -32,7 +34,8 @@ export default {
     intro: {
       classic: "Based in Lagos, Nigeria, working where the web, blockchains and games meet.",
       web: "Based in Lagos, Nigeria. Currently building Aux, a shared space for discovering new music through other people.",
-      games: "Based in Lagos, Nigeria. Open-source contributor to Loot Survivor 2 and Dope Wars, two onchain games."
+      games: "Based in Lagos, Nigeria. Open-source contributor to Loot Survivor 2 and Dope Wars, two onchain games.",
+      blockchain: "Based in Lagos, Nigeria. Author of Hex'd, a fully onchain battle royale on Starknet, and contributor to herit, an onchain inheritance platform."
     },
     email: "0xjinius@gmail.com",
     links: [
@@ -74,6 +77,28 @@ export default {
       stack: ["Cairo", "Dojo", "Starknet", "React", "Three.js", "Cartridge Controller"],
       links: { live: "", repo: "https://github.com/FemiOje/hexed" },
       kind: "game", net: "mainnet",
+      excerpt: {
+        file: "combat.cairo", lang: "rust",
+        caption: "combat goes to the player with more XP, and a tie goes to the attacker.",
+        url: "https://github.com/FemiOje/hexed/blob/387e095a354d98acb7a5ad82550617d6e4bdb3b0/contracts/src/helpers/combat.cairo#L44-L60",
+        code: `pub fn resolve_combat(
+    ref world: dojo::world::WorldStorage,
+    token_id: felt252,
+    defender_token_id: felt252,
+    ref state: PlayerState,
+    direction: Direction,
+) -> CombatOutcome {
+    let old_position = state.position;
+    let next_vec = get_neighbor(old_position, direction);
+
+    let mut attacker_stats: PlayerStats = world.read_model(token_id);
+    let mut defender_stats: PlayerStats = world.read_model(defender_token_id);
+
+    // Higher XP wins. Equal XP penalises defender (attacker wins).
+    let attacker_won = attacker_stats.xp >= defender_stats.xp;
+    let mut attacker_died = false;
+    let mut defender_died = false;`
+      },
       facts: [
         { k: "grid", v: "21 × 21 hexes, axial coordinates" },
         { k: "fog_of_war", v: "6-bit neighbour bitmask" },

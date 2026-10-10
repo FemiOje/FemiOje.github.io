@@ -1,0 +1,84 @@
+---
+// A project as a paper (LaTeX \subsection): label, numbered title, byline, abstract, one code figure, record, links.
+import { getProfile, statusLabel, type Project } from '../../lib/content';
+import { workHref } from '../../lib/lenses';
+import Cite from './Cite.astro';
+import CodeFigure from './CodeFigure.astro';
+import { citeKey, deploymentOf, initialled, standing, yearOf } from './paper';
+
+interface Props {
+  project: Project;
+  /** `2.1` */
+  number: string;
+  /** Its figure number, when the project has an excerpt. */
+  figure?: number;
+}
+const { project, number, figure } = Astro.props;
+const { title, slug, summary, role, status, stack, links, years, tags, upstream, onchain, excerpt, net } = project.data;
+const { data: profile } = await getProfile();
+const { live, label } = standing(project);
+const deployment = deploymentOf(project);
+const href = workHref('blockchain', slug);
+---
+
+<article class="paper prose" id={`paper-${slug}`} aria-labelledby={`paper-${slug}-title`} data-tags={tags.join(' ')}>
+  <p class="paper-label mono">
+    paper {number} · <span class="status" data-live={live ? '' : undefined}><span class="dot" aria-hidden="true"></span>{label}</span>
+  </p>
+  <h3 id={`paper-${slug}-title`}><span>{number}</span>{title}</h3>
+  <p class="paper-byline">{initialled(profile.fullName)} · {years} · {role.toLowerCase()}</p>
+  <p class="paper-abstract"><b>Abstract.</b> {summary}</p>
+  {
+    excerpt && figure && (
+      <CodeFigure n={figure} code={excerpt.code} lang={excerpt.lang} file={excerpt.file}>
+        {excerpt.caption} <a href={excerpt.url}>source ↗</a>
+      </CodeFigure>
+    )
+  }
+  <dl class="record mono">
+    {
+      onchain && (
+        <>
+          <dt>chain</dt>
+          <dd>{onchain.network.toLowerCase()}</dd>
+        </>
+      )
+    }
+    <dt>status</dt>
+    <dd>{statusLabel[status]}</dd>
+    {
+      net && (
+        <>
+          <dt>net</dt>
+          <dd>{net}</dd>
+        </>
+      )
+    }
+    <dt>stack</dt>
+    <dd>{stack.join(' · ').toLowerCase()}</dd>
+    {
+      onchain && (
+        <>
+          <dt>contracts</dt>
+          <dd>
+            <a href={onchain.url}>{onchain.address}</a> ↗
+          </dd>
+        </>
+      )
+    }
+    {
+      upstream && (
+        <>
+          <dt>upstream</dt>
+          <dd>{upstream}</dd>
+        </>
+      )
+    }
+  </dl>
+  <p class="paper-links mono">
+    {links.repo && <a href={links.repo}>code ↗</a>}
+    {deployment && <a href={deployment}>deployment ↗</a>}
+    <a href={href}>read the paper →</a>
+    <Cite citekey={citeKey(profile.fullName, yearOf(project), slug)} title={title} year={yearOf(project)} url={href} note={summary} />
+  </p>
+</article>

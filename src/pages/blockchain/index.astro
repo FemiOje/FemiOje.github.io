@@ -1,0 +1,257 @@
+---
+import chainSource from '../../lib/chain.js?raw';
+import { getExperience, getLensProjects, getProfile } from '../../lib/content';
+import Cite from '../../lenses/blockchain/Cite.astro';
+import CodeFigure from '../../lenses/blockchain/CodeFigure.astro';
+import Layout from '../../lenses/blockchain/Layout.astro';
+import LensSwitcher from '../../lenses/blockchain/LensSwitcher.astro';
+import Paper from '../../lenses/blockchain/Paper.astro';
+import Sidenote from '../../lenses/blockchain/Sidenote.astro';
+import { getLedger, short } from '../../lenses/blockchain/ledger';
+import { bare, build, citeKey, keywords, toolsByLayer } from '../../lenses/blockchain/paper';
+
+const profile = await getProfile();
+const { name, fullName, role, location, bio, intro, email, links } = profile.data;
+const { all, featuredFirst: projects } = await getLensProjects('blockchain');
+const experience = await getExperience();
+const education = experience.find(({ id }) => id === 'education');
+
+const title = 'Contracts you can read, interfaces you can trust.';
+const hasEmail = !email.startsWith('[');
+
+// Figures are numbered in page order: the papers' excerpts first, then chain.js in §3.
+let figures = 0;
+const papers = projects.map((project, i) => ({
+  project,
+  number: `2.${i + 1}`,
+  figure: project.data.excerpt ? ++figures : undefined,
+}));
+const chainFigure = ++figures;
+
+// The ledger is built oldest first and shown newest first.
+const ledger = (await getLedger()).reverse();
+// Roles and degrees whose dates are still placeholders cannot be ordered, so they are not blocks yet.
+const undated = experience.filter(({ data }) => data.years?.startsWith('['));
+
+// References are numbered in the order the page cites them: the two standards, then each block's source.
+const standards = 2;
+const refOf = (i: number) => standards + i + 1;
+---
+
+<Layout title={`${name} — onchain systems`} description={intro.blockchain ?? ''}>
+  <section class="titleblock prose" data-section="title" aria-labelledby="title">
+    <p class="kicker mono">working paper · v<time datetime={build.month}>{build.version}</time></p>
+    <h1 id="title">{title}</h1>
+    <p class="authors">
+      {fullName}<Sidenote n={1}>Correspondence: {hasEmail ? <a href={`mailto:${email}`}>{email}</a> : email}. {role}, {location}.</Sidenote>
+    </p>
+    <p class="affil">{[education?.data.detail, location].filter(Boolean).join(' · ')}</p>
+    <p class="date"><time datetime={build.month}>{build.monthName}</time></p>
+    <div class="abstract">
+      <h2>Abstract</h2>
+      <p>
+        {intro.blockchain} This paper collects {projects.length} onchain projects (§2) and chains {ledger.length} dated events
+        from them into a ledger (§3) that the reader can verify in the browser.
+      </p>
+    </div>
+    <p class="keywords"><b>Keywords:</b> {keywords(all).join(' · ')}</p>
+    <figure class="equation" role="group" aria-label="Equation 1">
+      <math display="block">
+        <mrow>
+          <msub><mi>H</mi><mi>n</mi></msub><mo>=</mo>
+          <mtext>SHA-256</mtext><mo stretchy="false">(</mo>
+          <msub><mi>H</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub>
+          <mo>∥</mo><msub><mi>e</mi><mi>n</mi></msub>
+          <mo stretchy="false">)</mo>
+        </mrow>
+      </math>
+      <span class="eq-num" aria-hidden="true">(1)</span>
+    </figure>
+    <div class="actions">
+      <a class="btn btn-primary" href="#papers">read the papers ↓</a>
+      <a class="btn" href="#ledger">verify the ledger</a>
+    </div>
+    <div class="mono"><LensSwitcher /></div>
+  </section>
+
+  <section id="introduction" class="section prose" data-section="§1 introduction" aria-labelledby="h-introduction">
+    <h2 id="h-introduction"><span>1</span>Introduction</h2>
+    {bio.map((paragraph) => <p>{paragraph}</p>)}
+    <p>
+      The rest of this paper is organised as follows. §2 presents the onchain work, one paper per project. §3 sets the dated
+      events behind that work down as a hash chain and gives the reader the means to check it. §4 defines the terms and lists
+      the tools. §5 says where to write.
+    </p>
+    <dl class="record mono">
+      {
+        experience.map(({ data }) => (
+          <>
+            <dt>{data.label}</dt>
+            <dd>{[data.title, data.detail, data.years].filter(Boolean).join(' · ')}</dd>
+          </>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section id="papers" class="section prose" data-section="§2 selected papers" aria-labelledby="h-papers">
+    <h2 id="h-papers"><span>2</span>Selected papers</h2>
+    {papers.map((paper) => <Paper {...paper} />)}
+  </section>
+
+  <section id="ledger" class="section prose" data-section="§3 the ledger" aria-labelledby="h-ledger">
+    <h2 id="h-ledger"><span>3</span>The ledger</h2>
+    <p>
+      Every submission, deployment and merged contribution behind §2 is a block. Each block’s hash is the SHA-256 digest<a
+        class="cite-ref"
+        href="#ref-1">&nbsp;[1]</a
+      > of the previous block’s hash and the block’s own entry, exactly as in (1), so no entry can be changed without changing
+      every hash after it<a class="cite-ref" href="#ref-2">&nbsp;[2]</a>.<Sidenote n={2}>The ledger is not onchain. It is a hash chain computed when this site is built, and “verify chain” recomputes it in your browser. It shows that the table is internally consistent, nothing more.</Sidenote>
+      Each entry cites its source in the references.{
+        undated.length > 0 && (
+          <Sidenote n={3}>
+            Not yet blocks: {undated.map(({ data }) => `${data.title} (${data.years})`).join(', ')}. An entry joins the chain
+            once it has a date.
+          </Sidenote>
+        )
+      }
+    </p>
+    <div class="ledger-wrap wide">
+      <table class="ledger" role="table">
+        <caption><b>Table 1:</b> work history as a hash chain, newest first.</caption>
+        <thead role="rowgroup">
+          <tr role="row">
+            <th role="columnheader" scope="col">height</th>
+            <th role="columnheader" scope="col">hash</th>
+            <th role="columnheader" scope="col">prev</th>
+            <th role="columnheader" scope="col">date</th>
+            <th role="columnheader" scope="col">entry</th>
+            <th role="columnheader" scope="col"><span class="sr-only">verified</span></th>
+          </tr>
+        </thead>
+        <tbody role="rowgroup">
+          {
+            ledger.map((block, i) => (
+              <tr role="row" data-height={block.height} data-hash={block.hash} data-prev={block.prev} data-slug={block.slug} data-date={block.date} data-title={block.title}>
+                <td role="cell" class="c-height">#{String(block.height).padStart(2, '0')}</td>
+                <td role="cell" class="c-hash">
+                  <code aria-label={`hash ending ${block.hash.slice(-4)}`}>{short(block.hash)}</code>
+                </td>
+                <td role="cell" class="c-prev">
+                  <code aria-label={`previous hash ending ${block.prev.slice(-4)}`}>{short(block.prev)}</code>
+                </td>
+                <td role="cell" class="c-date">
+                  <time datetime={block.date}>{block.date}</time>
+                </td>
+                <td role="cell" class="c-entry">
+                  {block.project ? <a href={`#paper-${block.project}`}>{block.title}</a> : block.title}
+                  <span class="kind">{block.kind}</span>
+                  <a class="cite-ref" href={`#ref-${refOf(i)}`}>
+                    [{refOf(i)}]
+                  </a>
+                </td>
+                <td role="cell" class="tick" aria-hidden="true" />
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="ledger-actions">
+      <button class="btn btn-primary" type="button" data-verify>verify chain</button>
+      <span class="chain-status" aria-live="polite">unverified · {ledger.length} blocks</span>
+    </div>
+    <CodeFigure n={chainFigure} code={chainSource} lang="js" file="chain.js">
+      the build code that writes Table 1. “verify chain” repeats it in the browser, from genesis upward.
+    </CodeFigure>
+  </section>
+
+  <section id="methods" class="section prose" data-section="§4 methods" aria-labelledby="h-methods">
+    <h2 id="h-methods"><span>4</span>Methods</h2>
+    <p class="defn">
+      <b>Definition 4.1</b> (Block)<b>.</b> A block is one dated event in the work of §2: a submission, a deployment or a merged
+      contribution. Its date is the day of the commit or push it cites, kept to the month.
+    </p>
+    <p class="defn">
+      <b>Definition 4.2</b> (Entry)<b>.</b> The entry <i>e<sub>n</sub></i> of block <i>n</i> is the text
+      <code class="mono">|slug|date|title</code>. In (1) it is appended to the previous hash, written as 64 lowercase
+      hexadecimal digits, and the result is hashed as UTF-8.
+    </p>
+    <p class="defn">
+      <b>Definition 4.3</b> (Genesis)<b>.</b> The genesis block is the earliest entry, at height 0. It has no parent, so its
+      previous hash is 64 zeros.
+    </p>
+    <table class="booktabs">
+      <caption><b>Table 2:</b> tools, by layer.</caption>
+      <thead>
+        <tr><th scope="col">layer</th><th scope="col">tools</th></tr>
+      </thead>
+      <tbody>
+        {
+          toolsByLayer(all).map(({ layer, tools }) => (
+            <tr>
+              <td>{layer}</td>
+              <td>{tools.join(', ')}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </section>
+
+  <section id="correspondence" class="section prose" data-section="§5 correspondence" aria-labelledby="h-correspondence">
+    <h2 id="h-correspondence"><span>5</span>Correspondence</h2>
+    <p class="lead">Questions, corrections and proposals for work are welcome.</p>
+    <dl class="record mono">
+      <dt>email</dt>
+      <dd>{hasEmail ? <a href={`mailto:${email}`}>{email}</a> : email}</dd>
+      {
+        links.map(({ label, url }) => (
+          <>
+            <dt>{label}</dt>
+            <dd>
+              <a href={url}>{bare(url)}</a> ↗
+            </dd>
+          </>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section id="references" class="section prose" data-section="references" aria-labelledby="h-references">
+    <h2 id="h-references">References</h2>
+    <ol class="refs">
+      <li id="ref-1">
+        <span>
+          National Institute of Standards and Technology. Secure Hash Standard (SHS). <i>FIPS PUB 180-4</i>, 2015.{' '}
+          <a href="https://doi.org/10.6028/NIST.FIPS.180-4">doi.org/10.6028/NIST.FIPS.180-4</a> ↗
+        </span>
+      </li>
+      <li id="ref-2">
+        <span>
+          S. Nakamoto. Bitcoin: A Peer-to-Peer Electronic Cash System. 2008.{' '}
+          <a href="https://bitcoin.org/bitcoin.pdf">bitcoin.org/bitcoin.pdf</a> ↗
+        </span>
+      </li>
+      {
+        ledger.map((block, i) => (
+          <li id={`ref-${refOf(i)}`}>
+            <span>
+              {block.title}. {block.note}. <time datetime={block.day}>{block.day}</time>. <a href={block.url}>{bare(block.url)}</a> ↗
+            </span>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="paper-links mono">
+      <Cite
+        citekey={citeKey(fullName, build.year, 'onchain')}
+        title={title}
+        year={build.year}
+        url="/blockchain"
+        note={`Working paper v${build.version}`}
+        label="cite this paper"
+      />
+    </p>
+  </section>
+</Layout>

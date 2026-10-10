@@ -47,6 +47,10 @@ const projects = defineCollection({
     upstream: z.string().optional(),
     facts: z.array(z.object({ k: z.string(), v: z.string() })).default([]),
     onchain: z.object({ network: z.string(), address: z.string(), url: z.string() }).optional(),
+    /** Real lines from the project's repo, shown as its code figure; `url` is the permalink they were copied from. */
+    excerpt: z
+      .object({ file: z.string(), lang: z.string(), caption: z.string(), url: z.string(), code: z.string() })
+      .optional(),
   }),
 });
 
@@ -61,4 +65,22 @@ const experience = defineCollection({
   }),
 });
 
-export const collections = { profile, projects, experience };
+// Dated events (a submission, a deployment, a merged contribution). The blockchain lens chains them into its ledger.
+const txs = defineCollection({
+  loader: () => portfolio.txs,
+  schema: z.object({
+    /** `YYYY-MM-DD` */
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    src: z.enum(['push', 'commit']),
+    method: z.string(),
+    /** Slug of the project it happened to. */
+    to: z.string().optional(),
+    /** `owner/repo`, for a one-off contribution to a project that has no entry of its own. */
+    ext: z.string().optional(),
+    status: z.enum(['pending']).optional(),
+    note: z.string(),
+    url: z.string(),
+  }),
+});
+
+export const collections = { profile, projects, experience, txs };
