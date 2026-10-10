@@ -1,0 +1,174 @@
+---
+import { getProfile } from '../../lib/content';
+import Layout from '../../lenses/games/Layout.astro';
+import LensSwitcher from '../../lenses/games/LensSwitcher.astro';
+import { getLevels, nodeId, worldsOf } from '../../lenses/games/levels';
+import type { MapNode } from '../../lenses/games/overworld';
+
+const { data: profile } = await getProfile();
+const { name, bio, intro, focus, email, links } = profile;
+const levels = await getLevels();
+const worlds = worldsOf(levels);
+const hasEmail = !email.startsWith('[');
+
+interface Action {
+  label: string;
+  href?: string;
+  /** On a button: what the map does with it. */
+  does?: 'next' | 'travel';
+  primary?: boolean;
+}
+/** A stop on the road, with the dialog it opens. */
+interface Stop extends MapNode {
+  eyebrow: string;
+  title: string;
+  text: string;
+  tags: string[];
+  actions: Action[];
+}
+
+const next: Action = { label: 'next level →', does: 'next' };
+const gate = (from: number, to: number): Stop => ({
+  id: '',
+  sprite: to > from ? 'sign-next' : 'sign-back',
+  label: to > from ? `world ${to + 1} →` : `← world ${to + 1}`,
+  to,
+  eyebrow: `world ${to + 1} · ${worlds[to].length} levels`,
+  title: `World ${to + 1}`,
+  text: worlds[to].map(({ title }) => title).join(' · '),
+  tags: [],
+  actions: [{ label: to > from ? `go to world ${to + 1} →` : `← back to world ${to + 1}`, does: 'travel', primary: true }, ...(to < from ? [next] : [])],
+});
+
+// START and GOAL are fixed; everything between them comes from the data.
+const start: Stop = {
+  id: '', sprite: 'house', label: 'start',
+  eyebrow: 'start · home',
+  title: name,
+  text: bio.join(' '),
+  tags: focus.split(', '),
+  actions: [{ label: 'home →', href: '/', primary: true }, next],
+};
+const goal: Stop = {
+  id: '', sprite: 'castle', label: 'goal',
+  eyebrow: 'goal · contact',
+  title: 'Contact',
+  text: hasEmail ? `Write to ${email}.` : email,
+  tags: [],
+  actions: [
+    ...(hasEmail ? [{ label: 'email ↗', href: `mailto:${email}`, primary: true }] : []),
+    ...links.map(({ label, url }) => ({ label: `${label} ↗`, href: url })),
+  ],
+};
+
+const stops: Stop[][] = worlds.map((world, w) =>
+  [
+    w === 0 ? start : gate(w, w - 1),
+    ...world.map(
+      ({ project, slug, title, code, kind, href }): Stop => ({
+        id: '', sprite: kind, label: title.toLowerCase(), slug,
+        eyebrow: `level ${code} · ${project.data.role.toLowerCase()}`,
+        title,
+        text: project.data.summary,
+        tags: project.data.stack.map((item) => item.toLowerCase()),
+        actions: [
+          { label: 'enter level →', href, primary: true },
+          ...(project.data.links.live ? [{ label: 'play ↗', href: project.data.links.live }] : []),
+          next,
+        ],
+      }),
+    ),
+    w === worlds.length - 1 ? goal : gate(w, w + 1),
+  ].map((stop, i) => ({ ...stop, id: `${w}:${i}` })),
+);
+
+// The map engine only needs to know what stands where.
+const map: MapNode[][] = stops.map((world) => world.map(({ id, sprite, label, slug, to }) => ({ id, sprite, label, slug, to })));
+const coins = stops.reduce((sum, world) => sum + world.length - 1, 0);
+---
+
+<Layout title={`${name} — games`} description={intro.games ?? ''}>
+  <section class="intro">
+    <div>
+      <h1>Pick a level.</h1>
+      <p class="lead">{intro.games}</p>
+      <LensSwitcher />
+    </div>
+    <div class="hud">
+      <span data-needs-js><i class="sq" aria-hidden="true"></i>coins <b data-hud="coins">0/{coins}</b></span>
+      <span data-needs-js>levels <b data-hud="levels">0/{levels.length}</b></span>
+      {worlds.length > 1 && <span data-needs-js>world <b data-hud="world">1/{worlds.length}</b></span>}
+      <a href="#levels">skip the map ↓</a>
+    </div>
+  </section>
+
+  <div class="world" data-needs-js>
+    <div class="screen" data-overworld>
+      <div class="map">
+        <canvas
+          width="320"
+          height="176"
+          tabindex="0"
+          aria-label="Overworld map. Arrow keys walk between levels; tap a level to travel there. The level list below has every level as a link."
+        ></canvas>
+      </div>
+      <div class="toast" role="status"></div>
+    </div>
+    <p class="controls">
+      <span><kbd>←</kbd> <kbd>↑</kbd> <kbd>→</kbd> <kbd>↓</kbd> or <kbd>wasd</kbd> to walk · tap a level to travel</span>
+      <span><kbd>enter</kbd> enters the level</span>
+    </p>
+    <div class="dialogs" aria-live="polite">
+      {
+        stops.flat().map(({ id, sprite, eyebrow, title, text, tags, actions }) => (
+          <section class="dialog" data-node={id} hidden={id !== '0:0'}>
+            <canvas data-sprite={sprite} width="20" height="20" aria-hidden="true" />
+            <div>
+              <p class="eyebrow">{eyebrow}</p>
+              <h2>{title}</h2>
+              <p>{text}</p>
+              {tags.length > 0 && <p class="tags">{tags.map((tag) => <span>{tag}</span>)}</p>}
+              <div class="actions">
+                {actions.map(({ label, href, does, primary }) =>
+                  href ? (
+                    <a class:list={['btn', { primary }]} href={href} data-primary={primary || undefined}>
+                      {label}
+                    </a>
+                  ) : (
+                    <button class:list={['btn', { primary }]} type="button" data-primary={primary || undefined} data-next={does === 'next' || undefined} data-travel={does === 'travel' || undefined}>
+                      {label}
+                    </button>
+                  ),
+                )}
+              </div>
+            </div>
+          </section>
+        ))
+      }
+    </div>
+    <script is:inline type="application/json" data-worlds set:html={JSON.stringify(map).replaceAll('<', '\\u003c')} />
+  </div>
+
+  <section class="levels" id="levels" aria-labelledby="h-levels">
+    <h2 id="h-levels">Level select</h2>
+    <p>The same games, no walking required.</p>
+    <ol class="lv">
+      {
+        levels.map((level) => (
+          <li>
+            <a href={level.href} data-level={level.slug} data-node={nodeId(level)}>
+              <span class="code">{level.code}</span>
+              <span>
+                <span class="nm">{level.title}</span>
+                <span class="kd">
+                  {level.kindLabel} · {level.project.data.years}
+                </span>
+              </span>
+              <span class="st" data-needs-js>not yet</span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+</Layout>

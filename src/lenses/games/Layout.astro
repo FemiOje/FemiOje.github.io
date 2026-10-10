@@ -1,0 +1,49 @@
+---
+import { Font } from 'astro:assets';
+import { ClientRouter, fade } from 'astro:transitions';
+import { getProfile } from '../../lib/content';
+import Header from './Header.astro';
+import './overworld.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+const { data: profile } = await getProfile();
+---
+
+<!doctype html>
+<html lang="en" data-lens="games" transition:animate={fade({ duration: '240ms' })}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#F7F5EF" />
+    <link rel="icon" type="image/svg+xml" href="/favicon-games.svg" />
+    <Font cssVariable="--font-pixelify" preload={[{ weight: 400 }]} />
+    <Font cssVariable="--font-atkinson" preload={[{ weight: 400 }]} />
+    <!-- The map needs scripting; the level list does not. -->
+    <noscript><style>[data-needs-js] { display: none !important; }</style></noscript>
+    <ClientRouter />
+  </head>
+  <body>
+    <a class="skip" href="#main">skip to content</a>
+    <Header />
+    <main id="main" class="container" tabindex="-1">
+      <slot />
+    </main>
+    <footer class="container">
+      <div class="site-footer">
+      <p>{profile.name.toLowerCase()} · {profile.role.toLowerCase()} · {profile.focus}</p>
+      <p>map art drawn in code · set in pixelify sans and atkinson hyperlegible</p>
+      </div>
+    </footer>
+    <script>
+      import '../../lib/client/lens-memory';
+      import '../../lib/client/clock';
+      import './interactions';
+    </script>
+  </body>
+</html>

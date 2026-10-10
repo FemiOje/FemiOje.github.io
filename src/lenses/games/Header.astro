@@ -1,0 +1,17 @@
+---
+import { getProfile, gmtOffset } from '../../lib/content';
+import LensSwitcher from './LensSwitcher.astro';
+
+const { data: profile } = await getProfile();
+---
+
+<header class="site-header container">
+  <a class="brand" href="/games">
+    <canvas data-brand width="20" height="20" aria-hidden="true"></canvas>
+    <span class="brand-name">{profile.name}</span>
+  </a>
+  <LensSwitcher />
+  <span class="clock">
+    {gmtOffset(profile.timeZone).toLowerCase()}<span data-clock={profile.timeZone} hidden> · <time></time></span>
+  </span>
+</header>

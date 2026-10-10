@@ -1,0 +1,117 @@
+---
+import { Image } from 'astro:assets';
+import { coverOf, factLabel, getProfile, statusLabel } from '../../../lib/content';
+import Layout from '../../../lenses/games/Layout.astro';
+import { getLevels, nodeId, type Level } from '../../../lenses/games/levels';
+
+export async function getStaticPaths() {
+  const levels = await getLevels();
+  return levels.map((level, i) => ({
+    params: { slug: level.slug },
+    props: { level, prev: levels[i - 1], next: levels[i + 1], world: levels.filter(({ world }) => world === level.world) },
+  }));
+}
+
+interface Props {
+  level: Level;
+  /** Neighbours in lens order, across worlds; undefined at either end. */
+  prev?: Level;
+  next?: Level;
+  /** Every level on this level's map. */
+  world: Level[];
+}
+const { level, prev, next, world } = Astro.props;
+const { project, slug, title, code, log } = level;
+const { summary, role, status, stack, links, years, facts, onchain } = project.data;
+const { data: profile } = await getProfile();
+const cover = coverOf(project);
+
+// A row with nothing to say is left out, never shown empty.
+const rows = [
+  { label: 'role', value: role.toLowerCase() },
+  { label: 'dates', value: years },
+  { label: 'stack', value: stack.join(' · ').toLowerCase() },
+  { label: 'chain', value: onchain?.network.toLowerCase() },
+  { label: 'status', value: statusLabel[status] },
+  ...facts.map(({ k, v }) => ({ label: factLabel(k), value: v })),
+].filter(({ value }) => value && !value.startsWith('['));
+---
+
+<Layout title={`${title} — ${profile.name}`} description={summary}>
+  <article data-level-page={slug} data-node={nodeId(level)}>
+    <header class="level-head">
+      <a class="back" href="/games">← world map</a>
+      <p class="eyebrow">level {code} · world {level.world + 1} · {statusLabel[status]}</p>
+      <h1>{title}</h1>
+      <p class="lead">{summary}</p>
+      {
+        (links.live || links.repo) && (
+          <div class="actions">
+            {links.live && <a class="btn primary" href={links.live}>play ↗</a>}
+            {links.repo && <a class="btn" href={links.repo}>code ↗</a>}
+          </div>
+        )
+      }
+    </header>
+
+    {
+      cover && (
+        <figure class="figure">
+          <Image src={cover} alt={`${title} screenshot`} widths={[480, 800, 1280]} sizes="(min-width: 1152px) 1040px, 90vw" loading="eager" />
+          <figcaption>Figure 1 — {title}</figcaption>
+        </figure>
+      )
+    }
+
+    <dl class="level-card">
+      {
+        rows.map(({ label, value }) => (
+          <div>
+            <dt>{label}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))
+      }
+      {
+        log.length > 0 && (
+          <div>
+            <dt>log</dt>
+            <dd>
+              <ul>
+                {log.map(({ data }) => (
+                  <li>
+                    <time datetime={data.date}>{data.date}</time> · <a href={data.url}>{data.note}</a> ↗
+                  </li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        )
+      }
+    </dl>
+
+    <nav class="level-nav" aria-label="Levels">
+      {
+        prev ? (
+          <a class="btn" href={prev.href}>← {prev.code} {prev.title.toLowerCase()}</a>
+        ) : (
+          <a class="btn" href="/games">← world map</a>
+        )
+      }
+      <span class="strip" role="group" aria-label={`Level ${level.place + 1} of ${world.length} in world ${level.world + 1}`}>
+        {
+          world.map((other) => (
+            <a href={other.href} data-level={other.slug} aria-label={other.title} aria-current={other.slug === slug ? 'true' : undefined} />
+          ))
+        }
+      </span>
+      {
+        next ? (
+          <a class="btn" href={next.href}>{next.code} {next.title.toLowerCase()} →</a>
+        ) : (
+          <a class="btn" href="/games">world map →</a>
+        )
+      }
+    </nav>
+  </article>
+</Layout>

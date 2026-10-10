@@ -4,7 +4,7 @@ export type LensId = 'classic' | 'web' | 'games' | 'blockchain';
 export const lenses: { id: LensId; href: string; ready: boolean }[] = [
   { id: 'classic', href: '/', ready: true },
   { id: 'web', href: '/web', ready: true },
-  { id: 'games', href: '/games', ready: false },
+  { id: 'games', href: '/games', ready: true },
   { id: 'blockchain', href: '/blockchain', ready: true },
 ];
 
