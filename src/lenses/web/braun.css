@@ -1,6 +1,6 @@
-/* Braun — the games lens. Every value here traces to DESIGN (BRAUN).md. */
+/* Braun — the web lens. Every value here traces to DESIGN (BRAUN).md. */
 
-[data-lens="games"] {
+[data-lens="web"] {
   /* Chassis neutrals */
   --chassis: #F2EFE9;
   --chassis-warm: #E9E5DC;
@@ -25,13 +25,13 @@
   -webkit-text-size-adjust: 100%;
 }
 
-[data-lens="games"] *,
-[data-lens="games"] *::before,
-[data-lens="games"] *::after {
+[data-lens="web"] *,
+[data-lens="web"] *::before,
+[data-lens="web"] *::after {
   box-sizing: border-box;
 }
 
-[data-lens="games"] body {
+[data-lens="web"] body {
   margin: 0;
   background: var(--chassis);
   color: var(--charcoal);
@@ -43,24 +43,24 @@
   -webkit-font-smoothing: antialiased;
 }
 
-[data-lens="games"] :where(h1, h2, h3, p, ul, ol, dl, dd, figure) {
+[data-lens="web"] :where(h1, h2, h3, p, ul, ol, dl, dd, figure) {
   margin: 0;
 }
-[data-lens="games"] :where(ul, ol) {
+[data-lens="web"] :where(ul, ol) {
   padding: 0;
   list-style: none;
 }
-[data-lens="games"] :where(a) {
+[data-lens="web"] :where(a) {
   color: inherit;
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
   transition: color var(--t) var(--ease), background-color var(--t) var(--ease);
 }
-[data-lens="games"] :focus-visible {
+[data-lens="web"] :focus-visible {
   outline: 2px solid var(--charcoal);
   outline-offset: 2px;
 }
-[data-lens="games"] [hidden] {
+[data-lens="web"] [hidden] {
   display: none !important;
 }
 
@@ -96,6 +96,7 @@
   font-weight: 700;
   line-height: 0.94;
   letter-spacing: -0.045em;
+  text-wrap: balance;
 }
 .br-h2 {
   font-size: clamp(36px, 4.4vw, 60px);
@@ -173,6 +174,7 @@
 /* Lens switcher (header) */
 .br-lens ul {
   display: flex;
+  flex-wrap: wrap;
   margin-inline: -8px;
 }
 .br-lens__item {
@@ -582,8 +584,8 @@
   height: 16px;
 }
 
-/* Below 900px the header becomes two rows: wordmark and clock, then nav and switcher. */
-@media (max-width: 899.98px) {
+/* Below 1100px the header becomes two rows: wordmark and clock, then nav and switcher. */
+@media (max-width: 1099.98px) {
   .br-header__row {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
@@ -602,6 +604,13 @@
   .br-header .br-lens {
     grid-column: 1 / -1;
     justify-self: start;
+  }
+  /* Four words do not fit one phone line: set them two by two. */
+  .br-header .br-lens ul {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: start;
+    column-gap: 16px;
   }
   .br-rows > div {
     grid-template-columns: minmax(0, 1fr) auto;
@@ -622,12 +631,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-lens="games"] {
+  [data-lens="web"] {
     scroll-behavior: auto;
   }
-  [data-lens="games"] *,
-  [data-lens="games"] *::before,
-  [data-lens="games"] *::after {
+  [data-lens="web"] *,
+  [data-lens="web"] *::before,
+  [data-lens="web"] *::after {
     animation: none !important;
     transition: none !important;
   }

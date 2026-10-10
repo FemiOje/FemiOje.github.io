@@ -3,12 +3,12 @@ import { render } from 'astro:content';
 import { getLensProjects, type Project } from '../../../lib/content';
 import { workHref } from '../../../lib/lenses';
 import { modelNumber } from '../../../lib/models';
-import Layout from '../../../lenses/games/Layout.astro';
-import Status from '../../../lenses/games/Status.astro';
-import Well from '../../../lenses/games/Well.astro';
+import Layout from '../../../lenses/web/Layout.astro';
+import Status from '../../../lenses/web/Status.astro';
+import Well from '../../../lenses/web/Well.astro';
 
 export async function getStaticPaths() {
-  const { featuredFirst: units } = await getLensProjects('games');
+  const { featuredFirst: units } = await getLensProjects('web');
   return units.map((project, i) => ({
     params: { slug: project.data.slug },
     props: { project, model: modelNumber(i), next: units[(i + 1) % units.length] },
@@ -79,7 +79,7 @@ const outbound = [
 
     {
       next !== project && (
-        <a class="br-next br-link" href={workHref('games', next.data.slug)}>
+        <a class="br-next br-link" href={workHref('web', next.data.slug)}>
           next unit — {next.data.title.toLowerCase()}
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
             <path d="M2 8h12M9.5 3.5 14 8l-4.5 4.5" />

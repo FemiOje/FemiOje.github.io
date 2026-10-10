@@ -2,24 +2,24 @@
 import { render } from 'astro:content';
 import { getExperience, getLensProjects, getProfile } from '../lib/content';
 import { lenses } from '../lib/lenses';
-import Layout from '../lenses/web/Layout.astro';
-import Bamboo from '../lenses/web/Bamboo.astro';
-import BambooDivider from '../lenses/web/BambooDivider.astro';
-import LensSwitcher from '../lenses/web/LensSwitcher.astro';
-import Rows from '../lenses/web/Rows.astro';
-import SectionHead from '../lenses/web/SectionHead.astro';
-import ShojiGrid from '../lenses/web/ShojiGrid.astro';
-import Tokonoma from '../lenses/web/Tokonoma.astro';
+import Layout from '../lenses/classic/Layout.astro';
+import Bamboo from '../lenses/classic/Bamboo.astro';
+import BambooDivider from '../lenses/classic/BambooDivider.astro';
+import LensSwitcher from '../lenses/classic/LensSwitcher.astro';
+import Rows from '../lenses/classic/Rows.astro';
+import SectionHead from '../lenses/classic/SectionHead.astro';
+import ShojiGrid from '../lenses/classic/ShojiGrid.astro';
+import Tokonoma from '../lenses/classic/Tokonoma.astro';
 
 const profile = await getProfile();
 const { Content: Bio } = await render(profile);
 const { name, role, intro, email, links } = profile.data;
-const { featured, rest } = await getLensProjects('web');
+const { featured, rest } = await getLensProjects('classic');
 const experience = await getExperience();
-const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'web');
+const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'classic');
 ---
 
-<Layout title={`${name} — ${role.toLowerCase()}`} description={intro.web ?? ''}>
+<Layout title={`${name} — ${role.toLowerCase()}`} description={intro.classic ?? ''}>
   <section class="ma-hero" aria-labelledby="hero-title">
     <div class="ma-container">
       <span class="ma-hero__kanji" lang="ja" aria-hidden="true">間</span>
@@ -27,7 +27,7 @@ const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'web');
         <div class="ma-hero__stack">
           <p class="ma-label"><span lang="ja">玄関</span> · entryway</p>
           <h1 class="ma-h1" id="hero-title">{name}, {role.toLowerCase()}.</h1>
-          <p class="ma-lead">{intro.web}</p>
+          <p class="ma-lead">{intro.classic}</p>
           <div class="ma-actions">
             <a class="ma-enter" href="#work">
               enter

@@ -20,7 +20,7 @@ const { title, slug, summary, status, stack } = project.data;
     <Status status={status} />
   </div>
   <div class="br-unit__body">
-    <h3 class="br-unit__title"><a href={workHref('games', slug)}>{title}</a></h3>
+    <h3 class="br-unit__title"><a href={workHref('web', slug)}>{title}</a></h3>
     <p>{summary}</p>
   </div>
   <p class="br-label">{stack.map((item) => item.toLowerCase()).join(' · ')}</p>

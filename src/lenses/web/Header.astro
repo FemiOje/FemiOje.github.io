@@ -8,10 +8,10 @@ const sections = ['work', 'about', 'contact'];
 
 <header class="br-header">
   <div class="br-header__row br-container">
-    <a class="br-wordmark" href="/games">{profile.name.toLowerCase()}</a>
+    <a class="br-wordmark" href="/web">{profile.name.toLowerCase()}</a>
     <nav class="br-nav" aria-label="Sections">
       <ul>
-        {sections.map((id) => <li><a href={`/games#${id}`}>{id}</a></li>)}
+        {sections.map((id) => <li><a href={`/web#${id}`}>{id}</a></li>)}
       </ul>
     </nav>
     <LensSwitcher />

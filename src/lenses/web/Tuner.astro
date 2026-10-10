@@ -3,13 +3,15 @@
 // real links, and the dial turns to the next one and follows it.
 import { lenses, type LensId } from '../../lib/lenses';
 
-const angle: Record<LensId, number> = { web: -50, chain: 0, games: 50 };
+// Four positions spread evenly across the same ±60° sweep.
+const angle: Record<LensId, number> = { classic: -60, web: -20, games: 20, chain: 60 };
 const readout: Record<LensId, string> = {
+  classic: 'The whole picture — all of the work, in one quiet room.',
   web: 'Interfaces and frontend engineering for the web.',
-  chain: 'Onchain products — Monad, Ethereum.',
   games: 'Onchain games — Dope Wars, Loot Survivor 2.',
+  chain: 'Onchain products — Monad, Ethereum.',
 };
-const current: LensId = 'games';
+const current: LensId = 'web';
 ---
 
 <section class="br-tuner" aria-label="Lens tuner" data-tuner>

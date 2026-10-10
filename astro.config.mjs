@@ -13,7 +13,7 @@ const latin = (pkg, weight) => ({
   unicodeRange: [LATIN],
 });
 const japanese = (weight) => ({
-  src: [`./src/lenses/web/fonts/shippori-mincho-ma-${weight}.woff2`],
+  src: [`./src/lenses/classic/fonts/shippori-mincho-ma-${weight}.woff2`],
   weight,
   style: 'normal',
   unicodeRange: [JAPANESE],

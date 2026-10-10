@@ -1,6 +1,6 @@
-/* Ma — the web lens. Every value here traces to DESIGN(MA).md. */
+/* Ma — the classic lens. Every value here traces to DESIGN(MA).md. */
 
-[data-lens="web"] {
+[data-lens="classic"] {
   /* Paper */
   --paper: #F4F0E6;
   --paper-recess: #ECE6D7;
@@ -36,13 +36,13 @@
   -webkit-text-size-adjust: 100%;
 }
 
-[data-lens="web"] *,
-[data-lens="web"] *::before,
-[data-lens="web"] *::after {
+[data-lens="classic"] *,
+[data-lens="classic"] *::before,
+[data-lens="classic"] *::after {
   box-sizing: border-box;
 }
 
-[data-lens="web"] body {
+[data-lens="classic"] body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
@@ -52,28 +52,28 @@
   -webkit-font-smoothing: antialiased;
 }
 
-[data-lens="web"] :where(h1, h2, h3, p, ul, ol, dl, dd, figure) {
+[data-lens="classic"] :where(h1, h2, h3, p, ul, ol, dl, dd, figure) {
   margin: 0;
 }
-[data-lens="web"] :where(ul, ol) {
+[data-lens="classic"] :where(ul, ol) {
   padding: 0;
   list-style: none;
 }
-[data-lens="web"] :where(a) {
+[data-lens="classic"] :where(a) {
   color: inherit;
   text-decoration-thickness: 1px;
   text-underline-offset: 5px;
   transition: color var(--hover), background-color var(--hover);
 }
-[data-lens="web"] :focus-visible {
+[data-lens="classic"] :focus-visible {
   outline: 2px solid var(--seal);
   outline-offset: 3px;
 }
 /* All Japanese is set in Mincho, wherever it appears. */
-[data-lens="web"] :lang(ja) {
+[data-lens="classic"] :lang(ja) {
   font-family: var(--mincho);
 }
-[data-lens="web"] [hidden] {
+[data-lens="classic"] [hidden] {
   display: none !important;
 }
 
@@ -184,7 +184,8 @@
   font-size: 13px;
   letter-spacing: 0.12em;
 }
-.ma-lens li + li::before {
+/* The dot trails its word, so a wrapped line never starts with one. */
+.ma-lens li:not(:last-child)::after {
   content: "·";
   color: var(--ink-soft);
 }
@@ -587,8 +588,8 @@
   letter-spacing: 0;
 }
 
-/* Below 1024px the header becomes two rows: name and clock, then nav and switcher. */
-@media (max-width: 1023.98px) {
+/* Below 1200px the header becomes two rows: name and clock, then nav and switcher. */
+@media (max-width: 1199.98px) {
   .ma-header {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
@@ -608,6 +609,17 @@
   .ma-header .ma-lens {
     grid-column: 1 / -1;
     justify-self: start;
+  }
+  /* Four words do not fit one phone line: set them two by two. */
+  .ma-lens ul {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: start;
+    justify-items: start;
+    column-gap: 16px;
+  }
+  .ma-lens li:not(:last-child)::after {
+    content: none;
   }
   .ma-hero__row,
   .ma-tokonoma {
@@ -629,12 +641,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-lens="web"] {
+  [data-lens="classic"] {
     scroll-behavior: auto;
   }
-  [data-lens="web"] *,
-  [data-lens="web"] *::before,
-  [data-lens="web"] *::after {
+  [data-lens="classic"] *,
+  [data-lens="classic"] *::before,
+  [data-lens="classic"] *::after {
     animation: none !important;
     transition: none !important;
   }

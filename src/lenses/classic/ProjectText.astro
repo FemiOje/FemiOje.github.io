@@ -14,7 +14,7 @@ const { title, slug, summary, status, stack } = project.data;
 <div class="ma-project">
   <p class="ma-label">{statusLabel[status]}</p>
   <h3 class="ma-project__title">
-    {numeral && <span class="ma-numeral" lang="ja" aria-hidden="true">{numeral}</span>}<a href={workHref('web', slug)}>{title}</a>
+    {numeral && <span class="ma-numeral" lang="ja" aria-hidden="true">{numeral}</span>}<a href={workHref('classic', slug)}>{title}</a>
   </h3>
   <p>{summary}</p>
   <p class="ma-label">{stack.join(' · ')}</p>

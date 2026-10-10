@@ -2,15 +2,15 @@
 import { getEntry, render } from 'astro:content';
 import { getExperience, getLensProjects, getProfile } from '../../lib/content';
 import { modelNumber } from '../../lib/models';
-import Layout from '../../lenses/games/Layout.astro';
-import SectionHead from '../../lenses/games/SectionHead.astro';
-import Tuner from '../../lenses/games/Tuner.astro';
-import UnitCard from '../../lenses/games/UnitCard.astro';
+import Layout from '../../lenses/web/Layout.astro';
+import SectionHead from '../../lenses/web/SectionHead.astro';
+import Tuner from '../../lenses/web/Tuner.astro';
+import UnitCard from '../../lenses/web/UnitCard.astro';
 
 const profile = await getProfile();
 const { Content: Bio } = await render(profile);
 const { name, role, focus, location, intro, email, links } = profile.data;
-const { featuredFirst: units } = await getLensProjects('games');
+const { featuredFirst: units } = await getLensProjects('web');
 const experience = await getExperience();
 const education = await getEntry('experience', 'education');
 const previously = await getEntry('experience', 'provable-labs');
@@ -24,7 +24,7 @@ const plate = [
 const count = (n: number) => `${String(n).padStart(2, '0')} ${n === 1 ? 'unit' : 'units'}`;
 ---
 
-<Layout title={`${name} — ${role.toLowerCase()}, onchain games`} description={intro.games ?? ''}>
+<Layout title={`${name} — ${role.toLowerCase()} for the web`} description={intro.web ?? ''}>
   <section class="br-hero br-container" aria-labelledby="hero-title">
     <div class="br-hero__row">
       <div class="br-hero__text">
@@ -32,8 +32,8 @@ const count = (n: number) => `${String(n).padStart(2, '0')} ${n === 1 ? 'unit' :
           <span class="br-dot br-dot--on" aria-hidden="true"></span>
           {role.toLowerCase()} — {focus}
         </p>
-        <h1 class="br-h1" id="hero-title">{role} for onchain games.</h1>
-        <p class="br-lead">{intro.games}</p>
+        <h1 class="br-h1" id="hero-title">{role} for the web.</h1>
+        <p class="br-lead">{intro.web}</p>
         <div class="br-actions">
           <a class="br-button" href="#work">
             see the units
