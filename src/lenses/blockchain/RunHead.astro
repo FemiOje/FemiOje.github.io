@@ -1,17 +1,16 @@
 ---
 // The running head: sticky, like a fancyhdr header. `[data-runhead-section]` follows the section in view.
-import { getProfile } from '../../lib/content';
+import { getProfile, gmtOffset } from '../../lib/content';
 import LensSwitcher from './LensSwitcher.astro';
 
 const { data: profile } = await getProfile();
 const [first, ...rest] = profile.name.toLowerCase().split(' ');
-const [city] = profile.location.toLowerCase().split(', ');
 ---
 
 <header class="runhead container mono">
   <a class="runhead-name" href="/blockchain">{first[0]}. {rest.join(' ')} — onchain systems</a>
   <LensSwitcher />
   <p class="runhead-meta">
-    <span data-runhead-section>title</span><span class="sep">&nbsp;·&nbsp;</span>{city}<span data-clock={profile.timeZone} hidden>&nbsp;<time></time></span>
+    <span data-runhead-section>title</span><span class="sep">&nbsp;·&nbsp;</span>{gmtOffset(profile.timeZone).toLowerCase()}<span data-clock={profile.timeZone} hidden>&nbsp;<time></time></span>
   </p>
 </header>

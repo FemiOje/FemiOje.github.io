@@ -11,7 +11,6 @@ const profile = defineCollection({
     name: z.string(),
     fullName: z.string(),
     role: z.string(),
-    location: z.string(),
     timeZone: z.string(),
     focus: z.string(),
     /** One paragraph per entry. */

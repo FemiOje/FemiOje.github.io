@@ -11,10 +11,9 @@ import { getLedger, short } from '../../lenses/blockchain/ledger';
 import { bare, build, citeKey, keywords, toolsByLayer } from '../../lenses/blockchain/paper';
 
 const profile = await getProfile();
-const { name, fullName, role, location, bio, intro, email, links } = profile.data;
+const { name, fullName, role, bio, intro, email, links } = profile.data;
 const { all, featuredFirst: projects } = await getLensProjects('blockchain');
 const experience = await getExperience();
-const education = experience.find(({ id }) => id === 'education');
 
 const title = 'Contracts you can read, interfaces you can trust.';
 const hasEmail = !email.startsWith('[');
@@ -43,9 +42,8 @@ const refOf = (i: number) => standards + i + 1;
     <p class="kicker mono">working paper · v<time datetime={build.month}>{build.version}</time></p>
     <h1 id="title">{title}</h1>
     <p class="authors">
-      {fullName}<Sidenote n={1}>Correspondence: {hasEmail ? <a href={`mailto:${email}`}>{email}</a> : email}. {role}, {location}.</Sidenote>
+      {fullName}<Sidenote n={1}>Correspondence: {hasEmail ? <a href={`mailto:${email}`}>{email}</a> : email}. {role}.</Sidenote>
     </p>
-    <p class="affil">{[education?.data.detail, location].filter(Boolean).join(' · ')}</p>
     <p class="date"><time datetime={build.month}>{build.monthName}</time></p>
     <div class="abstract">
       <h2>Abstract</h2>

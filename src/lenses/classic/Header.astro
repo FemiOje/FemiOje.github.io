@@ -1,5 +1,5 @@
 ---
-import { getProfile } from '../../lib/content';
+import { getProfile, gmtOffset } from '../../lib/content';
 import Seal from './Seal.astro';
 import LensSwitcher from './LensSwitcher.astro';
 
@@ -19,6 +19,6 @@ const sections = ['work', 'about', 'contact'];
   </nav>
   <LensSwitcher />
   <p class="ma-clock">
-    lagos<span data-clock={profile.timeZone} hidden> · <time></time></span>
+    {gmtOffset(profile.timeZone).toLowerCase()}<span data-clock={profile.timeZone} hidden> · <time></time></span>
   </p>
 </header>

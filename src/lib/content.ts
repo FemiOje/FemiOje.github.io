@@ -20,6 +20,12 @@ export function coverOf({ data }: Project) {
   return cover.default;
 }
 
+/** `Etc/GMT-1` → `GMT+1`: the profile's time zone as an offset. */
+export const gmtOffset = (timeZone: string) =>
+  new Intl.DateTimeFormat('en-GB', { timeZone, timeZoneName: 'shortOffset' })
+    .formatToParts(new Date())
+    .find(({ type }) => type === 'timeZoneName')?.value ?? 'GMT';
+
 /** `max_concurrent_games` → `max concurrent games` */
 export const factLabel = (key: string) => key.replaceAll('_', ' ');
 

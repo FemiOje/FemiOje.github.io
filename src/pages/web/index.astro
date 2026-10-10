@@ -1,5 +1,5 @@
 ---
-import { getExperience, getLensProjects, getProfile } from '../../lib/content';
+import { getExperience, getLensProjects, getProfile, gmtOffset } from '../../lib/content';
 import { filtersFor } from '../../lib/filters';
 import Header from '../../lenses/web/Header.astro';
 import Icon from '../../lenses/web/Icon.astro';
@@ -9,18 +9,13 @@ import SectionHead from '../../lenses/web/SectionHead.astro';
 import { pad } from '../../lenses/web/poster';
 
 const profile = await getProfile();
-const { name, bio, focus, location, timeZone, intro, email, links } = profile.data;
+const { name, bio, focus, timeZone, intro, email, links } = profile.data;
 const { featuredFirst: projects } = await getLensProjects('web');
 const experience = await getExperience();
 
-const [city, ...region] = location.split(', ');
-const utcOffset = new Intl.DateTimeFormat('en-GB', { timeZone, timeZoneName: 'shortOffset' })
-  .formatToParts(new Date())
-  .find(({ type }) => type === 'timeZoneName')
-  ?.value.replace('GMT', 'UTC');
 const meta = [
   { label: '01', value: 'Frontend engineering' },
-  { label: city, value: [...region, utcOffset].filter(Boolean).join(', ') },
+  { label: 'Time', value: gmtOffset(timeZone) },
   { label: 'Focus', value: focus.charAt(0).toUpperCase() + focus.slice(1) },
 ];
 

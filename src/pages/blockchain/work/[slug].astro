@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { coverOf, factLabel, getExperience, getLensProjects, getProfile, statusLabel, type Project } from '../../../lib/content';
+import { coverOf, factLabel, getLensProjects, getProfile, statusLabel, type Project } from '../../../lib/content';
 import { workHref } from '../../../lib/lenses';
 import Cite from '../../../lenses/blockchain/Cite.astro';
 import CodeFigure from '../../../lenses/blockchain/CodeFigure.astro';
@@ -33,7 +33,6 @@ interface Props {
 const { project, index, next, blocks } = Astro.props;
 const { title, slug, summary, role, status, stack, links, years, facts, upstream, onchain, excerpt, net } = project.data;
 const { data: profile } = await getProfile();
-const education = (await getExperience()).find(({ id }) => id === 'education');
 const cover = coverOf(project);
 const { live, label } = standing(project);
 const deployment = deploymentOf(project);
@@ -64,7 +63,6 @@ const references = [
       </p>
       <h1 id="title">{title}</h1>
       <p class="authors">{initialled(profile.fullName)}</p>
-      <p class="affil">{[education?.data.detail, profile.location].filter(Boolean).join(' · ')}</p>
       <p class="date">{years} · {role.toLowerCase()}</p>
       <div class="abstract">
         <h2>Abstract</h2>

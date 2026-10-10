@@ -114,8 +114,7 @@ main:focus { outline: 0; }
 .kicker { margin: 0 0 28px; color: var(--ink-soft); }
 .titleblock h1 { margin: 0 auto; max-width: 18ch; font-weight: 400; font-size: clamp(32px, 4.8vw, 52px); line-height: 1.15; letter-spacing: -.005em; text-wrap: balance; }
 .authors { margin: 28px 0 2px; font-size: 20px; }
-.affil, .date { margin: 0; font-size: 16px; color: var(--ink-soft); }
-.affil { font-style: italic; }
+.date { margin: 0; font-size: 16px; color: var(--ink-soft); }
 .abstract { max-width: 34rem; margin: 44px auto 0; text-align: left; }
 .abstract h2 { margin: 0 0 8px; text-align: center; font-size: 15px; font-weight: 700; }
 .abstract p { margin: 0; font-size: 16px; line-height: 1.5; }

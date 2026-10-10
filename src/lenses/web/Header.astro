@@ -1,6 +1,6 @@
 ---
 // Sits inside the top (ultramarine) field of each page, above that page's own content.
-import { getProfile } from '../../lib/content';
+import { getProfile, gmtOffset } from '../../lib/content';
 import LensSwitcher from './LensSwitcher.astro';
 
 const { data: profile } = await getProfile();
@@ -11,7 +11,7 @@ const { data: profile } = await getProfile();
   <LensSwitcher />
   <div class="sw-header__tools">
     <p>
-      lagos<span data-clock={profile.timeZone} hidden>{' '}<time></time></span>
+      {gmtOffset(profile.timeZone).toLowerCase()}<span data-clock={profile.timeZone} hidden>{' '}<time></time></span>
     </p>
     <button class="sw-toggle" type="button" aria-pressed="false" data-grid-toggle>grid</button>
   </div>

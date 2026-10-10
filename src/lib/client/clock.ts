@@ -1,4 +1,4 @@
-// Fills `<span data-clock="Africa/Lagos" hidden>…<time></time>…</span>` with the local time there.
+// Fills `<span data-clock="Etc/GMT-1" hidden>…<time></time>…</span>` with the time in that zone.
 let timer: ReturnType<typeof setInterval> | undefined;
 
 document.addEventListener('astro:page-load', () => {

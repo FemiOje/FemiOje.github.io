@@ -25,17 +25,17 @@ export default {
     fullName: "Oluwafemi Ojetokun",
     handle: "jinius",
     role: "Software engineer",
-    location: "Lagos, Nigeria",
-    timeZone: "Africa/Lagos",
+    /* A fixed offset, not a place. The Etc zones invert the sign: this is GMT+1. */
+    timeZone: "Etc/GMT-1",
     focus: "web, onchain, games",
     bio: [
       "Interested and actively building in web development, blockchain development and game development."
     ],
     intro: {
-      classic: "Based in Lagos, Nigeria, working where the web, blockchains and games meet.",
-      web: "Based in Lagos, Nigeria. Currently building Aux, a shared space for discovering new music through other people.",
-      games: "Based in Lagos, Nigeria. Open-source contributor to Loot Survivor 2 and Dope Wars, two onchain games.",
-      blockchain: "Based in Lagos, Nigeria. Author of Hex'd, a fully onchain battle royale on Starknet, and contributor to herit, an onchain inheritance platform."
+      classic: "Working where the web, blockchains and games meet.",
+      web: "Currently building Aux, a shared space for discovering new music through other people.",
+      games: "Open-source contributor to Loot Survivor 2 and Dope Wars, two onchain games.",
+      blockchain: "Author of Hex'd, a fully onchain battle royale on Starknet, and contributor to herit, an onchain inheritance platform."
     },
     email: "0xjinius@gmail.com",
     links: [
@@ -159,22 +159,6 @@ export default {
         { k: "self_test", v: "55 checks via ./sandbox test, also run in GitHub Actions" },
         { k: "network_policy", v: "default deny, approval proxy" },
         { k: "agent_user", v: "uid 1000, no capabilities, no_new_privs" }
-      ]
-    },
-    {
-      title: "RL for Portfolio Management", slug: "thesis-drl-portfolio", role: "Author", status: "shipped", years: "2026",
-      summary: "B.Sc. Computer Science final-year project, University of Lagos. A controlled comparison of three continuous-action deep RL algorithms — Policy Gradient, PPO and DDPG — on an eight-asset S&P 500 portfolio under transaction costs, where only the learning rule is allowed to differ.",
-      lenses: ["classic"], featured_in: [],
-      order: { classic: 6 },
-      tags: [],
-      stack: ["Python", "Deep RL", "PPO", "DDPG"],
-      links: { live: "", repo: "https://github.com/FemiOje/thesis-drl-portfolio" },
-      kind: "research", net: "mainnet",
-      facts: [
-        { k: "universe", v: "8 assets, one per GICS sector" },
-        { k: "data", v: "daily OHLC, 2021-08-25 to 2026-08-24" },
-        { k: "split", v: "60 / 20 / 20 chronological; test scored once" },
-        { k: "commission", v: "10 bps per trade" }
       ]
     },
     {
@@ -456,7 +440,6 @@ export default {
     { id: "agent-sandbox-deploy", date: "2026-10-02", src: "push", method: "deploy", to: "agent-sandbox", note: "Docker sandbox for AI coding agents", url: "https://github.com/FemiOje/agent-sandbox" },
     { id: "aux-setup", date: "2026-09-30", src: "commit", method: "merge", to: "aux", note: "Project setup (#1)", url: "https://github.com/Kelechikizito/aux/commits?author=FemiOje" },
     { id: "herit-dashboard", date: "2026-09-12", src: "commit", method: "merge", to: "herit", note: "Dashboard, roadmap page and mobile responsiveness", url: "https://github.com/Kelechikizito/herit/commits?author=FemiOje" },
-    { id: "thesis-deploy", date: "2026-08-30", src: "push", method: "publish", to: "thesis-drl-portfolio", note: "PG vs PPO vs DDPG on an eight-asset portfolio", url: "https://github.com/FemiOje/thesis-drl-portfolio" },
     { id: "hexed-jam", date: "2026-03-08", src: "commit", method: "submit", to: "hexed", note: "[Submission]: Hex'd (#276) — Dojo game jams", url: "https://github.com/dojoengine/game-jams/pull/276" },
     { id: "scard-jam", date: "2025-12-01", src: "commit", method: "submit", to: "scard", note: "Scar'd project details and gameplay instructions (#190) — Dojo game jams", url: "https://github.com/dojoengine/game-jams/pull/190" },
     { id: "ls2-renderer-push", date: "2025-12-01", src: "push", method: "deploy", to: "ls2-renderer", note: "SVG metadata renderer for Loot Survivor adventurers", url: "https://github.com/FemiOje/ls2-renderer" },
