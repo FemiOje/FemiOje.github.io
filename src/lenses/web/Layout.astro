@@ -33,27 +33,8 @@ const { title, description } = Astro.props;
     </main>
     <Footer />
     <script>
-      // The site must work without storage, so every access is guarded.
-      document.addEventListener('click', (event) => {
-        const link = (event.target as Element).closest<HTMLElement>('[data-lens-link]');
-        if (!link) return;
-        try {
-          localStorage.setItem('lens', link.dataset.lensLink!);
-        } catch {}
-      });
-
-      document.addEventListener('astro:page-load', () => {
-        const offer = document.querySelector<HTMLElement>('[data-lens-offer]');
-        if (!offer) return;
-        try {
-          const remembered = localStorage.getItem('lens');
-          const link = offer.querySelector<HTMLAnchorElement>(`a[data-offer="${remembered}"]`);
-          if (link) {
-            link.hidden = false;
-            offer.hidden = false;
-          }
-        } catch {}
-      });
+      import '../../lib/client/lens-memory';
+      import '../../lib/client/clock';
     </script>
   </body>
 </html>

@@ -1,0 +1,111 @@
+---
+import { getEntry, render } from 'astro:content';
+import { getExperience, getLensProjects, getProfile } from '../../lib/content';
+import { modelNumber } from '../../lib/models';
+import Layout from '../../lenses/games/Layout.astro';
+import SectionHead from '../../lenses/games/SectionHead.astro';
+import Tuner from '../../lenses/games/Tuner.astro';
+import UnitCard from '../../lenses/games/UnitCard.astro';
+
+const profile = await getProfile();
+const { Content: Bio } = await render(profile);
+const { name, role, focus, location, intro, email, links } = profile.data;
+const { featuredFirst: units } = await getLensProjects('games');
+const experience = await getExperience();
+const education = await getEntry('experience', 'education');
+const previously = await getEntry('experience', 'provable-labs');
+
+const plate = [
+  { label: 'based in', value: location },
+  { label: 'focus', value: focus },
+  { label: 'education', value: education ? `${education.data.title}, ${education.data.detail}` : '[education]' },
+  { label: 'previously', value: previously?.data.title ?? '[previous role]' },
+];
+const count = (n: number) => `${String(n).padStart(2, '0')} ${n === 1 ? 'unit' : 'units'}`;
+---
+
+<Layout title={`${name} — ${role.toLowerCase()}, onchain games`} description={intro.games ?? ''}>
+  <section class="br-hero br-container" aria-labelledby="hero-title">
+    <div class="br-hero__row">
+      <div class="br-hero__text">
+        <p class="br-status">
+          <span class="br-dot br-dot--on" aria-hidden="true"></span>
+          {role.toLowerCase()} — {focus}
+        </p>
+        <h1 class="br-h1" id="hero-title">{role} for onchain games.</h1>
+        <p class="br-lead">{intro.games}</p>
+        <div class="br-actions">
+          <a class="br-button" href="#work">
+            see the units
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M2 8h12M9.5 3.5 14 8l-4.5 4.5"></path>
+            </svg>
+          </a>
+          <a class="br-link" href="#contact">get in touch</a>
+        </div>
+      </div>
+      <Tuner />
+    </div>
+  </section>
+
+  <div class="br-container">
+    <dl class="br-plate">
+      {
+        plate.map(({ label, value }) => (
+          <div>
+            <dt class="br-label br-muted">{label}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+
+  <section class="br-section br-container" aria-labelledby="work">
+    <div class="br-stack">
+      <SectionHead label="01 — selected work" id="work" count={count(units.length)}>Units shipped.</SectionHead>
+      <ul class="br-units">
+        {units.map((project, i) => <UnitCard project={project} model={modelNumber(i)} />)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="br-section br-container" aria-labelledby="about">
+    <div class="br-stack">
+      <SectionHead label="02 — about" id="about">Spec sheet.</SectionHead>
+      <div class="br-bio"><Bio /></div>
+      <dl class="br-rows">
+        {
+          experience.map(({ data }) => (
+            <div>
+              <dt class="br-label br-muted">{data.label}</dt>
+              <dd>{data.title}</dd>
+              <dd class="br-detail br-muted">{data.detail}</dd>
+              <dd class="br-years br-label br-muted">{data.years}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="br-contact br-container" aria-labelledby="contact">
+    <div class="br-stack">
+      <SectionHead label="03 — contact" id="contact" class="br-contact__headline">Get in touch.</SectionHead>
+      <ul class="br-contact__links">
+        <li>
+          <span class="br-label br-muted">email</span>
+          {email.startsWith('[') ? <span>{email}</span> : <a class="br-link" href={`mailto:${email}`}>{email}</a>}
+        </li>
+        {
+          links.map(({ label, url }) => (
+            <li>
+              <span class="br-label br-muted">{label}</span>
+              <a class="br-link" href={url}>{url.replace(/^https?:\/\//, '').toLowerCase()}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Layout>

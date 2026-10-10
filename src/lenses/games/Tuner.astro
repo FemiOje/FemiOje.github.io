@@ -1,0 +1,98 @@
+---
+// The tuner is the hero instance of the lens switcher: the position labels are the
+// real links, and the dial turns to the next one and follows it.
+import { lenses, type LensId } from '../../lib/lenses';
+
+const angle: Record<LensId, number> = { web: -50, chain: 0, games: 50 };
+const readout: Record<LensId, string> = {
+  web: 'Interfaces and frontend engineering for the web.',
+  chain: 'Onchain products — Monad, Ethereum.',
+  games: 'Onchain games — Dope Wars, Loot Survivor 2.',
+};
+const current: LensId = 'games';
+---
+
+<section class="br-tuner" aria-label="Lens tuner" data-tuner>
+  <div class="br-tuner__top">
+    <span>fo-00</span>
+    <span>tuner</span>
+  </div>
+  <div class="br-grille" aria-hidden="true"></div>
+  <div class="br-tuner__controls">
+    <button class="br-dial" type="button" aria-label="Turn the dial to switch lens" data-dial>
+      <span class="br-dial__pointer" style={`--angle:${angle[current]}deg`} data-pointer></span>
+    </button>
+    <div class="br-tuner__panel">
+      <nav aria-label="Choose a lens">
+        <ul class="br-positions">
+          {
+            lenses.map(({ id, href, ready }) => (
+              <li>
+                {ready ? (
+                  <a
+                    class="br-lens__item"
+                    href={href}
+                    data-lens-link={id}
+                    data-position
+                    data-angle={angle[id]}
+                    data-readout={readout[id]}
+                    aria-current={id === current ? 'page' : undefined}
+                  >
+                    <span class:list={['br-dot', { 'br-dot--on': id === current }]} aria-hidden="true" />
+                    {id}
+                  </a>
+                ) : (
+                  <span class="br-lens__item" aria-disabled="true">
+                    <span class="br-dot" aria-hidden="true" />
+                    {id} — soon
+                  </span>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <p class="br-readout" aria-live="polite" data-readout-text>{readout[current]}</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  const TURN_MS = 160;
+
+  document.addEventListener('astro:page-load', () => {
+    const tuner = document.querySelector<HTMLElement>('[data-tuner]');
+    if (!tuner) return;
+    const dial = tuner.querySelector<HTMLButtonElement>('[data-dial]')!;
+    const pointer = tuner.querySelector<HTMLElement>('[data-pointer]')!;
+    const text = tuner.querySelector<HTMLElement>('[data-readout-text]')!;
+    // Disabled positions are not links, so they are skipped for free.
+    const positions = [...tuner.querySelectorAll<HTMLAnchorElement>('a[data-position]')];
+    let index = positions.findIndex((link) => link.hasAttribute('aria-current'));
+    let turning = false;
+
+    const turn = (step: number) => {
+      if (turning || positions.length < 2) return;
+      turning = true;
+      index = (index + step + positions.length) % positions.length;
+      const target = positions[index];
+
+      pointer.style.setProperty('--angle', `${target.dataset.angle}deg`);
+      text.textContent = target.dataset.readout ?? '';
+      for (const link of positions) {
+        link.querySelector('.br-dot')?.classList.toggle('br-dot--on', link === target);
+      }
+
+      const snap = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      setTimeout(() => target.click(), snap ? 0 : TURN_MS);
+    };
+
+    dial.addEventListener('click', () => turn(1));
+    dial.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        turn(event.key === 'ArrowRight' ? 1 : -1);
+      }
+    });
+  });
+</script>

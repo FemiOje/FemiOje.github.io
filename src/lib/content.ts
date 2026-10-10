@@ -15,7 +15,8 @@ export async function getLensProjects(lens: LensId) {
     (a, b) => (a.data.order[lens] ?? Infinity) - (b.data.order[lens] ?? Infinity),
   );
   const featured = all.find(({ data }) => data.featured_in.includes(lens));
-  return { all, featured, rest: all.filter((p) => p !== featured) };
+  const rest = all.filter((p) => p !== featured);
+  return { all, featured, rest, featuredFirst: featured ? [featured, ...rest] : all };
 }
 
 export async function getExperience() {

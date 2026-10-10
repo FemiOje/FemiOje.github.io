@@ -1,0 +1,12 @@
+---
+import { getProfile } from '../../lib/content';
+
+const { data: profile } = await getProfile();
+---
+
+<footer class="br-footer">
+  <div class="br-footer__row br-container">
+    <p>© {new Date().getFullYear()} {profile.fullName.toLowerCase()}</p>
+    <p>designed in lagos · less, but better</p>
+  </div>
+</footer>

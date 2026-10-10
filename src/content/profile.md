@@ -4,8 +4,10 @@ fullName: Oluwafemi Ojetokun
 role: Frontend engineer
 location: Lagos, Nigeria
 timeZone: Africa/Lagos
+focus: web, onchain, games
 intro:
   web: Based in Lagos, Nigeria, working where the web, blockchains and games meet. This room is for the web.
+  games: Based in Lagos, Nigeria. Open-source contributor to Loot Survivor 2 and Dope Wars, two onchain games.
 email: "[your email]"
 links:
   - label: github

@@ -1,6 +1,7 @@
 ---
 label: education
 title: B.Sc. Computer Science
-detail: "University of Lagos · [year]"
+detail: University of Lagos
+years: "[year]"
 order: 3
 ---

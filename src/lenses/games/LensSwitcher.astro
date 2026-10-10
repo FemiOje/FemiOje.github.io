@@ -1,0 +1,25 @@
+---
+import { lenses } from '../../lib/lenses';
+---
+
+<nav class="br-lens" aria-label="Choose a lens">
+  <ul>
+    {
+      lenses.map(({ id, href, ready }) => (
+        <li>
+          {ready ? (
+            <a class="br-lens__item" href={href} data-lens-link={id} aria-current={id === 'games' ? 'page' : undefined}>
+              <span class:list={['br-dot', { 'br-dot--on': id === 'games' }]} aria-hidden="true" />
+              {id}
+            </a>
+          ) : (
+            <span class="br-lens__item" aria-disabled="true">
+              <span class="br-dot" aria-hidden="true" />
+              {id} — soon
+            </span>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</nav>

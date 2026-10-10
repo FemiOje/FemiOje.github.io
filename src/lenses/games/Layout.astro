@@ -1,0 +1,39 @@
+---
+import { Font } from 'astro:assets';
+import { ClientRouter, fade } from 'astro:transitions';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import './braun.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-lens="games" transition:animate={fade({ duration: '240ms' })}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#F2EFE9" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <Font cssVariable="--font-inter" preload />
+    <ClientRouter />
+  </head>
+  <body>
+    <a class="br-skip" href="#main">skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import '../../lib/client/lens-memory';
+      import '../../lib/client/clock';
+    </script>
+  </body>
+</html>

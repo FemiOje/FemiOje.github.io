@@ -31,6 +31,23 @@ export default defineConfig({
       },
     },
     {
+      // Variable, with the optical-size axis, so display sizes pick up the Display design.
+      provider: fontProviders.local(),
+      name: 'Inter',
+      cssVariable: '--font-inter',
+      fallbacks: ['Helvetica Neue', 'Arial', 'sans-serif'],
+      options: {
+        variants: [
+          {
+            src: ['@fontsource-variable/inter/files/inter-latin-opsz-normal.woff2'],
+            weight: '100 900',
+            style: 'normal',
+            unicodeRange: [LATIN],
+          },
+        ],
+      },
+    },
+    {
       provider: fontProviders.local(),
       name: 'Zen Kaku Gothic New',
       cssVariable: '--font-gothic',

@@ -70,7 +70,12 @@ const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'web');
       <SectionHead kanji="経歴" label="about" id="about">Background</SectionHead>
       <div class="ma-about__body">
         <div class="ma-bio"><Bio /></div>
-        <Rows rows={experience.map(({ data }) => data)} />
+        <Rows
+          rows={experience.map(({ data }) => ({
+            ...data,
+            detail: [data.detail, data.years].filter(Boolean).join(' · '),
+          }))}
+        />
       </div>
     </div>
   </section>

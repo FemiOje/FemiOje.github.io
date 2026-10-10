@@ -1,0 +1,13 @@
+---
+import { statusLabel, type Project } from '../../lib/content';
+
+interface Props {
+  status: Project['data']['status'];
+}
+const { status } = Astro.props;
+---
+
+<span class="br-state">
+  <span class:list={['br-dot', 'br-dot--status', { 'br-dot--ring': status === 'in-progress' }]} aria-hidden="true"></span>
+  {statusLabel[status]}
+</span>

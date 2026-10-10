@@ -12,6 +12,7 @@ const profile = defineCollection({
     role: z.string(),
     location: z.string(),
     timeZone: z.string(),
+    focus: z.string(),
     // The one line that changes per lens (AGENTS.md §5.3).
     intro: z.partialRecord(lens, z.string()),
     email: z.string(),
@@ -33,6 +34,7 @@ const projects = defineCollection({
       order: z.partialRecord(lens, z.number()),
       stack: z.array(z.string()),
       links: z.object({ live: z.string().default(''), repo: z.string().default('') }),
+      years: z.string().default('[years]'),
       cover: image().optional(),
     }),
 });
@@ -43,6 +45,7 @@ const experience = defineCollection({
     label: z.string(),
     title: z.string(),
     detail: z.string(),
+    years: z.string().optional(),
     order: z.number(),
   }),
 });
