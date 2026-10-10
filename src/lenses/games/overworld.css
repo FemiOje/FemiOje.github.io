@@ -57,6 +57,11 @@ main:focus { outline: 0; }
 
 /* ── Header + lens switcher ── */
 .site-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 32px; padding-block: 24px; }
+/* Sticky while it is one row; on phones it wraps, so it scrolls away instead. The spread paints the paper edge to edge. */
+@media (min-width: 641px) {
+  [data-lens="games"] { scroll-padding-top: 104px; }
+  .site-header { position: sticky; top: 0; z-index: 10; background: var(--paper); box-shadow: 0 0 0 100vmax var(--paper); clip-path: inset(0 -100vmax); }
+}
 .brand { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; text-decoration: none; }
 .brand canvas { width: 30px; height: 30px; image-rendering: pixelated; }      /* the player's head, 20×20 */
 .brand-name { font: 500 18px/1 var(--font-pixel); letter-spacing: .02em; }

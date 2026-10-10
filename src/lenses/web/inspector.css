@@ -318,7 +318,7 @@ a.lens-tab:hover {
   color: var(--accent);
 }
 .page :is(main, section, footer) {
-  scroll-margin-top: 16px;
+  scroll-margin-top: 76px;
 }
 .page main:focus {
   outline: none;
@@ -331,6 +331,13 @@ a.lens-tab:hover {
   gap: 24px;
   padding-block: 18px;
   border-bottom: 1px solid var(--line);
+  /* Sticks to the top of the browser viewport it scrolls in; the spread covers the page's side padding. */
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  background: var(--surface);
+  box-shadow: 0 0 0 100vmax var(--surface);
+  clip-path: inset(0 -100vmax);
 }
 a.site-name {
   font-weight: 800;

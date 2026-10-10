@@ -122,6 +122,25 @@
   gap: 4px clamp(16px, 2.6vw, 36px);
   padding-block: 28px;
 }
+/* Sticky from tablet up; on phones the header stacks, so it scrolls away instead. The spread paints the paper edge to edge. */
+@media (min-width: 768px) {
+  [data-lens="classic"] {
+    scroll-padding-top: 164px;
+  }
+  .ma-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--paper);
+    box-shadow: 0 0 0 100vmax var(--paper);
+    clip-path: inset(0 -100vmax);
+  }
+}
+@media (min-width: 1200px) {
+  [data-lens="classic"] {
+    scroll-padding-top: 112px;
+  }
+}
 .ma-brand {
   display: inline-flex;
   align-items: center;
