@@ -1,6 +1,5 @@
 ---
-import { render } from 'astro:content';
-import { getLensProjects, statusLabel, type Project } from '../../lib/content';
+import { factLabel, getLensProjects, statusLabel, type Project } from '../../lib/content';
 import { workHref } from '../../lib/lenses';
 import Layout from '../../lenses/classic/Layout.astro';
 import Well from '../../lenses/classic/Well.astro';
@@ -18,24 +17,25 @@ interface Props {
   next: Project;
 }
 const { project, next } = Astro.props;
-const { title, summary, role, status, stack, links } = project.data;
-const { Content } = await render(project);
+const { title, summary, role, status, stack, links, years, facts, onchain } = project.data;
 
 const rows = [
   { label: 'role', title: role },
   { label: 'status', title: statusLabel[status] },
   { label: 'stack', title: stack.join(' · ') },
+  { label: 'years', title: years },
 ];
 const outbound = [
   { label: 'live', url: links.live, missing: '[live link]' },
   { label: 'repo', url: links.repo, missing: '[repo link]' },
+  ...(onchain ? [{ label: onchain.network.toLowerCase(), url: onchain.url, missing: '' }] : []),
 ];
 ---
 
 <Layout title={`${title} — Femi Ojetokun`} description={summary}>
   <article class="ma-detail ma-container">
     <header class="ma-detail__head">
-      <p class="ma-label"><span lang="ja">作品</span> · {title.toLowerCase()}</p>
+      <p class="ma-label">work · {title.toLowerCase()}</p>
       <h1 class="ma-h1">{title}</h1>
       <p class="ma-lead">{summary}</p>
     </header>
@@ -43,7 +43,18 @@ const outbound = [
     <Well project={project} class="ma-detail__well" sizes="(min-width: 1200px) 1072px, 90vw" loading="eager" />
 
     <div class="ma-detail__body">
-      <div class="ma-prose"><Content /></div>
+      {
+        facts.length > 0 && (
+          <dl class="ma-rows">
+            {facts.map(({ k, v }) => (
+              <div>
+                <dt class="ma-label">{factLabel(k)}</dt>
+                <dd>{v}</dd>
+              </div>
+            ))}
+          </dl>
+        )
+      }
 
       <dl class="ma-rows ma-detail__meta">
         {

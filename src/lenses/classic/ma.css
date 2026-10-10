@@ -237,18 +237,22 @@
 /* Hero (genkan) */
 .ma-hero {
   position: relative;
-  overflow-x: clip;
-  /* The spec's minimum, grown just enough that 間 never sits behind text. */
-  padding-top: max(clamp(96px, 14vw, 200px), calc(var(--kanji) + 16px));
-  padding-bottom: clamp(96px, 12vw, 176px);
+  overflow: clip;
+  display: flex;
+  align-items: center;
+  /* With the header (about 100px) the hero fills the first screen. */
+  min-height: max(560px, calc(100svh - 100px));
+  padding-block: clamp(48px, 6vw, 96px);
 }
 .ma-hero > .ma-container {
   position: relative;
+  width: 100%;
 }
+/* 間 sits behind the text, in the paper, and takes no room of its own. */
 .ma-hero__kanji {
   position: absolute;
   left: calc(var(--gutter) - 0.34em);
-  bottom: calc(100% + 16px);
+  top: -0.3em;
   color: var(--paper-faint);
   font: 400 var(--kanji) / 1 var(--mincho);
   letter-spacing: 0;
@@ -256,6 +260,7 @@
   user-select: none;
 }
 .ma-hero__row {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(180px, 320px);
   align-items: end;
@@ -384,17 +389,62 @@
   display: flex;
   gap: 28px;
 }
-.ma-vlabel {
-  flex: none;
-  color: var(--ink-soft);
-  font: 400 15px/1 var(--mincho);
-  letter-spacing: 0.3em;
-  writing-mode: vertical-rl;
-}
 .ma-section-head__text {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+/* Project filters: quiet words in a row, like the lens switcher. The chosen one is
+   ink with a hairline under it; the seal colour stays off it. */
+.ma-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 32px;
+}
+.ma-filters ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-inline: -8px;
+}
+.ma-filters li {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+}
+.ma-filters li:not(:last-child)::after {
+  content: "·";
+  color: var(--ink-soft);
+}
+.ma-filters__item {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  background: none;
+  color: var(--ink-soft);
+  font: inherit;
+  letter-spacing: inherit;
+  white-space: nowrap;
+  text-decoration: underline 1px transparent;
+  text-underline-offset: 6px;
+  cursor: pointer;
+  transition: color var(--hover), text-decoration-color var(--hover);
+}
+.ma-filters__item:hover,
+.ma-filters__item[aria-pressed="true"] {
+  color: var(--ink);
+}
+.ma-filters__item[aria-pressed="true"] {
+  text-decoration-color: var(--ink);
+}
+/* Filtered-out projects leave the room entirely. */
+.ma-work [hidden] {
+  display: none;
 }
 
 /* Image wells */
@@ -457,13 +507,6 @@
   position: absolute;
   inset: 0;
 }
-.ma-numeral {
-  margin-right: 14px;
-  color: var(--numeral);
-  font-size: 20px;
-  font-weight: 400;
-}
-
 /* Shoji grid */
 .ma-shoji {
   display: grid;
@@ -564,12 +607,6 @@
   gap: 56px;
   padding-top: 56px;
   padding-bottom: clamp(96px, 12vw, 160px);
-}
-.ma-prose {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2em;
-  max-width: 64ch;
 }
 .ma-detail__meta {
   max-width: 880px;

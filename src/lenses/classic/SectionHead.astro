@@ -1,16 +1,13 @@
 ---
 interface Props {
-  /** Vertical kanji label. Must come from DESIGN.md › Japanese vocabulary. */
-  kanji: '作品' | '経歴' | '便り';
   label: string;
   id: string;
   class?: string;
 }
-const { kanji, label, id, class: className = 'ma-h2' } = Astro.props;
+const { label, id, class: className = 'ma-h2' } = Astro.props;
 ---
 
 <div class="ma-section-head">
-  <span class="ma-vlabel" lang="ja">{kanji}</span>
   <div class="ma-section-head__text">
     <p class="ma-label">{label}</p>
     <h2 id={id} class={className}><slot /></h2>

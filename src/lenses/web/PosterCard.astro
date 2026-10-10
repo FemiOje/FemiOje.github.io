@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { statusLabel, type Project } from '../../lib/content';
+import { coverOf, statusLabel, type Project } from '../../lib/content';
 import { workHref } from '../../lib/lenses';
 import Motif from './Motif.astro';
 import { pad, posterField, posterMotif } from './poster';
@@ -11,7 +11,8 @@ interface Props {
   index: number;
 }
 const { project, index } = Astro.props;
-const { title, slug, summary, status, stack, tags, cover } = project.data;
+const { title, slug, summary, status, stack, tags } = project.data;
+const cover = coverOf(project);
 ---
 
 <li class="sw-poster sw-reveal" data-field={posterField(index)} data-tags={tags.join(' ')}>

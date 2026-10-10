@@ -1,10 +1,10 @@
 ---
-import { render } from 'astro:content';
 import { getExperience, getLensProjects, getProfile } from '../lib/content';
 import { lenses } from '../lib/lenses';
 import Layout from '../lenses/classic/Layout.astro';
 import Bamboo from '../lenses/classic/Bamboo.astro';
 import BambooDivider from '../lenses/classic/BambooDivider.astro';
+import Filters from '../lenses/classic/Filters.astro';
 import LensSwitcher from '../lenses/classic/LensSwitcher.astro';
 import Rows from '../lenses/classic/Rows.astro';
 import SectionHead from '../lenses/classic/SectionHead.astro';
@@ -12,9 +12,8 @@ import ShojiGrid from '../lenses/classic/ShojiGrid.astro';
 import Tokonoma from '../lenses/classic/Tokonoma.astro';
 
 const profile = await getProfile();
-const { Content: Bio } = await render(profile);
-const { name, role, intro, email, links } = profile.data;
-const { featured, rest } = await getLensProjects('classic');
+const { name, role, bio, intro, email, links } = profile.data;
+const { all, featured, rest } = await getLensProjects('classic');
 const experience = await getExperience();
 const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'classic');
 ---
@@ -25,7 +24,7 @@ const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'classic');
       <span class="ma-hero__kanji" lang="ja" aria-hidden="true">間</span>
       <div class="ma-hero__row">
         <div class="ma-hero__stack">
-          <p class="ma-label"><span lang="ja">玄関</span> · entryway</p>
+          <p class="ma-label">entryway</p>
           <h1 class="ma-h1" id="hero-title">{name}, {role.toLowerCase()}.</h1>
           <p class="ma-lead">{intro.classic}</p>
           <div class="ma-actions">
@@ -59,7 +58,8 @@ const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'classic');
 
   <section class="ma-work ma-container" aria-labelledby="work">
     <div class="ma-blocks">
-      <SectionHead kanji="作品" label="work" id="work">Selected work</SectionHead>
+      <SectionHead label="work" id="work">Selected work</SectionHead>
+      <Filters projects={all} />
       {featured && <Tokonoma project={featured} />}
       {rest.length > 0 && <ShojiGrid projects={rest} />}
     </div>
@@ -67,9 +67,9 @@ const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'classic');
 
   <section class="ma-about ma-container" aria-labelledby="about">
     <div class="ma-blocks">
-      <SectionHead kanji="経歴" label="about" id="about">Background</SectionHead>
+      <SectionHead label="about" id="about">Background</SectionHead>
       <div class="ma-about__body">
-        <div class="ma-bio"><Bio /></div>
+        <div class="ma-bio">{bio.map((paragraph) => <p>{paragraph}</p>)}</div>
         <Rows
           rows={experience.map(({ data }) => ({
             ...data,
@@ -82,7 +82,7 @@ const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'classic');
 
   <section class="ma-contact ma-container" aria-labelledby="contact">
     <div class="ma-blocks">
-      <SectionHead kanji="便り" label="contact" id="contact" class="ma-contact__headline">
+      <SectionHead label="contact" id="contact" class="ma-contact__headline">
         Leave a note at the door.
       </SectionHead>
       <ul class="ma-contact__links">

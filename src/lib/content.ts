@@ -5,9 +5,23 @@ export type Project = CollectionEntry<'projects'>;
 
 export async function getProfile() {
   const profile = await getEntry('profile', 'profile');
-  if (!profile) throw new Error('src/content/profile.md is missing');
+  if (!profile) throw new Error('data/portfolio.js has no profile');
   return profile;
 }
+
+// Covers are named in the data by path from the repo root.
+const covers = import.meta.glob<{ default: ImageMetadata }>('/img/**/*.{png,jpg,jpeg,webp}', { eager: true });
+
+/** The project's cover image, ready for `<Image>`; undefined when it has none. */
+export function coverOf({ data }: Project) {
+  if (!data.cover) return undefined;
+  const cover = covers[`/${data.cover}`];
+  if (!cover) throw new Error(`${data.slug}: cover "${data.cover}" is not a file under img/`);
+  return cover.default;
+}
+
+/** `max_concurrent_games` → `max concurrent games` */
+export const factLabel = (key: string) => key.replaceAll('_', ' ');
 
 /** Projects shown in a lens, in that lens's order, with its featured project split out. */
 export async function getLensProjects(lens: LensId) {

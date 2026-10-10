@@ -9,7 +9,7 @@ interface Props {
 const { project } = Astro.props;
 ---
 
-<div class="ma-tokonoma-wrap">
+<div class="ma-tokonoma-wrap" data-tags={project.data.tags.join(' ')}>
   <p class="ma-label">tokonoma — the one thing on display</p>
   <article class="ma-tokonoma">
     <Well project={project} sizes="(min-width: 768px) 55vw, 90vw" />

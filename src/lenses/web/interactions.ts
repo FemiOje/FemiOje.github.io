@@ -1,4 +1,5 @@
-// The poster's working parts: recompose, grid overlay, project filters and the entrance reveal.
+// The poster's working parts: recompose, grid overlay and the entrance reveal.
+// Project filters are shared with the other lenses (lib/client/project-filter).
 document.addEventListener('astro:page-load', () => {
   if (document.documentElement.dataset.lens !== 'web') return;
 
@@ -21,23 +22,6 @@ document.addEventListener('astro:page-load', () => {
       const on = gridToggle.getAttribute('aria-pressed') !== 'true';
       gridToggle.setAttribute('aria-pressed', String(on));
       overlay.classList.toggle('is-on', on);
-    });
-  }
-
-  const filters = [...document.querySelectorAll<HTMLButtonElement>('[data-filter]')];
-  const posters = [...document.querySelectorAll<HTMLElement>('[data-tags]')];
-  const count = document.querySelector<HTMLElement>('[data-count]');
-  for (const button of filters) {
-    button.addEventListener('click', () => {
-      const tag = button.dataset.filter;
-      for (const other of filters) other.setAttribute('aria-pressed', String(other === button));
-      let shown = 0;
-      for (const poster of posters) {
-        const show = tag === 'all' || (poster.dataset.tags ?? '').split(' ').includes(tag ?? '');
-        poster.hidden = !show;
-        if (show) shown++;
-      }
-      if (count) count.textContent = `${String(shown).padStart(2, '0')} ${shown === 1 ? 'project' : 'projects'}`;
     });
   }
 

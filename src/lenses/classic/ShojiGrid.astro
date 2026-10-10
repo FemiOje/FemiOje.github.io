@@ -7,15 +7,14 @@ interface Props {
   projects: Project[];
 }
 const { projects } = Astro.props;
-const numerals = ['一', '二', '三', '四', '五'];
 ---
 
-<ul class="ma-shoji">
+<ul class="ma-shoji" data-filter-group>
   {
-    projects.map((project, i) => (
-      <li class="ma-shoji__cell">
+    projects.map((project) => (
+      <li class="ma-shoji__cell" data-tags={project.data.tags.join(' ')}>
         <Well project={project} sizes="(min-width: 800px) 45vw, 90vw" />
-        <ProjectText project={project} numeral={numerals[i]} />
+        <ProjectText project={project} />
       </li>
     ))
   }

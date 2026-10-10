@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import type { Project } from '../../lib/content';
+import { coverOf, type Project } from '../../lib/content';
 
 interface Props {
   project: Project;
@@ -9,7 +9,8 @@ interface Props {
   loading?: 'lazy' | 'eager';
 }
 const { project, class: className, sizes, loading = 'lazy' } = Astro.props;
-const { cover, title } = project.data;
+const { title } = project.data;
+const cover = coverOf(project);
 ---
 
 <div class:list={['ma-well', className]}>

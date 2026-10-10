@@ -1,6 +1,6 @@
 ---
-import { render } from 'astro:content';
 import { getExperience, getLensProjects, getProfile } from '../../lib/content';
+import { filtersFor } from '../../lib/filters';
 import Header from '../../lenses/web/Header.astro';
 import Icon from '../../lenses/web/Icon.astro';
 import Layout from '../../lenses/web/Layout.astro';
@@ -9,8 +9,7 @@ import SectionHead from '../../lenses/web/SectionHead.astro';
 import { pad } from '../../lenses/web/poster';
 
 const profile = await getProfile();
-const { Content: Bio } = await render(profile);
-const { name, focus, location, timeZone, intro, email, links } = profile.data;
+const { name, bio, focus, location, timeZone, intro, email, links } = profile.data;
 const { featuredFirst: projects } = await getLensProjects('web');
 const experience = await getExperience();
 
@@ -25,14 +24,6 @@ const meta = [
   { label: 'Focus', value: focus.charAt(0).toUpperCase() + focus.slice(1) },
 ];
 
-// Labels are what the visitor reads; `tag` matches the project frontmatter.
-const filters = [
-  { tag: 'all', label: 'all' },
-  { tag: 'web', label: 'web' },
-  { tag: 'onchain', label: 'onchain' },
-  { tag: 'games', label: 'games' },
-  { tag: 'open-source', label: 'open source' },
-];
 const count = (n: number) => `${pad(n)} ${n === 1 ? 'project' : 'projects'}`;
 ---
 
@@ -83,14 +74,14 @@ const count = (n: number) => `${pad(n)} ${n === 1 ? 'project' : 'projects'}`;
         <div class="sw-section-head__controls" slot="controls">
           <div class="sw-filters" role="group" aria-label="Filter projects">
             {
-              filters.map(({ tag, label }) => (
+              filtersFor(projects).map(({ tag, label }) => (
                 <button class="sw-toggle" type="button" aria-pressed={tag === 'all' ? 'true' : 'false'} data-filter={tag}>
                   {label}
                 </button>
               ))
             }
           </div>
-          <p class="sw-count" aria-live="polite" data-count>{count(projects.length)}</p>
+          <p class="sw-count" aria-live="polite" data-count data-count-pad="2">{count(projects.length)}</p>
         </div>
       </SectionHead>
       <ul class="sw-cards">
@@ -103,7 +94,7 @@ const count = (n: number) => `${pad(n)} ${n === 1 ? 'project' : 'projects'}`;
     <div class="sw-container">
       <SectionHead numeral="02" label="about" id="about">Spec.</SectionHead>
       <div class="sw-spec sw-reveal">
-        <div class="sw-bio"><Bio /></div>
+        <div class="sw-bio">{bio.map((paragraph) => <p>{paragraph}</p>)}</div>
         <dl class="sw-rows">
           {
             experience.map(({ data }) => (

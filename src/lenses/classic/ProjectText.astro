@@ -4,17 +4,15 @@ import { workHref } from '../../lib/lenses';
 
 interface Props {
   project: Project;
-  /** One of 一 二 三 四 五, shoji grid only. */
-  numeral?: string;
 }
-const { project, numeral } = Astro.props;
+const { project } = Astro.props;
 const { title, slug, summary, status, stack } = project.data;
 ---
 
 <div class="ma-project">
   <p class="ma-label">{statusLabel[status]}</p>
   <h3 class="ma-project__title">
-    {numeral && <span class="ma-numeral" lang="ja" aria-hidden="true">{numeral}</span>}<a href={workHref('classic', slug)}>{title}</a>
+    <a href={workHref('classic', slug)}>{title}</a>
   </h3>
   <p>{summary}</p>
   <p class="ma-label">{stack.join(' · ')}</p>

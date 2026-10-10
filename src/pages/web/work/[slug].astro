@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { render } from 'astro:content';
-import { getLensProjects, statusLabel, type Project } from '../../../lib/content';
+import { coverOf, factLabel, getLensProjects, statusLabel, type Project } from '../../../lib/content';
 import { workHref } from '../../../lib/lenses';
 import Header from '../../../lenses/web/Header.astro';
 import Icon from '../../../lenses/web/Icon.astro';
@@ -24,12 +23,13 @@ interface Props {
   next: Project;
 }
 const { project, index, next } = Astro.props;
-const { title, summary, role, status, stack, links, years, cover } = project.data;
-const { Content } = await render(project);
+const { title, summary, role, status, stack, links, years, facts, onchain } = project.data;
+const cover = coverOf(project);
 
 const outbound = [
   { label: 'live', url: links.live, missing: '[live link]' },
   { label: 'repo', url: links.repo, missing: '[repo link]' },
+  ...(onchain ? [{ label: onchain.network.toLowerCase(), url: onchain.url, missing: '' }] : []),
 ];
 ---
 
@@ -104,7 +104,18 @@ const outbound = [
             )
           }
 
-          <div class="sw-prose"><Content /></div>
+          {
+            facts.length > 0 && (
+              <dl class="sw-table sw-facts">
+                {facts.map(({ k, v }) => (
+                  <div>
+                    <dt>{factLabel(k)}</dt>
+                    <dd>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            )
+          }
 
           {
             next !== project && (
