@@ -20,6 +20,8 @@ const japanese = (weight) => ({
 });
 
 export default defineConfig({
+  // A GitHub Pages user site (the FemiOje.github.io repository), served from the domain root.
+  site: 'https://femioje.github.io',
   fonts: [
     {
       provider: fontProviders.local(),
