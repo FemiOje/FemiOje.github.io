@@ -1,0 +1,96 @@
+---
+import { Image } from 'astro:assets';
+import { factLabel, galleryOf, getLensProjects, statusLabel, type Project } from '../../lib/content';
+import { workHref } from '../../lib/lenses';
+import Layout from '../../lenses/home/Layout.astro';
+import Well from '../../lenses/home/Well.astro';
+
+export async function getStaticPaths() {
+  const { all } = await getLensProjects('home');
+  return all.map((project, i) => ({
+    params: { slug: project.data.slug },
+    props: { project, next: all[(i + 1) % all.length] },
+  }));
+}
+
+interface Props {
+  project: Project;
+  next: Project;
+}
+const { project, next } = Astro.props;
+const { title, summary, role, status, stack, links, years, facts, onchain } = project.data;
+
+const rows = [
+  { label: 'role', title: role },
+  { label: 'status', title: statusLabel[status] },
+  { label: 'stack', title: stack.join(' · ') },
+  { label: 'years', title: years },
+];
+const outbound = [
+  { label: 'live', url: links.live, missing: '[live link]' },
+  { label: 'repo', url: links.repo, missing: '[repo link]' },
+  ...(onchain ? [{ label: onchain.network.toLowerCase(), url: onchain.url, missing: '' }] : []),
+];
+---
+
+<Layout title={`${title} — Femi Ojetokun`} description={summary}>
+  <article class="ma-detail ma-container">
+    <header class="ma-detail__head">
+      <p class="ma-label"><a class="ma-link ma-detail__back" href="/#work">work</a> · {title.toLowerCase()}</p>
+      <h1 class="ma-h1">{title}</h1>
+      <p class="ma-lead">{summary}</p>
+    </header>
+
+    <Well project={project} class="ma-detail__well" sizes="(min-width: 1200px) 1072px, 90vw" loading="eager" />
+    {
+      galleryOf(project).map(({ image, alt }) => (
+        <div class="ma-well ma-detail__well">
+          <Image src={image} alt={alt} widths={[480, 800, 1200]} sizes="(min-width: 1200px) 1072px, 90vw" data-tall={image.height > image.width || undefined} />
+        </div>
+      ))
+    }
+
+    <div class="ma-detail__body">
+      {
+        facts.length > 0 && (
+          <dl class="ma-rows">
+            {facts.map(({ k, v }) => (
+              <div>
+                <dt class="ma-label">{factLabel(k)}</dt>
+                <dd>{v}</dd>
+              </div>
+            ))}
+          </dl>
+        )
+      }
+
+      <dl class="ma-rows ma-detail__meta">
+        {
+          rows.map(({ label, title }) => (
+            <div>
+              <dt class="ma-label">{label}</dt>
+              <dd>{title}</dd>
+            </div>
+          ))
+        }
+        {
+          outbound.map(({ label, url, missing }) => (
+            <div>
+              <dt class="ma-label">{label}</dt>
+              <dd>{url ? <a class="ma-link" href={url}>{url.replace(/^https?:\/\//, '')}</a> : missing}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      {
+        next !== project && (
+          <p class="ma-next">
+            <span class="ma-label">next project</span>
+            <a class="ma-link" href={workHref('home', next.data.slug)}>{next.data.title}</a>
+          </p>
+        )
+      }
+    </div>
+  </article>
+</Layout>

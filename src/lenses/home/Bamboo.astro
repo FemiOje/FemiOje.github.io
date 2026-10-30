@@ -1,0 +1,42 @@
+---
+// One cluster per page, hero only. Three stalks, nearest first.
+const stalks = [
+  { w: 11, tone: '--bamboo-1', ring: '--wood-beam', left: '56%', top: '4%', lean: -1.2, dur: 9,
+    segments: [92, 128, 140, 116, 134, 120], spray: { node: 1, side: 1, leaves: [14, 38, 62] } },
+  { w: 8, tone: '--bamboo-2', ring: '--wood-beam', left: '30%', top: '17%', lean: 1.4, dur: 11,
+    segments: [78, 112, 126, 104, 138, 118], spray: { node: 2, side: -1, leaves: [20, 48] } },
+  { w: 6, tone: '--bamboo-3', ring: '--lattice', left: '80%', top: '31%', lean: -0.6, dur: 10,
+    segments: [70, 98, 122, 108, 132], spray: null },
+];
+
+/** A lanceolate leaf growing from the origin along +x. */
+const leaf = (length: number) =>
+  `M0 0Q${length * 0.34} -6 ${length} 0Q${length * 0.34} 6 0 0Z`;
+---
+
+<div class="ma-bamboo" aria-hidden="true">
+  {
+    stalks.map(({ w, tone, ring, left, top, lean, dur, segments, spray }) => (
+      <div
+        class="ma-stalk"
+        style={`--w:${w}px;--tone:var(${tone});--ring:var(${ring});--left:${left};--top:${top};--lean:${lean}deg;--dur:${dur}s`}
+      >
+        <div class="ma-culm">
+          {segments.map((h) => <span style={`--h:${h}px`} />)}
+        </div>
+        {spray && (
+          <svg
+            class="ma-spray"
+            style={`--at:${segments.slice(0, spray.node).reduce((sum, h) => sum + h, 0)}px`}
+          >
+            <g transform={`scale(${spray.side} 1)`}>
+              {spray.leaves.map((angle, i) => (
+                <path d={leaf(58 - i * 8)} transform={`rotate(${angle})`} />
+              ))}
+            </g>
+          </svg>
+        )}
+      </div>
+    ))
+  }
+</div>

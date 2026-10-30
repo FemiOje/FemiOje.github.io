@@ -1,0 +1,763 @@
+/* Ma — the home lens. Every value here traces to DESIGN(MA).md. */
+
+[data-lens="home"] {
+  /* Paper */
+  --paper: #F4F0E6;
+  --paper-recess: #ECE6D7;
+  --paper-faint: #EAE4D4;
+
+  /* Wood and bamboo (decor, never text) */
+  --wood-beam: #D2C9AE;
+  --lattice: #D9D1BB;
+  --node: #C9C0A6;
+  --bamboo-1: #E6DFCA;
+  --bamboo-2: #EAE4D2;
+  --bamboo-3: #EDE8D8;
+  --numeral: #A39B85;
+
+  /* Ink */
+  --ink: #2B2A26;
+  --ink-soft: #625D52;
+
+  /* The one accent: the seal */
+  --seal: #B8412A;
+  --on-seal: #FBF8F1;
+
+  --mincho: var(--font-mincho);
+  --gothic: var(--font-gothic);
+
+  --gutter: clamp(24px, 5vw, 64px);
+  --kanji: clamp(120px, 16vw, 220px);
+  --hover: 160ms ease-out;
+
+  color-scheme: light;
+  background: var(--paper);
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+[data-lens="home"] *,
+[data-lens="home"] *::before,
+[data-lens="home"] *::after {
+  box-sizing: border-box;
+}
+
+[data-lens="home"] body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 16px/1.8 var(--gothic);
+  letter-spacing: 0.02em;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+[data-lens="home"] :where(h1, h2, h3, p, ul, ol, dl, dd, figure) {
+  margin: 0;
+}
+[data-lens="home"] :where(ul, ol) {
+  padding: 0;
+  list-style: none;
+}
+[data-lens="home"] :where(a) {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+  transition: color var(--hover), background-color var(--hover);
+}
+[data-lens="home"] :focus-visible {
+  outline: 2px solid var(--seal);
+  outline-offset: 3px;
+}
+[data-lens="home"] :where(h1, h2, h3) {
+  text-wrap: balance;
+}
+[data-lens="home"] :where(p, dd) {
+  text-wrap: pretty;
+}
+[data-lens="home"] ::selection {
+  background: var(--lattice);
+  color: var(--ink);
+}
+/* All Japanese is set in Mincho, wherever it appears. */
+[data-lens="home"] :lang(ja) {
+  font-family: var(--mincho);
+}
+[data-lens="home"] [hidden] {
+  display: none !important;
+}
+
+.ma-container {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.ma-skip {
+  position: absolute;
+  left: var(--gutter);
+  top: -100px;
+  padding: 10px 16px;
+  background: var(--paper);
+  font-size: 14px;
+}
+.ma-skip:focus {
+  top: 12px;
+  z-index: 2;
+}
+
+/* Type roles */
+.ma-label {
+  color: var(--ink-soft);
+  font-size: 13px;
+  line-height: 1.6;
+  letter-spacing: 0.12em;
+}
+.ma-h2 {
+  font: 400 clamp(32px, 3.6vw, 48px) / 1.2 var(--mincho);
+  letter-spacing: 0;
+}
+.ma-soft {
+  color: var(--ink-soft);
+}
+.ma-link:hover {
+  color: var(--ink-soft);
+}
+
+/* Header */
+.ma-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px clamp(16px, 2.6vw, 36px);
+  padding-block: 28px;
+}
+/* Sticky from tablet up; on phones the header stacks, so it scrolls away instead. The spread paints the paper edge to edge. */
+@media (min-width: 768px) {
+  [data-lens="home"] {
+    scroll-padding-top: 164px;
+  }
+  .ma-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--paper);
+    box-shadow: 0 0 0 100vmax var(--paper);
+    clip-path: inset(0 -100vmax);
+  }
+}
+@media (min-width: 1200px) {
+  [data-lens="home"] {
+    scroll-padding-top: 112px;
+  }
+}
+.ma-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  margin-right: auto;
+  font: 400 17px/1.2 var(--mincho);
+  letter-spacing: 0;
+  text-decoration: none;
+}
+/* The site's mark, at the 32px it is drawn for. */
+.ma-mark svg {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+.ma-nav ul {
+  display: flex;
+  margin-inline: -8px;
+}
+.ma-nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding-inline: 12px;
+  color: var(--ink-soft);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+}
+.ma-nav a:hover {
+  color: var(--ink);
+}
+.ma-clock {
+  color: var(--ink-soft);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Lens switcher */
+.ma-lens ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-inline: -8px;
+}
+.ma-lens li {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+}
+/* The dot trails its word, so a wrapped line never starts with one. */
+.ma-lens li:not(:last-child)::after {
+  content: "·";
+  color: var(--ink-soft);
+}
+.ma-lens__item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  padding-inline: 8px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.ma-lens a.ma-lens__item:hover,
+.ma-lens__item[aria-current="page"] {
+  color: var(--ink);
+}
+.ma-lens__mark {
+  width: 6px;
+  height: 6px;
+  background: var(--seal);
+}
+
+/* Bamboo divider */
+.ma-divider {
+  position: relative;
+  height: 11px;
+}
+.ma-divider::before {
+  content: "";
+  position: absolute;
+  inset: 5px 0 auto;
+  border-top: 1px solid var(--lattice);
+}
+.ma-divider::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--at, 30%);
+  width: 5px;
+  height: 11px;
+  border-inline: 1px solid var(--node);
+  background: var(--paper);
+}
+
+/* Hero (genkan) */
+.ma-hero {
+  position: relative;
+  overflow: clip;
+  display: flex;
+  align-items: center;
+  /* With the header (about 100px) the hero fills the first screen. */
+  min-height: max(560px, calc(100svh - 100px));
+  padding-block: clamp(48px, 6vw, 96px);
+}
+.ma-hero > .ma-container {
+  position: relative;
+  width: 100%;
+}
+/* 間 sits behind the text, in the paper, and takes no room of its own. */
+.ma-hero__kanji {
+  position: absolute;
+  left: calc(var(--gutter) - 0.34em);
+  top: -0.3em;
+  color: var(--paper-faint);
+  font: 400 var(--kanji) / 1 var(--mincho);
+  letter-spacing: 0;
+  pointer-events: none;
+  user-select: none;
+}
+.ma-hero__row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 320px);
+  align-items: end;
+  gap: 48px clamp(32px, 6vw, 96px);
+}
+.ma-hero__stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 36px;
+}
+.ma-h1 {
+  max-width: 13ch;
+  font: 400 clamp(44px, 6.4vw, 96px) / 1.14 var(--mincho);
+  letter-spacing: -0.005em;
+}
+.ma-lead {
+  max-width: 40ch;
+  font-size: clamp(16px, 1.3vw, 18px);
+  line-height: 1.9;
+}
+.ma-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 32px;
+}
+.ma-enter {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
+.ma-enter:hover {
+  background: var(--paper-recess);
+}
+.ma-enter svg {
+  width: 22px;
+  height: 8px;
+}
+.ma-actions .ma-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.ma-hero__lens {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Bamboo cluster */
+.ma-bamboo {
+  position: relative;
+  justify-self: end;
+  width: 100%;
+  max-width: 320px;
+  height: clamp(300px, 42vw, 540px);
+  overflow: hidden;
+}
+.ma-stalk {
+  position: absolute;
+  top: var(--top);
+  bottom: 0;
+  left: var(--left);
+  width: var(--w);
+  transform-origin: 50% 100%;
+  rotate: var(--lean);
+}
+.ma-culm {
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--w) var(--w) 0 0;
+}
+.ma-culm span {
+  display: block;
+  height: var(--h);
+  border-bottom: 2px solid var(--ring);
+  background: var(--tone);
+}
+.ma-spray {
+  position: absolute;
+  left: 50%;
+  top: var(--at);
+  width: 1px;
+  height: 1px;
+  overflow: visible;
+}
+.ma-spray path {
+  fill: var(--tone);
+  stroke: var(--node);
+  stroke-width: 1;
+}
+@keyframes ma-sway {
+  0%, 100% { rotate: calc(var(--lean) - 1.6deg); }
+  50% { rotate: calc(var(--lean) + 1.6deg); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ma-stalk {
+    animation: ma-sway var(--dur) ease-in-out infinite;
+  }
+}
+
+/* Sections */
+.ma-work {
+  padding-top: clamp(96px, 12vw, 168px);
+}
+.ma-about {
+  padding-top: clamp(120px, 14vw, 200px);
+}
+.ma-contact {
+  padding-top: clamp(140px, 16vw, 240px);
+  padding-bottom: clamp(96px, 12vw, 160px);
+}
+.ma-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+.ma-section-head {
+  display: flex;
+  gap: 28px;
+}
+.ma-section-head__text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Project filters: quiet words in a row, like the lens switcher. The chosen one is
+   ink with a hairline under it; the seal colour stays off it. */
+.ma-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 32px;
+}
+.ma-filters ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-inline: -8px;
+}
+.ma-filters li {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+}
+.ma-filters li:not(:last-child)::after {
+  content: "·";
+  color: var(--ink-soft);
+}
+.ma-filters__item {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  background: none;
+  color: var(--ink-soft);
+  font: inherit;
+  letter-spacing: inherit;
+  white-space: nowrap;
+  text-decoration: underline 1px transparent;
+  text-underline-offset: 6px;
+  cursor: pointer;
+  transition: color var(--hover), text-decoration-color var(--hover);
+}
+.ma-filters__item:hover,
+.ma-filters__item[aria-pressed="true"] {
+  color: var(--ink);
+}
+.ma-filters__item[aria-pressed="true"] {
+  text-decoration-color: var(--ink);
+}
+/* Filtered-out projects leave the room entirely. */
+.ma-work [hidden] {
+  display: none;
+}
+
+/* Image wells */
+.ma-well {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--paper-recess);
+  text-align: center;
+}
+.ma-well img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Tokonoma */
+.ma-tokonoma-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.ma-tokonoma {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  align-items: end;
+  gap: clamp(24px, 4vw, 56px);
+  padding: clamp(24px, 4vw, 56px);
+  border-top: 3px solid var(--wood-beam);
+  border-radius: 0 0 2px 2px;
+  background: var(--paper-recess);
+}
+.ma-tokonoma .ma-well {
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--lattice);
+  background: var(--paper);
+}
+.ma-project {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.ma-project__title {
+  font: 500 26px/1.2 var(--mincho);
+  letter-spacing: 0;
+}
+.ma-tokonoma .ma-project__title {
+  font-size: 34px;
+}
+.ma-project__title a {
+  text-decoration: none;
+}
+.ma-project__title a:hover {
+  color: var(--ink-soft);
+}
+/* The whole card is the target; the title stays the accessible link. */
+.ma-project__title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+/* Shoji grid. Each cell's 1px outline fills the 1px gap it shares with its neighbours, so the
+   lattice lines stay single, and a row that is not full (an odd count, or a filter) leaves plain
+   paper beside it instead of a block of lattice. */
+.ma-shoji {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 1px;
+  padding: 1px;
+}
+.ma-shoji__cell {
+  position: relative;
+  outline: 1px solid var(--lattice);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: clamp(24px, 3.5vw, 44px);
+  background: var(--paper);
+}
+.ma-shoji .ma-well {
+  aspect-ratio: 4 / 3;
+}
+
+/* other work and personal projects: dense hairline rows after the shoji. The whole row is the link's target. */
+.ma-worklist {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.ma-worklist li {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr) auto;
+  gap: 4px 24px;
+  align-items: baseline;
+  padding-block: 14px;
+  border-top: 1px solid var(--lattice);
+}
+.ma-worklist li:last-child {
+  border-bottom: 1px solid var(--lattice);
+}
+.ma-worklist li:hover a {
+  color: var(--ink-soft);
+}
+.ma-worklist a {
+  text-decoration: none;
+}
+.ma-worklist a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.ma-worklist__years {
+  font-variant-numeric: tabular-nums;
+}
+
+/* About */
+.ma-bio {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  max-width: 56ch;
+  font: 400 clamp(19px, 1.6vw, 22px) / 1.85 var(--mincho);
+  letter-spacing: 0;
+}
+.ma-about__body {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+.ma-rows > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 3fr);
+  gap: 4px 24px;
+  align-items: baseline;
+  padding-block: 20px;
+  border-top: 1px solid var(--lattice);
+}
+.ma-rows > div:last-child {
+  border-bottom: 1px solid var(--lattice);
+}
+
+/* Contact */
+.ma-contact__headline {
+  font: 400 clamp(40px, 5.6vw, 80px) / 1.15 var(--mincho);
+  letter-spacing: 0;
+}
+.ma-contact__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 56px;
+}
+.ma-contact__links li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ma-contact__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* Footer */
+.ma-footer__row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 32px;
+  padding-block: 28px 40px;
+  color: var(--ink-soft);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+}
+
+/* Project detail */
+.ma-detail__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 36px;
+  padding-top: clamp(96px, 14vw, 200px);
+  padding-bottom: 56px;
+}
+.ma-detail__back {
+  display: inline-block;
+  padding-block: 12px;
+  margin-block: -12px;
+}
+.ma-detail .ma-h1 {
+  max-width: 16ch;
+}
+.ma-detail__well {
+  aspect-ratio: 16 / 9;
+}
+/* A portrait image (an adventurer card, a phone screen) sits whole in its well, not cropped. */
+.ma-well img[data-tall] {
+  object-fit: contain;
+}
+.ma-detail__body {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  padding-top: 56px;
+  padding-bottom: clamp(96px, 12vw, 160px);
+}
+.ma-detail__meta {
+  max-width: 880px;
+}
+.ma-next {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.ma-next a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font: 500 26px/1.2 var(--mincho);
+  letter-spacing: 0;
+}
+
+/* Below 1200px the header becomes two rows: name and clock, then nav and switcher. */
+@media (max-width: 1199.98px) {
+  .ma-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .ma-clock {
+    grid-area: 1 / 2;
+    justify-self: end;
+  }
+  .ma-header .ma-lens {
+    justify-self: end;
+  }
+}
+
+/* Below 768px everything stacks. */
+@media (max-width: 767.98px) {
+  .ma-nav,
+  .ma-header .ma-lens {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+  /* Four words do not fit one phone line: set them two by two. */
+  .ma-lens ul {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: start;
+    justify-items: start;
+    column-gap: 16px;
+  }
+  .ma-lens li:not(:last-child)::after {
+    content: none;
+  }
+  .ma-hero__row,
+  .ma-tokonoma {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ma-bamboo {
+    height: 300px;
+  }
+  .ma-rows > div {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ma-worklist li {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .ma-worklist li > :nth-child(2) {
+    grid-row: 2;
+  }
+}
+
+/* Page and lens transitions: crossfade only. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 240ms;
+  animation-timing-function: ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-lens="home"] {
+    scroll-behavior: auto;
+  }
+  [data-lens="home"] *,
+  [data-lens="home"] *::before,
+  [data-lens="home"] *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

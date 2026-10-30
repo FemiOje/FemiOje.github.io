@@ -1,0 +1,33 @@
+---
+import { Image } from 'astro:assets';
+import { coverOf, statusLabel, type Project } from '../../lib/content';
+import { workHref } from '../../lib/lenses';
+
+interface Props {
+  project: Project;
+  /** Place in the lens order, from 0. */
+  index: number;
+}
+const { project, index } = Astro.props;
+const { title, slug, summary, status, stack } = project.data;
+const cover = coverOf(project);
+---
+
+<article class="card" data-inspect="card">
+  <div class="card__meta">
+    <span>{String(index + 1).padStart(2, '0')}</span>
+    <span>{statusLabel[status]}</span>
+  </div>
+  <div class="card__well">
+    {
+      cover ? (
+        <Image src={cover} alt={`${title} screenshot`} widths={[320, 480, 720]} sizes="(min-width: 720px) 300px, 90vw" />
+      ) : (
+        '[project screenshot]'
+      )
+    }
+  </div>
+  <h3><a href={workHref('web', slug)}>{title}</a></h3>
+  <p>{summary}</p>
+  <span class="card__stack">{stack.join(' · ').toLowerCase()}</span>
+</article>

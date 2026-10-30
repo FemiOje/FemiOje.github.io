@@ -1,0 +1,34 @@
+---
+// The browser's tabs are the lens switcher (AGENTS.md §4).
+import { lenses } from '../../lib/lenses';
+---
+
+<nav class="lens-tabs" aria-label="Choose a lens">
+  <ul>
+    {
+      lenses.map(({ id, href, ready }) => (
+        <li>
+          {ready ? (
+            <a class="lens-tab" href={href} data-lens-link={id} aria-current={id === 'web' ? 'page' : undefined}>
+              <span class="fav" aria-hidden="true">
+                {id[0]}
+              </span>
+              {id}
+            </a>
+          ) : (
+            <span class="lens-tab" aria-disabled="true">
+              <span class="fav" aria-hidden="true">
+                {id[0]}
+              </span>
+              {id}
+              <span class="lens-tab__soon" aria-hidden="true">
+                soon
+              </span>
+              <span class="sr">, coming soon</span>
+            </span>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</nav>

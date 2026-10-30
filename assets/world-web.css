@@ -1,0 +1,94 @@
+/* Web world: a browser window with the inspector open. Re-points the shared variables to a blue palette. */
+:root[data-world="web"], .scope-web {
+  --bg: #0e1014;
+  --surface: #161920;
+  --surface-2: #1e222b;
+  --line: #2a2f3a;
+  --text: #e6e8ec;
+  --muted: #8b93a1;
+  --accent: #60a5fa;
+  --accent-ink: #07111f;
+  --accent-soft: rgba(96, 165, 250, .14);
+  --tk-t: #f472b6;
+  --tk-a: #fbbf77;
+  --tk-v: #7dd3fc;
+}
+:root[data-world="web"][data-theme="light"], :root[data-theme="light"] .scope-web {
+  --bg: #edf0f4;
+  --surface: #ffffff;
+  --surface-2: #f2f4f7;
+  --line: #dce1e9;
+  --text: #171a1f;
+  --muted: #646b78;
+  --accent: #2563eb;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(37, 99, 235, .1);
+  --tk-t: #a21a6b;
+  --tk-a: #9a4a00;
+  --tk-v: #1a4fb0;
+}
+:root[data-world="web"] .hero { padding: 0; }
+:root[data-world="web"] .eyebrow { margin: 0; }
+
+.browser { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+.tabs { display: flex; gap: 2px; padding: 8px 8px 0; background: var(--surface-2); overflow-x: auto; scrollbar-width: thin; }
+.tab { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; max-width: 190px; padding: 8px 14px; border-radius: 8px 8px 0 0; color: var(--muted); font-size: 13.5px; white-space: nowrap; }
+.tab span { overflow: hidden; text-overflow: ellipsis; }
+.tab:hover { text-decoration: none; color: var(--text); background: var(--line); }
+.tab.active { background: var(--surface); color: var(--text); }
+.fav { flex: 0 0 auto; width: 10px; height: 10px; border-radius: 3px; background: var(--muted); }
+.tab.active .fav { background: var(--accent); }
+
+.toolbar { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+.tb-btn { color: var(--muted); width: 26px; text-align: center; font-size: 16px; }
+.url { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 14px; background: var(--surface-2); border-radius: 999px; }
+.url span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lock { font-size: 12px; }
+.toolbar .btn { white-space: nowrap; padding: 6px 12px; }
+
+.viewport { background: var(--bg); }
+.viewport img { display: block; width: 100%; max-height: 440px; object-fit: cover; object-position: top; border-bottom: 1px solid var(--line); }
+.page { padding: 22px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.page h1 { font-size: clamp(24px, 3.6vw, 34px); letter-spacing: -.02em; line-height: 1.15; font-weight: 600; }
+.page p { max-width: 70ch; }
+.page .muted { font-size: 13px; }
+
+.devtools { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); border-top: 2px solid var(--line); }
+.dt-pane { min-width: 0; }
+.dt-pane + .dt-pane { border-left: 1px solid var(--line); }
+.dt-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 12px; background: var(--surface-2); border-bottom: 1px solid var(--line); font-size: 12.5px; }
+.dt-tab { padding: 8px 2px; border-bottom: 2px solid var(--accent); color: var(--text); font-weight: 500; }
+.dt-body { padding: 10px 0; font-size: 13px; overflow-x: auto; }
+.code { line-height: 1.7; }
+.ln { padding-right: 12px; overflow-wrap: anywhere; }
+.ln:hover { background: var(--accent-soft); }
+.tk-p { color: var(--muted); }
+.tk-t { color: var(--tk-t); }
+.tk-a { color: var(--tk-a); }
+.tk-v, .tk-link { color: var(--tk-v); }
+.nw { display: grid; grid-template-columns: minmax(0, 1fr) 62px 76px 88px; gap: 10px; padding: 7px 12px; border-bottom: 1px solid var(--line); align-items: baseline; }
+.nw:last-child { border-bottom: 0; }
+.nw-head { color: var(--muted); font-size: 12px; padding-top: 0; }
+.nw-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.st-ok { color: var(--ok); }
+.st-pend { color: var(--muted); }
+
+/* ── hub preview ── */
+.pv-web .viewport { display: block; color: var(--text); }
+.pv-web .viewport:hover { text-decoration: none; }
+.pv-web .viewport img { max-height: 240px; }
+.pv-web .page { flex-direction: row; align-items: center; padding: 14px 16px; }
+.pv-web .page h3 { margin: 0; font-size: 17px; font-weight: 600; }
+.pv-web .dt-head { border-top: 2px solid var(--line); }
+.pv-web .dt-body { padding: 6px 0; }
+
+@media (max-width: 820px) {
+  .devtools { grid-template-columns: 1fr; }
+  .dt-pane + .dt-pane { border-left: 0; border-top: 1px solid var(--line); }
+}
+@media (max-width: 560px) {
+  .tb-btn { display: none; }
+  .nw { grid-template-columns: minmax(0, 1fr) 56px 70px; }
+  .nw span:last-child { display: none; }
+  .page { padding: 16px; }
+}

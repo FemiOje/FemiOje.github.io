@@ -1,0 +1,37 @@
+---
+// The docked developer tools. The shell is static; interactions.ts fills the tree, the Styles
+// pane and the Console from the page beside it.
+import Icon from './Icon.astro';
+---
+
+<aside id="devtools" class="devtools" aria-label="Developer tools">
+  <div class="dt-bar">
+    <button class="dt-icon" type="button" data-inspect-mode aria-pressed="false" aria-label="Select an element on the page">
+      <Icon name="pick" />
+    </button>
+    <button class="dt-icon" type="button" data-device-toggle aria-pressed="false" aria-label="Toggle device toolbar">
+      <Icon name="phone" />
+    </button>
+    <span class="dt-sep" aria-hidden="true"></span>
+    <button class="dt-tab" type="button" data-tab="elements" aria-pressed="true">Elements</button>
+    <button class="dt-tab" type="button" data-tab="console" aria-pressed="false">Console</button>
+    <span class="dt-spacer"></span>
+    <span class="dt-size" data-device-size hidden></span>
+    <button class="dt-icon" type="button" data-close aria-label="Close developer tools">
+      <Icon name="close" />
+    </button>
+  </div>
+  <div class="dt-elements" data-panel="elements">
+    <div class="tree" data-tree></div>
+    <div class="crumb" data-crumb></div>
+    <div class="styles" data-styles></div>
+  </div>
+  <div class="dt-console" data-panel="console" hidden>
+    <div class="con-log" data-log aria-live="polite"></div>
+    <div class="con-chips" data-chips></div>
+    <div class="con-input">
+      <label for="con-in">›<span class="sr">Console input</span></label>
+      <input id="con-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type a command, e.g. about()" />
+    </div>
+  </div>
+</aside>

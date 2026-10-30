@@ -1,0 +1,134 @@
+import { defineConfig, fontProviders } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
+
+// Fonts are self-hosted: Latin from the installed @fontsource packages, and the handful
+// of approved Japanese glyphs from a hand-made subset (see scripts/subset-ja.mjs).
+const LATIN =
+  'U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2190-2193,U+2212,U+2215,U+FEFF,U+FFFD';
+const JAPANESE = 'U+3040-30FF,U+4E00-9FFF';
+
+const latin = (pkg, weight) => ({
+  src: [`@fontsource/${pkg}/files/${pkg}-latin-${weight}-normal.woff2`],
+  weight,
+  style: 'normal',
+  unicodeRange: [LATIN],
+});
+const japanese = (weight) => ({
+  src: [`./src/lenses/home/fonts/shippori-mincho-ma-${weight}.woff2`],
+  weight,
+  style: 'normal',
+  unicodeRange: [JAPANESE],
+});
+
+export default defineConfig({
+  // A GitHub Pages user site (the FemiOje.github.io repository), served from the domain root.
+  site: 'https://femioje.github.io',
+  integrations: [
+    sitemap({
+      // A lens's copy of a project page points its canonical at the home lens's /work/<slug>/,
+      // so only that copy is listed.
+      filter: (page) => !/\/(?:web|games|blockchain)\/work\//.test(page),
+    }),
+  ],
+  fonts: [
+    {
+      provider: fontProviders.local(),
+      name: 'Shippori Mincho',
+      cssVariable: '--font-mincho',
+      fallbacks: ['Hiragino Mincho ProN', 'Yu Mincho', 'serif'],
+      options: {
+        variants: [latin('shippori-mincho', 400), latin('shippori-mincho', 500), japanese(400), japanese(500)],
+      },
+    },
+    {
+      // Variable, with the optical-size axis, so display sizes pick up the Display design.
+      provider: fontProviders.local(),
+      name: 'Inter',
+      cssVariable: '--font-inter',
+      fallbacks: ['Helvetica Neue', 'Arial', 'sans-serif'],
+      options: {
+        variants: [
+          {
+            src: ['@fontsource-variable/inter/files/inter-latin-opsz-normal.woff2'],
+            weight: '100 900',
+            style: 'normal',
+            unicodeRange: [LATIN],
+          },
+        ],
+      },
+    },
+    {
+      // The web lens's page and chrome face, at normal width.
+      provider: fontProviders.local(),
+      name: 'Archivo',
+      cssVariable: '--font-archivo',
+      fallbacks: ['Helvetica Neue', 'Arial', 'sans-serif'],
+      options: {
+        variants: [
+          {
+            src: ['@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2'],
+            weight: '100 900',
+            style: 'normal',
+            unicodeRange: [LATIN],
+          },
+        ],
+      },
+    },
+    {
+      // The web lens's code face: everything inside its developer tools.
+      provider: fontProviders.local(),
+      name: 'JetBrains Mono',
+      cssVariable: '--font-jetbrains-mono',
+      fallbacks: ['ui-monospace', 'Menlo', 'Consolas', 'monospace'],
+      options: {
+        variants: [latin('jetbrains-mono', 400), latin('jetbrains-mono', 500), latin('jetbrains-mono', 700)],
+      },
+    },
+    {
+      // The blockchain lens's text face: the LaTeX one, from the files latex.css ships (GUST Font License).
+      provider: fontProviders.local(),
+      name: 'Latin Modern Roman',
+      cssVariable: '--font-latin-modern',
+      fallbacks: ['Times New Roman', 'serif'],
+      options: {
+        variants: [
+          { src: ['latex.css/fonts/LM-regular.woff2'], weight: 400, style: 'normal' },
+          { src: ['latex.css/fonts/LM-italic.woff2'], weight: 400, style: 'italic' },
+          { src: ['latex.css/fonts/LM-bold.woff2'], weight: 700, style: 'normal' },
+          { src: ['latex.css/fonts/LM-bold-italic.woff2'], weight: 700, style: 'italic' },
+        ],
+      },
+    },
+    {
+      provider: fontProviders.local(),
+      name: 'IBM Plex Mono',
+      cssVariable: '--font-plex-mono',
+      fallbacks: ['ui-monospace', 'Menlo', 'monospace'],
+      options: {
+        variants: [latin('ibm-plex-mono', 400), latin('ibm-plex-mono', 500), latin('ibm-plex-mono', 600)],
+      },
+    },
+    {
+      // The games lens's display face: headings, labels, buttons. Never paragraphs.
+      provider: fontProviders.local(),
+      name: 'Pixelify Sans',
+      cssVariable: '--font-pixelify',
+      fallbacks: ['Courier New', 'monospace'],
+      options: { variants: [latin('pixelify-sans', 400), latin('pixelify-sans', 500)] },
+    },
+    {
+      provider: fontProviders.local(),
+      name: 'Atkinson Hyperlegible',
+      cssVariable: '--font-atkinson',
+      fallbacks: ['system-ui', 'Segoe UI', 'sans-serif'],
+      options: { variants: [latin('atkinson-hyperlegible', 400), latin('atkinson-hyperlegible', 700)] },
+    },
+    {
+      provider: fontProviders.local(),
+      name: 'Zen Kaku Gothic New',
+      cssVariable: '--font-gothic',
+      fallbacks: ['Hiragino Sans', 'Yu Gothic', 'system-ui', 'sans-serif'],
+      options: { variants: [latin('zen-kaku-gothic-new', 400)] },
+    },
+  ],
+});

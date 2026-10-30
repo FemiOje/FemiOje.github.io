@@ -1,0 +1,59 @@
+---
+// Search and social metadata, shared by every lens's <head>. It renders nothing visible, so the
+// lenses still share no layout or styling (AGENTS.md §2). The favicon is shared on purpose: every
+// tab shows the same mark, so the four lenses read as one site. Raster icons: `pnpm brand`.
+import { getProfile } from './content';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+const { data: profile } = await getProfile();
+
+// Pages are served as directories (`/web/`), so every URL we publish ends in a slash.
+const path = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+// A project page repeats in every lens that shows it; the home lens's copy is the one to index.
+// Every project is in the home lens, so `/work/<slug>/` always exists.
+const canonicalPath = path.replace(/^\/(?:web|games|blockchain)(?=\/work\/)/, '');
+const canonical = new URL(canonicalPath, Astro.site);
+const card = new URL('/og.png', Astro.site);
+
+const isLensHome = ['/', '/web/', '/games/', '/blockchain/'].includes(path);
+const xHandle = profile.links.find(({ label }) => label === 'x')?.url.match(/x\.com\/([^/?#]+)/)?.[1];
+
+// Who the site is about, for search engines. Only facts from data/portfolio.js.
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.fullName,
+  alternateName: profile.name,
+  jobTitle: profile.role,
+  url: new URL('/', Astro.site).href,
+  ...(profile.email.startsWith('[') ? {} : { email: `mailto:${profile.email}` }),
+  sameAs: profile.links.map(({ url }) => url),
+};
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical.href} />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+<meta property="og:type" content={isLensHome ? 'profile' : 'article'} />
+<meta property="og:site_name" content={profile.name} />
+<meta property="og:locale" content="en_GB" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical.href} />
+<meta property="og:image" content={card.href} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="femi ojetokun · software engineer · web, blockchain, games" />
+<meta name="twitter:card" content="summary_large_image" />
+{xHandle && <meta name="twitter:creator" content={`@${xHandle}`} />}
+
+{isLensHome && <script type="application/ld+json" set:html={JSON.stringify(person)} />}

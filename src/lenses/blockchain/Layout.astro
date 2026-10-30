@@ -1,0 +1,43 @@
+---
+import { Font } from 'astro:assets';
+import { ClientRouter, fade } from 'astro:transitions';
+import Seo from '../../lib/Seo.astro';
+import Colophon from './Colophon.astro';
+import RunHead from './RunHead.astro';
+import './whitepaper.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-lens="blockchain" transition:animate={fade({ duration: '180ms' })}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Seo title={title} description={description} />
+    <meta name="theme-color" content="#FCFCFA" />
+    <Font cssVariable="--font-latin-modern" preload={[{ weight: 400, style: 'normal' }]} />
+    <Font cssVariable="--font-plex-mono" preload={[{ weight: 400 }]} />
+    <ClientRouter />
+  </head>
+  <body class="justify">
+    <a class="skip mono" href="#main">skip to content</a>
+    <RunHead />
+    <main id="main" class="container" tabindex="-1">
+      <slot />
+      <pre class="cite-fallback" data-cite-fallback tabindex="0" hidden></pre>
+    </main>
+    <Colophon />
+    <p class="sr-only" aria-live="polite" data-cite-status></p>
+    <script>
+      import '../../lib/client/lens-memory';
+      import '../../lib/client/lens-transition';
+      import '../../lib/client/clock';
+      import './interactions';
+    </script>
+  </body>
+</html>

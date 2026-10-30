@@ -1,0 +1,26 @@
+---
+import type { Project } from '../../lib/content';
+import { filtersFor } from '../../lib/filters';
+
+interface Props {
+  /** Every project the filters act on. */
+  projects: Project[];
+}
+const { projects } = Astro.props;
+const total = projects.length;
+---
+
+<div class="ma-filters">
+  <ul role="group" aria-label="Filter projects">
+    {
+      filtersFor(projects).map(({ tag, label }) => (
+        <li>
+          <button class="ma-filters__item" type="button" aria-pressed={tag === 'all' ? 'true' : 'false'} data-filter={tag}>
+            {label}
+          </button>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="ma-label" aria-live="polite" data-count>{total} {total === 1 ? 'project' : 'projects'}</p>
+</div>

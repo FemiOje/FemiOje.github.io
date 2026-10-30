@@ -1,0 +1,238 @@
+---
+import { Image } from 'astro:assets';
+import { coverOf, factLabel, galleryOf, getLensProjects, getProfile, statusLabel, type Project } from '../../../lib/content';
+import { workHref } from '../../../lib/lenses';
+import Cite from '../../../lenses/blockchain/Cite.astro';
+import CodeFigure from '../../../lenses/blockchain/CodeFigure.astro';
+import Layout from '../../../lenses/blockchain/Layout.astro';
+import { getLedger, short, type Block } from '../../../lenses/blockchain/ledger';
+import { bare, citeKey, deploymentOf, initialled, standing, yearOf } from '../../../lenses/blockchain/paper';
+
+export async function getStaticPaths() {
+  const { featuredFirst: projects } = await getLensProjects('blockchain');
+  const ledger = await getLedger();
+  return projects.map((project, index) => ({
+    params: { slug: project.data.slug },
+    props: {
+      project,
+      index,
+      next: projects[(index + 1) % projects.length],
+      blocks: ledger.filter((block) => block.project === project.data.slug).reverse(),
+    },
+  }));
+}
+
+interface Props {
+  project: Project;
+  /** Place in the lens order; the same number as on the home page (`2.<index + 1>`). */
+  index: number;
+  next: Project;
+  /** Its entries in the ledger, newest first. */
+  blocks: Block[];
+}
+const { project, index, next, blocks } = Astro.props;
+const { title, slug, summary, role, status, stack, links, years, facts, upstream, onchain, excerpt, net } = project.data;
+const { data: profile } = await getProfile();
+const cover = coverOf(project);
+const shots = [...(cover ? [{ image: cover, alt: `${title} screenshot` }] : []), ...galleryOf(project)];
+const { live, label } = standing(project);
+const deployment = deploymentOf(project);
+const year = yearOf(project);
+
+// Sections, figures and tables are numbered in page order, and only the ones this project has appear.
+let sections = 0;
+let figures = 0;
+let tables = 0;
+
+const references = [
+  links.repo && { text: `${title}. Source repository.`, url: links.repo },
+  upstream && { text: `${upstream}. Upstream repository.`, url: `https://github.com/${upstream}` },
+  onchain && { text: `${title}. Contract on ${onchain.network}.`, url: onchain.url },
+  links.live && { text: `${title}. Live deployment.`, url: links.live },
+  ...blocks.map((block) => ({ text: `${block.note}. ${block.day}.`, url: block.url })),
+]
+  .filter((ref) => !!ref)
+  // A block often cites the repo or the deployment itself; list each address once.
+  .filter((ref, i, refs) => refs.findIndex(({ url }) => url === ref.url) === i);
+---
+
+<Layout title={`${title} — ${profile.name}`} description={summary}>
+  <article>
+    <header class="titleblock prose" data-section="title" aria-labelledby="title">
+      <p class="kicker mono">
+        paper 2.{index + 1} · <span class="status" data-live={live ? '' : undefined}><span class="dot" aria-hidden="true"></span>{label}</span>
+      </p>
+      <h1 id="title">{title}</h1>
+      <p class="authors">{initialled(profile.fullName)}</p>
+      <p class="date">{years} · {role.toLowerCase()}</p>
+      <div class="abstract">
+        <h2>Abstract</h2>
+        <p>{summary}</p>
+      </div>
+      <p class="keywords"><b>Keywords:</b> {stack.join(' · ').toLowerCase()}</p>
+      <p class="paper-links mono">
+        {links.repo && <a href={links.repo}>code ↗</a>}
+        {deployment && <a href={deployment}>deployment ↗</a>}
+        <Cite citekey={citeKey(profile.fullName, year, slug)} title={title} year={year} url={workHref('blockchain', slug)} note={summary} />
+      </p>
+    </header>
+
+    <section class="section prose" data-section={`§${++sections} record`} aria-labelledby="h-record">
+      <h2 id="h-record"><span>{sections}</span>{deployment ? 'Deployment record' : 'Record'}</h2>
+      <dl class="record mono">
+        <dt>role</dt>
+        <dd>{role.toLowerCase()}</dd>
+        <dt>status</dt>
+        <dd>{statusLabel[status]}</dd>
+        {
+          net && (
+            <>
+              <dt>net</dt>
+              <dd>{net}</dd>
+            </>
+          )
+        }
+        <dt>years</dt>
+        <dd>{years}</dd>
+        {
+          onchain && (
+            <>
+              <dt>chain</dt>
+              <dd>{onchain.network.toLowerCase()}</dd>
+              <dt>contracts</dt>
+              <dd>
+                <a href={onchain.url}>{onchain.address}</a> ↗
+              </dd>
+            </>
+          )
+        }
+        <dt>stack</dt>
+        <dd>{stack.join(' · ').toLowerCase()}</dd>
+        {
+          upstream && (
+            <>
+              <dt>upstream</dt>
+              <dd>
+                <a href={`https://github.com/${upstream}`}>{upstream}</a> ↗
+              </dd>
+            </>
+          )
+        }
+      </dl>
+      {
+        facts.length > 0 && (
+          <table class="booktabs">
+            <caption>
+              <b>Table {++tables}:</b> parameters of {title}.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">parameter</th>
+                <th scope="col">value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {facts.map(({ k, v }) => (
+                <tr>
+                  <td>{factLabel(k)}</td>
+                  <td>{v}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )
+      }
+    </section>
+
+    {
+      (excerpt || shots.length > 0) && (
+        <section class="section prose" data-section={`§${++sections} figures`} aria-labelledby="h-figures">
+          <h2 id="h-figures">
+            <span>{sections}</span>Figures
+          </h2>
+          {excerpt && (
+            <CodeFigure n={++figures} code={excerpt.code} lang={excerpt.lang} file={excerpt.file}>
+              {excerpt.caption} <a href={excerpt.url}>source ↗</a>
+            </CodeFigure>
+          )}
+          {shots.map(({ image, alt }, i) => (
+            <figure class="shot">
+              <Image
+                src={image}
+                alt={alt}
+                widths={[480, 800, 1280]}
+                sizes="(min-width: 720px) 640px, 92vw"
+                loading={i === 0 ? 'eager' : 'lazy'}
+                data-tall={image.height > image.width || undefined}
+              />
+              <figcaption>
+                <b>Figure {++figures}:</b> {title}, as supplied by the author.
+              </figcaption>
+            </figure>
+          ))}
+        </section>
+      )
+    }
+
+    {
+      blocks.length > 0 && (
+        <section class="section prose" data-section={`§${++sections} ledger entries`} aria-labelledby="h-entries">
+          <h2 id="h-entries">
+            <span>{sections}</span>Ledger entries
+          </h2>
+          <table class="booktabs">
+            <caption>
+              <b>Table {++tables}:</b> this paper’s {blocks.length === 1 ? 'block' : 'blocks'} in the ledger.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">height</th>
+                <th scope="col">hash</th>
+                <th scope="col">date</th>
+                <th scope="col">event</th>
+              </tr>
+            </thead>
+            <tbody>
+              {blocks.map((block) => (
+                <tr>
+                  <td>#{String(block.height).padStart(2, '0')}</td>
+                  <td>
+                    <code aria-label={`hash ending ${block.hash.slice(-4)}`}>{short(block.hash)}</code>
+                  </td>
+                  <td>
+                    <code>
+                      <time datetime={block.date}>{block.date}</time>
+                    </code>
+                  </td>
+                  <td>{block.note}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p class="paper-links mono">
+            <a href="/blockchain#ledger">verify the ledger →</a>
+          </p>
+        </section>
+      )
+    }
+
+    <section class="section prose" data-section="references" aria-labelledby="h-references">
+      <h2 id="h-references">References</h2>
+      <ol class="refs">
+        {
+          references.map(({ text, url }, i) => (
+            <li id={`ref-${i + 1}`}>
+              <span>
+                {text} <a href={url}>{bare(url)}</a> ↗
+              </span>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="paper-links mono">
+        <a href="/blockchain#papers">all papers →</a>
+        {next !== project && <a href={workHref('blockchain', next.data.slug)}>next: {next.data.title} →</a>}
+      </p>
+    </section>
+  </article>
+</Layout>

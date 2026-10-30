@@ -1,0 +1,21 @@
+---
+import type { Project } from '../../lib/content';
+import Well from './Well.astro';
+import ProjectText from './ProjectText.astro';
+
+interface Props {
+  projects: Project[];
+}
+const { projects } = Astro.props;
+---
+
+<ul class="ma-shoji" data-filter-group>
+  {
+    projects.map((project) => (
+      <li class="ma-shoji__cell" data-tags={project.data.tags.join(' ')}>
+        <Well project={project} sizes="(min-width: 800px) 45vw, 90vw" decorative />
+        <ProjectText project={project} />
+      </li>
+    ))
+  }
+</ul>

@@ -1,0 +1,50 @@
+---
+import { getExperience, getLensProjects, getProfile, gmtOffset } from '../../lib/content';
+import Layout from '../../lenses/web/Layout.astro';
+import ProjectCard from '../../lenses/web/ProjectCard.astro';
+
+const profile = await getProfile();
+const { name, bio, timeZone, intro } = profile.data;
+const { featuredFirst: projects } = await getLensProjects('web');
+const experience = await getExperience();
+---
+
+<Layout title={`${name} — frontend engineering for the web`} description={profile.data.meta.web}>
+  <section class="hero" aria-labelledby="hero-title">
+    <span class="hero__label">
+      frontend engineer · {gmtOffset(timeZone).toLowerCase()}<span data-clock={timeZone} hidden>{' '}<time></time></span>
+    </span>
+    <h1 class="hero__title" id="hero-title" data-inspect="h1">Interfaces that hold up under inspection.</h1>
+    <p class="hero__lead" data-inspect="lead">
+      {intro.web} Go ahead, take this page apart in the developer tools.
+    </p>
+    <div class="hero__actions">
+      <a class="btn" href="#work" data-inspect="cta">see the work</a>
+      <button class="link-btn" type="button" data-open-console>or type <code>help()</code> in the console</button>
+    </div>
+  </section>
+
+  <section id="work" class="work" aria-labelledby="work-title">
+    <h2 id="work-title">Selected work</h2>
+    <div class="projects__grid" data-inspect="grid">
+      {projects.map((project, index) => <ProjectCard project={project} index={index} />)}
+    </div>
+  </section>
+
+  <section id="about" class="about" aria-labelledby="about-title" data-inspect="about">
+    <h2 id="about-title">About</h2>
+    <div class="about__body">
+      {bio.map((paragraph) => <p>{paragraph}</p>)}
+      <dl class="facts">
+        {
+          experience.map(({ data }) => (
+            <div>
+              <dt>{data.label}</dt>
+              <dd>{[data.title, data.detail, data.years].filter(Boolean).join(' · ')}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,109 @@
+---
+import { getExperience, getLensProjects, getProfile } from '../lib/content';
+import { lenses } from '../lib/lenses';
+import Layout from '../lenses/home/Layout.astro';
+import Bamboo from '../lenses/home/Bamboo.astro';
+import BambooDivider from '../lenses/home/BambooDivider.astro';
+import Filters from '../lenses/home/Filters.astro';
+import LensSwitcher from '../lenses/home/LensSwitcher.astro';
+import Rows from '../lenses/home/Rows.astro';
+import SectionHead from '../lenses/home/SectionHead.astro';
+import ShojiGrid from '../lenses/home/ShojiGrid.astro';
+import Tokonoma from '../lenses/home/Tokonoma.astro';
+import WorkList from '../lenses/home/WorkList.astro';
+
+const profile = await getProfile();
+const { name, role, bio, intro, email, links } = profile.data;
+const { all, featured, rest } = await getLensProjects('home');
+const experience = await getExperience();
+// One object in the alcove, five in the shoji, the rest as quiet rows.
+const shoji = rest.slice(0, 5);
+const others = rest.slice(5);
+const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'home');
+---
+
+<Layout title={`${name}, ${role.replace(/\b\w/g, (c) => c.toUpperCase())}`} description={profile.data.meta.home}>
+  <section class="ma-hero" aria-labelledby="hero-title">
+    <div class="ma-container">
+      <span class="ma-hero__kanji" lang="ja" aria-hidden="true">間</span>
+      <div class="ma-hero__row">
+        <div class="ma-hero__stack">
+          <p class="ma-label">entryway</p>
+          <h1 class="ma-h1" id="hero-title">{name}, {role.toLowerCase()}.</h1>
+          <p class="ma-lead">{intro.home}</p>
+          <div class="ma-actions">
+            <a class="ma-enter" href="#work">
+              enter
+              <svg viewBox="0 0 22 8" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+                <path d="M0 4h21M17.5 0.5 21 4l-3.5 3.5"></path>
+              </svg>
+            </a>
+            <a class="ma-link" href="#contact">leave a note</a>
+          </div>
+          <div class="ma-hero__lens">
+            <LensSwitcher />
+            <p class="ma-label" data-lens-offer hidden>
+              {
+                otherLenses.map(({ id, href }) => (
+                  <a class="ma-link" href={href} data-offer={id} data-lens-link={id} hidden>
+                    continue in {id}
+                  </a>
+                ))
+              }
+            </p>
+          </div>
+        </div>
+        <Bamboo />
+      </div>
+    </div>
+  </section>
+
+  <div class="ma-container"><BambooDivider at="30%" /></div>
+
+  <section class="ma-work ma-container" aria-labelledby="work">
+    <div class="ma-blocks">
+      <SectionHead label="work" id="work">Selected work</SectionHead>
+      <Filters projects={all} />
+      {featured && <Tokonoma project={featured} />}
+      {shoji.length > 0 && <ShojiGrid projects={shoji} />}
+      {others.length > 0 && <WorkList projects={others} />}
+    </div>
+  </section>
+
+  <section class="ma-about ma-container" aria-labelledby="about">
+    <div class="ma-blocks">
+      <SectionHead label="about" id="about">Background</SectionHead>
+      <div class="ma-about__body">
+        <div class="ma-bio">{bio.map((paragraph) => <p>{paragraph}</p>)}</div>
+        <Rows
+          rows={experience.map(({ data }) => ({
+            ...data,
+            detail: [data.detail, data.years].filter(Boolean).join(' · '),
+          }))}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="ma-contact ma-container" aria-labelledby="contact">
+    <div class="ma-blocks">
+      <SectionHead label="contact" id="contact" class="ma-contact__headline">
+        Leave a note at the door.
+      </SectionHead>
+      <ul class="ma-contact__links">
+        <li>
+          <span class="ma-label">email</span>
+          {email.startsWith('[') ? <span>{email}</span> : <a class="ma-link" href={`mailto:${email}`}>{email}</a>}
+        </li>
+        {
+          links.map(({ label, url }) => (
+            <li>
+              <span class="ma-label">{label}</span>
+              <a class="ma-link" href={url}>{url.replace(/^https?:\/\//, '')}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Layout>

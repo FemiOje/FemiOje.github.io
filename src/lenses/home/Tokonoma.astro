@@ -1,0 +1,18 @@
+---
+import type { Project } from '../../lib/content';
+import Well from './Well.astro';
+import ProjectText from './ProjectText.astro';
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+---
+
+<div class="ma-tokonoma-wrap" data-tags={project.data.tags.join(' ')}>
+  <p class="ma-label">tokonoma</p>
+  <article class="ma-tokonoma">
+    <Well project={project} sizes="(min-width: 768px) 55vw, 90vw" decorative />
+    <ProjectText project={project} />
+  </article>
+</div>

@@ -1,0 +1,27 @@
+---
+// Copies a BibTeX @misc entry; interactions.ts builds it from these attributes.
+import { getProfile } from '../../lib/content';
+import { bibAuthor } from './paper';
+
+interface Props {
+  citekey: string;
+  title: string;
+  year: string;
+  url: string;
+  note: string;
+  label?: string;
+}
+const { citekey, title, year, url, note, label = 'cite' } = Astro.props;
+const { data: profile } = await getProfile();
+---
+
+<button
+  class="btn"
+  type="button"
+  data-cite={citekey}
+  data-cite-author={bibAuthor(profile.fullName)}
+  data-cite-title={title}
+  data-cite-year={year}
+  data-cite-url={url}
+  data-cite-note={note}>{label}</button
+>

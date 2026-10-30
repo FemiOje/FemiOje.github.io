@@ -1,0 +1,24 @@
+---
+import { lenses } from '../../lib/lenses';
+---
+
+<nav class="ma-lens" aria-label="Choose a lens">
+  <ul>
+    {
+      lenses.map(({ id, href, ready }) => (
+        <li>
+          {ready ? (
+            <a class="ma-lens__item" href={href} data-lens-link={id} aria-current={id === 'home' ? 'page' : undefined}>
+              {id === 'home' && <span class="ma-lens__mark" aria-hidden="true" />}
+              {id}
+            </a>
+          ) : (
+            <span class="ma-lens__item" aria-disabled="true">
+              {id} — soon
+            </span>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</nav>

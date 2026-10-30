@@ -1,0 +1,20 @@
+---
+import { lenses } from '../../lib/lenses';
+---
+
+<nav class="lens-nav" aria-label="Choose a lens">
+  {
+    lenses.map(({ id, href, ready }) =>
+      ready ? (
+        <a href={href} data-lens-link={id} aria-current={id === 'blockchain' ? 'page' : undefined}>
+          {id}
+        </a>
+      ) : (
+        <span aria-disabled="true">
+          {id}
+          <span class="sr-only">, coming soon</span>
+        </span>
+      ),
+    )
+  }
+</nav>

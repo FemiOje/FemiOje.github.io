@@ -1,0 +1,176 @@
+/* The games lens: a printed game map on light paper. Tokens and components follow
+   design/games/DESIGN.md; the fonts are declared in astro.config.mjs. Map art colours
+   live in palette.ts, never here. */
+
+[data-lens="games"] {
+  color-scheme: light;               /* this lens has no dark theme */
+
+  /* Paper */
+  --paper:       #F7F5EF;
+  --recess:      #EEEBE2;
+
+  /* Ink */
+  --ink:         #1E1D1A;
+  --ink-soft:    #5C5A53;
+
+  /* Rules */
+  --rule:        #D8D4C8;            /* hairlines — decoration only */
+  --rule-strong: #8C887C;            /* link underlines, key caps (3.2:1) */
+
+  /* The one accent: "you / you got it" */
+  --gold:        #A97409;
+
+  /* Map ground behind the canvas while it loads */
+  --map-ground:  #DFE5D2;
+
+  --font-pixel: var(--font-pixelify), 'Courier New', monospace;
+  --font-body:  var(--font-atkinson), system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --container: 1040px;
+  --pad-x: clamp(20px, 5vw, 56px);
+  --ease: cubic-bezier(0, 0, .2, 1);
+  --t-ui: 160ms;
+
+  -webkit-text-size-adjust: 100%;
+}
+
+[data-lens="games"] body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.7; letter-spacing: .01em;
+}
+/* Base element rules use :where() so they carry zero specificity — component classes always win */
+:where([data-lens="games"]) a {
+  color: var(--ink); text-decoration-thickness: 1px; text-underline-offset: 3px;
+  text-decoration-color: var(--rule-strong);
+}
+:where([data-lens="games"]) a:hover { text-decoration-color: var(--ink); }
+:where([data-lens="games"]) :is(h1, h2, h3) { font-family: var(--font-pixel); font-weight: 400; }
+:where([data-lens="games"]) p { margin: 0; }
+[data-lens="games"] :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+[data-lens="games"] [hidden] { display: none !important; }
+
+.container { max-width: var(--container); margin-inline: auto; padding-inline: var(--pad-x); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip { position: absolute; left: var(--pad-x); top: -100px; z-index: 20; padding: 12px 16px; background: var(--paper); border: 1px solid var(--ink); }
+.skip:focus { top: 8px; }
+main:focus { outline: 0; }
+
+/* ── Header + lens switcher ── */
+.site-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 32px; padding-block: 24px; }
+/* Sticky while it is one row; on phones it wraps, so it scrolls away instead. The spread paints the paper edge to edge. */
+@media (min-width: 641px) {
+  [data-lens="games"] { scroll-padding-top: 104px; }
+  .site-header { position: sticky; top: 0; z-index: 10; background: var(--paper); box-shadow: 0 0 0 100vmax var(--paper); clip-path: inset(0 -100vmax); }
+}
+.brand { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; text-decoration: none; }
+.brand canvas { width: 30px; height: 30px; image-rendering: pixelated; }      /* the player's head, 20×20 */
+.brand-name { font: 500 18px/1 var(--font-pixel); letter-spacing: .02em; }
+.lens-nav { display: flex; flex-wrap: wrap; gap: 0 18px; font-size: 14px; letter-spacing: .06em; }
+.lens-nav :is(a, span) { display: inline-flex; align-items: center; gap: 8px; min-width: 44px; min-height: 44px; justify-content: center; text-decoration: none; color: var(--ink-soft); }
+.lens-nav a:hover { color: var(--ink); }
+.lens-nav a[aria-current="page"] { color: var(--ink); }
+.lens-nav a[aria-current="page"]::before { content: ""; width: 6px; height: 6px; background: var(--gold); }
+.clock { font-size: 13px; letter-spacing: .08em; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+/* ── Intro + HUD ── */
+.intro { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 40px; padding-block: clamp(24px, 5vw, 56px) 4px; }
+.intro h1 { margin: 0; font-size: clamp(40px, 6.4vw, 76px); line-height: 1.02; letter-spacing: -.01em; text-wrap: balance; }
+.intro .lead { margin: 14px 0 0; max-width: 46ch; color: var(--ink-soft); }
+.intro .lens-nav { margin-top: 10px; }
+.hud { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; font: 400 15px/1 var(--font-pixel); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.hud b { font-weight: 500; color: var(--ink); }
+.hud .sq { display: inline-block; width: 8px; height: 8px; margin-right: 8px; background: var(--gold); vertical-align: 1px; }
+.hud a { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* ── Overworld map ── */
+.world { display: flex; flex-direction: column; gap: 12px; margin-top: 28px; }
+.dialogs { margin-top: 16px; }
+.screen { position: relative; line-height: 0; border: 2px solid var(--ink); background: var(--map-ground); }
+.map { position: relative; max-width: calc(62vh * 320 / 176); margin-inline: auto; }   /* never taller than ~62vh; the frame keeps the full width */
+.screen canvas { display: block; width: 100%; height: auto; aspect-ratio: 320 / 176; image-rendering: pixelated; cursor: pointer; touch-action: manipulation; }
+.lbl { position: absolute; transform: translate(-50%, -128%); max-width: 19%; overflow: hidden; text-overflow: ellipsis; padding: 3px 5px 4px; border: 1px solid var(--ink); background: var(--paper);
+  color: var(--ink); font: 500 12px/1 var(--font-pixel); white-space: nowrap; pointer-events: none; }
+.lbl.l { transform: translate(-20%, -128%); } .lbl.r { transform: translate(-80%, -128%); }  /* nodes near the edges */
+.lbl.on { background: var(--ink); color: var(--paper); }
+.lbl.done::after { content: " ✓"; }
+.controls { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 20px; font-size: 13px; letter-spacing: .04em; color: var(--ink-soft); }
+kbd { padding: 2px 5px 3px; border: 1px solid var(--rule-strong); border-bottom-width: 2px; color: var(--ink); font: 500 12px/1 var(--font-pixel); }
+@media (max-width: 640px) { .lbl { display: none; max-width: 60%; } .lbl.on { display: block; } }
+
+/* ── Achievement toast ── */
+.toast { position: absolute; top: 12px; left: 50%; transform: translate(-50%, -6px); display: flex; align-items: center; gap: 10px;
+  padding: 8px 14px 9px; border: 2px solid var(--ink); background: var(--paper); color: var(--ink);
+  font: 400 14px/1.4 var(--font-pixel); white-space: nowrap; opacity: 0; pointer-events: none;
+  transition: opacity 240ms var(--ease), transform 240ms var(--ease); }
+.toast i { flex: none; width: 8px; height: 8px; background: var(--gold); }
+.toast span { color: var(--ink-soft); }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+@media (max-width: 480px) { .toast { flex-wrap: wrap; justify-content: center; max-width: 86%; white-space: normal; text-align: center; } }
+
+/* ── Level dialog ── */
+.dialog { display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 24px; padding: clamp(20px, 3vw, 36px); background: var(--recess); border-top: 2px solid var(--ink); }
+.dialog canvas { width: 80px; height: 80px; image-rendering: pixelated; background: var(--map-ground); border: 1px solid var(--rule); }
+.eyebrow { font-size: 13px; letter-spacing: .1em; color: var(--ink-soft); }
+.dialog h2 { margin: 4px 0 10px; font-size: clamp(30px, 3.4vw, 42px); line-height: 1.08; text-wrap: balance; }
+.dialog p { max-width: 60ch; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 14px; font-size: 13px; letter-spacing: .06em; color: var(--ink-soft); }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 20px; }
+@media (max-width: 640px) { .dialog { grid-template-columns: 1fr; gap: 14px; } .dialog canvas { width: 60px; height: 60px; } }
+
+/* ── Buttons ── */
+.btn { display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 18px; border: 1px solid var(--ink); border-radius: 0;
+  background: transparent; color: var(--ink); font: 400 15px/1 var(--font-pixel); letter-spacing: .02em; text-decoration: none; cursor: pointer;
+  transition: background var(--t-ui) var(--ease); }
+.btn:hover { background: var(--recess); }
+.dialog .btn:hover { background: var(--paper); }
+.btn.primary, .dialog .btn.primary { background: var(--ink); color: var(--paper); }
+.btn.primary:hover, .dialog .btn.primary:hover { background: var(--ink-soft); }
+.btn:active { transform: translateY(2px); }
+
+/* ── Level select list (the real navigation) ── */
+.levels { padding-block: 28px 56px; }
+.levels h2 { margin: 0 0 4px; font-size: clamp(26px, 3vw, 34px); line-height: 1.1; }
+.levels > p { margin-bottom: 20px; color: var(--ink-soft); }
+.lv { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--rule); }
+.lv a { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 16px; align-items: baseline; padding: 16px 0; border-top: 1px solid var(--rule); text-decoration: none; }
+.lv .code { font: 400 14px/1 var(--font-pixel); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.lv .nm { font: 400 22px/1.15 var(--font-pixel); }
+.lv .kd { display: block; margin-top: 2px; font-size: 14px; color: var(--ink-soft); }
+.lv .st { font-size: 13px; letter-spacing: .06em; color: var(--ink-soft); white-space: nowrap; }
+.lv .st.done::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 8px; background: var(--gold); vertical-align: 1px; }
+.lv a:hover .nm, .lv a[aria-current="true"] .nm { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 5px; }
+@media (max-width: 640px) { .lv a { grid-template-columns: 48px minmax(0, 1fr) auto; gap: 12px; } }
+
+/* ── Level page ── */
+.level-head { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding-block: clamp(32px, 6vw, 72px) 28px; }
+.back { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; letter-spacing: .04em; }
+.level-head h1 { margin: 0; font-size: clamp(40px, 6vw, 72px); line-height: 1.04; text-wrap: balance; }
+.level-head .lead { max-width: 52ch; font-size: 18px; color: var(--ink-soft); }
+.level-head .actions { margin-top: 6px; }
+.figure { margin: 0; }
+.figure img { display: block; width: 100%; height: auto; box-sizing: border-box; border: 2px solid var(--ink); background: var(--recess); }
+/* A portrait image keeps its shape but stays within the screen, like the map. */
+.figure img[data-tall] { width: auto; max-width: 100%; max-height: 62vh; }
+.figure figcaption { margin-top: 10px; font-size: 13px; letter-spacing: .04em; color: var(--ink-soft); }
+.level-card { display: grid; margin: 40px 0; border-bottom: 1px solid var(--rule); }
+.level-card > div { display: grid; grid-template-columns: minmax(120px, 200px) minmax(0, 1fr); gap: 4px 24px; padding-block: 14px; border-top: 1px solid var(--rule); }
+.level-card dt { font-size: 13px; letter-spacing: .08em; color: var(--ink-soft); }
+.level-card dd { margin: 0; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.level-card ul { list-style: none; margin: 0; padding: 0; }
+.level-nav { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding-block: 0 28px; }
+.strip { display: flex; align-items: center; }                 /* a one-line map of the world */
+.strip a { display: grid; place-items: center; width: 24px; height: 44px; }
+.strip a::before { content: ""; width: 14px; height: 14px; box-sizing: border-box; border: 1px solid var(--ink); background: var(--paper); }
+.strip a.done::before { background: var(--gold); box-shadow: inset 0 0 0 3px var(--paper); }   /* inset paper ring, not a shadow */
+.strip a[aria-current="true"]::before { background: var(--ink); box-shadow: none; }
+@media (max-width: 560px) { .level-card > div { grid-template-columns: 1fr; } }
+
+/* ── Footer ── */
+.site-footer { margin-top: 56px; padding-block: 24px 40px; border-top: 1px solid var(--rule); font-size: 13px; letter-spacing: .04em; color: var(--ink-soft); }
+
+/* Lens transitions crossfade like the other lenses; nothing else on the page moves. */
+@media (prefers-reduced-motion: reduce) {
+  .toast, .btn { transition: none; }
+  .btn:active { transform: none; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}

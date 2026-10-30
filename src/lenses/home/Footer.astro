@@ -1,0 +1,13 @@
+---
+import { getProfile } from '../../lib/content';
+import BambooDivider from './BambooDivider.astro';
+
+const { data: profile } = await getProfile();
+---
+
+<footer class="ma-footer ma-container">
+  <BambooDivider at="70%" />
+  <div class="ma-footer__row">
+    <p>© {new Date().getFullYear()} {profile.name}</p>
+  </div>
+</footer>

@@ -1,0 +1,15 @@
+---
+interface Props {
+  label: string;
+  id: string;
+  class?: string;
+}
+const { label, id, class: className = 'ma-h2' } = Astro.props;
+---
+
+<div class="ma-section-head">
+  <div class="ma-section-head__text">
+    <p class="ma-label">{label}</p>
+    <h2 id={id} class={className}><slot /></h2>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+---
+interface Props {
+  /** Where the node sits: 30% near the top of a page, 70% near the bottom. Never centred. */
+  at: '30%' | '70%';
+}
+const { at } = Astro.props;
+---
+
+<div class="ma-divider" style={`--at:${at}`} aria-hidden="true"></div>
