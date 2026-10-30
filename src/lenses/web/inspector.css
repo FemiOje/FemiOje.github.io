@@ -521,6 +521,10 @@ a.btn:hover {
   object-fit: cover;
   object-position: top;
 }
+/* A portrait image sits whole in the well instead of being cropped to its top. */
+.card__well img[data-tall] {
+  object-fit: contain;
+}
 .card h3 {
   margin: 0;
   font-size: 22px;

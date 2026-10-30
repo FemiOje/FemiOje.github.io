@@ -1,0 +1,11 @@
+---
+// The site's mark: "fo" in Archivo expanded, the same drawing as the favicon (brand/mark.svg),
+// so the page and its browser tab show one logo. Decorative: give it a name beside it.
+import mark from '../../brand/mark.svg?raw';
+
+interface Props {
+  class?: string;
+}
+---
+
+<span class:list={['mark', Astro.props.class]} aria-hidden="true" set:html={mark} />

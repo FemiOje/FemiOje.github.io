@@ -69,6 +69,16 @@
   outline: 2px solid var(--seal);
   outline-offset: 3px;
 }
+[data-lens="home"] :where(h1, h2, h3) {
+  text-wrap: balance;
+}
+[data-lens="home"] :where(p, dd) {
+  text-wrap: pretty;
+}
+[data-lens="home"] ::selection {
+  background: var(--lattice);
+  color: var(--ink);
+}
 /* All Japanese is set in Mincho, wherever it appears. */
 [data-lens="home"] :lang(ja) {
   font-family: var(--mincho);
@@ -151,17 +161,11 @@
   letter-spacing: 0;
   text-decoration: none;
 }
-.ma-seal {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 3px;
-  background: var(--seal);
-  color: var(--on-seal);
-  font: 500 10px/1 var(--mincho);
-  letter-spacing: 0;
-  writing-mode: vertical-rl;
+/* The site's mark, at the 32px it is drawn for. */
+.ma-mark svg {
+  display: block;
+  width: 32px;
+  height: 32px;
 }
 .ma-nav ul {
   display: flex;
@@ -216,14 +220,13 @@
   min-width: 44px;
   min-height: 44px;
   padding-inline: 8px;
+  color: var(--ink-soft);
   text-decoration: none;
   white-space: nowrap;
 }
-.ma-lens a.ma-lens__item:hover {
-  color: var(--ink-soft);
-}
-.ma-lens__item[aria-disabled="true"] {
-  color: var(--ink-soft);
+.ma-lens a.ma-lens__item:hover,
+.ma-lens__item[aria-current="page"] {
+  color: var(--ink);
 }
 .ma-lens__mark {
   width: 6px;
@@ -315,7 +318,8 @@
   padding: 0 22px;
   border: 1px solid var(--ink);
   border-radius: 2px;
-  letter-spacing: 0.08em;
+  font-size: 15px;
+  letter-spacing: 0.06em;
   text-decoration: none;
 }
 .ma-enter:hover {
@@ -505,7 +509,7 @@
 .ma-project {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 18px;
 }
 .ma-project__title {
   font: 500 26px/1.2 var(--mincho);
@@ -526,24 +530,59 @@
   position: absolute;
   inset: 0;
 }
-/* Shoji grid */
+/* Shoji grid. Each cell's 1px outline fills the 1px gap it shares with its neighbours, so the
+   lattice lines stay single, and a row that is not full (an odd count, or a filter) leaves plain
+   paper beside it instead of a block of lattice. */
 .ma-shoji {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
   gap: 1px;
-  border: 1px solid var(--lattice);
-  background: var(--lattice);
+  padding: 1px;
 }
 .ma-shoji__cell {
   position: relative;
+  outline: 1px solid var(--lattice);
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 20px;
   padding: clamp(24px, 3.5vw, 44px);
   background: var(--paper);
 }
 .ma-shoji .ma-well {
   aspect-ratio: 4 / 3;
+}
+
+/* other work and personal projects: dense hairline rows after the shoji. The whole row is the link's target. */
+.ma-worklist {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.ma-worklist li {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr) auto;
+  gap: 4px 24px;
+  align-items: baseline;
+  padding-block: 14px;
+  border-top: 1px solid var(--lattice);
+}
+.ma-worklist li:last-child {
+  border-bottom: 1px solid var(--lattice);
+}
+.ma-worklist li:hover a {
+  color: var(--ink-soft);
+}
+.ma-worklist a {
+  text-decoration: none;
+}
+.ma-worklist a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.ma-worklist__years {
+  font-variant-numeric: tabular-nums;
 }
 
 /* About */
@@ -614,11 +653,20 @@
   padding-top: clamp(96px, 14vw, 200px);
   padding-bottom: 56px;
 }
+.ma-detail__back {
+  display: inline-block;
+  padding-block: 12px;
+  margin-block: -12px;
+}
 .ma-detail .ma-h1 {
   max-width: 16ch;
 }
 .ma-detail__well {
   aspect-ratio: 16 / 9;
+}
+/* A portrait image (an adventurer card, a phone screen) sits whole in its well, not cropped. */
+.ma-well img[data-tall] {
+  object-fit: contain;
 }
 .ma-detail__body {
   display: flex;
@@ -686,6 +734,12 @@
   }
   .ma-rows > div {
     grid-template-columns: minmax(0, 1fr);
+  }
+  .ma-worklist li {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .ma-worklist li > :nth-child(2) {
+    grid-row: 2;
   }
 }
 

@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { coverOf, factLabel, getProfile, statusLabel } from '../../../lib/content';
+import { coverOf, factLabel, galleryOf, getProfile, statusLabel } from '../../../lib/content';
 import Layout from '../../../lenses/games/Layout.astro';
 import { getLevels, nodeId, type Level } from '../../../lenses/games/levels';
 
@@ -55,12 +55,19 @@ const rows = [
     </header>
 
     {
-      cover && (
+      [...(cover ? [{ image: cover, alt: `${title} screenshot` }] : []), ...galleryOf(project)].map(({ image, alt }, i) => (
         <figure class="figure">
-          <Image src={cover} alt={`${title} screenshot`} widths={[480, 800, 1280]} sizes="(min-width: 1152px) 1040px, 90vw" loading="eager" />
-          <figcaption>Figure 1 — {title}</figcaption>
+          <Image
+            src={image}
+            alt={alt}
+            widths={[480, 800, 1280]}
+            sizes="(min-width: 1152px) 1040px, 90vw"
+            loading={i === 0 ? 'eager' : 'lazy'}
+            data-tall={image.height > image.width || undefined}
+          />
+          <figcaption>Figure {i + 1} — {title}</figcaption>
         </figure>
-      )
+      ))
     }
 
     <dl class="level-card">

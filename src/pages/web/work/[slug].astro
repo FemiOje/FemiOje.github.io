@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { coverOf, factLabel, getLensProjects, statusLabel, type Project } from '../../../lib/content';
+import { coverOf, factLabel, galleryOf, getLensProjects, statusLabel, type Project } from '../../../lib/content';
 import { workHref } from '../../../lib/lenses';
 import Icon from '../../../lenses/web/Icon.astro';
 import Layout from '../../../lenses/web/Layout.astro';
@@ -81,12 +81,26 @@ const specs = [
               widths={[480, 800, 1200]}
               sizes="(min-width: 1100px) 784px, 92vw"
               loading="eager"
+              data-tall={cover.height > cover.width || undefined}
             />
           ) : (
             '[project screenshot]'
           )
         }
       </div>
+      {
+        galleryOf(project).map(({ image, alt }) => (
+          <div class="card__well">
+            <Image
+              src={image}
+              alt={alt}
+              widths={[480, 800, 1200]}
+              sizes="(min-width: 1100px) 784px, 92vw"
+              data-tall={image.height > image.width || undefined}
+            />
+          </div>
+        ))
+      }
 
       <dl class="facts" data-inspect="specs">
         {

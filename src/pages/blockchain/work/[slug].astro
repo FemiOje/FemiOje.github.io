@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { coverOf, factLabel, getLensProjects, getProfile, statusLabel, type Project } from '../../../lib/content';
+import { coverOf, factLabel, galleryOf, getLensProjects, getProfile, statusLabel, type Project } from '../../../lib/content';
 import { workHref } from '../../../lib/lenses';
 import Cite from '../../../lenses/blockchain/Cite.astro';
 import CodeFigure from '../../../lenses/blockchain/CodeFigure.astro';
@@ -34,6 +34,7 @@ const { project, index, next, blocks } = Astro.props;
 const { title, slug, summary, role, status, stack, links, years, facts, upstream, onchain, excerpt, net } = project.data;
 const { data: profile } = await getProfile();
 const cover = coverOf(project);
+const shots = [...(cover ? [{ image: cover, alt: `${title} screenshot` }] : []), ...galleryOf(project)];
 const { live, label } = standing(project);
 const deployment = deploymentOf(project);
 const year = yearOf(project);
@@ -144,7 +145,7 @@ const references = [
     </section>
 
     {
-      (excerpt || cover) && (
+      (excerpt || shots.length > 0) && (
         <section class="section prose" data-section={`§${++sections} figures`} aria-labelledby="h-figures">
           <h2 id="h-figures">
             <span>{sections}</span>Figures
@@ -154,20 +155,21 @@ const references = [
               {excerpt.caption} <a href={excerpt.url}>source ↗</a>
             </CodeFigure>
           )}
-          {cover && (
+          {shots.map(({ image, alt }, i) => (
             <figure class="shot">
               <Image
-                src={cover}
-                alt={`${title} screenshot`}
+                src={image}
+                alt={alt}
                 widths={[480, 800, 1280]}
                 sizes="(min-width: 720px) 640px, 92vw"
-                loading="eager"
+                loading={i === 0 ? 'eager' : 'lazy'}
+                data-tall={image.height > image.width || undefined}
               />
               <figcaption>
                 <b>Figure {++figures}:</b> {title}, as supplied by the author.
               </figcaption>
             </figure>
-          )}
+          ))}
         </section>
       )
     }

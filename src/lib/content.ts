@@ -12,12 +12,21 @@ export async function getProfile() {
 // Covers are named in the data by path from the repo root.
 const covers = import.meta.glob<{ default: ImageMetadata }>('/img/**/*.{png,jpg,jpeg,webp}', { eager: true });
 
+/** An image named in the data by path from the repo root, ready for `<Image>`. */
+function imageAt(slug: string, path: string) {
+  const image = covers[`/${path}`];
+  if (!image) throw new Error(`${slug}: image "${path}" is not a file under img/`);
+  return image.default;
+}
+
 /** The project's cover image, ready for `<Image>`; undefined when it has none. */
 export function coverOf({ data }: Project) {
-  if (!data.cover) return undefined;
-  const cover = covers[`/${data.cover}`];
-  if (!cover) throw new Error(`${data.slug}: cover "${data.cover}" is not a file under img/`);
-  return cover.default;
+  return data.cover ? imageAt(data.slug, data.cover) : undefined;
+}
+
+/** The project's other images, shown after the cover on its project page. */
+export function galleryOf({ data }: Project) {
+  return data.gallery.map(({ src, alt }) => ({ image: imageAt(data.slug, src), alt }));
 }
 
 /** `Etc/GMT-1` → `GMT+1`: the profile's time zone as an offset. */

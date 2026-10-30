@@ -7,8 +7,10 @@ interface Props {
   class?: string;
   sizes: string;
   loading?: 'lazy' | 'eager';
+  /** On cards the title beside the image already names it, so the image stays silent. */
+  decorative?: boolean;
 }
-const { project, class: className, sizes, loading = 'lazy' } = Astro.props;
+const { project, class: className, sizes, loading = 'lazy', decorative = false } = Astro.props;
 const { title } = project.data;
 const cover = coverOf(project);
 ---
@@ -16,9 +18,16 @@ const cover = coverOf(project);
 <div class:list={['ma-well', className]}>
   {
     cover ? (
-      <Image src={cover} alt={`${title} cover`} widths={[480, 800, 1200]} sizes={sizes} loading={loading} />
+      <Image
+        src={cover}
+        alt={decorative ? '' : `${title} cover image`}
+        widths={[480, 800, 1200]}
+        sizes={sizes}
+        loading={loading}
+        data-tall={cover.height > cover.width || undefined}
+      />
     ) : (
-      <p class="ma-label">[cover image]</p>
+      <p class="ma-label">[project screenshot]</p>
     )
   }
 </div>

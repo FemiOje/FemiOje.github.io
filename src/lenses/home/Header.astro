@@ -1,6 +1,6 @@
 ---
 import { getProfile, gmtOffset } from '../../lib/content';
-import Seal from './Seal.astro';
+import Mark from '../../lib/Mark.astro';
 import LensSwitcher from './LensSwitcher.astro';
 
 const { data: profile } = await getProfile();
@@ -9,7 +9,7 @@ const sections = ['work', 'about', 'contact'];
 
 <header class="ma-header ma-container">
   <a class="ma-brand" href="/">
-    <Seal />
+    <Mark class="ma-mark" />
     {profile.name}
   </a>
   <nav class="ma-nav" aria-label="Sections">

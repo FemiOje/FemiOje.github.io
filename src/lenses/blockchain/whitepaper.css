@@ -183,6 +183,8 @@ main:focus { outline: 0; }
 .codefig figcaption b, .shot figcaption b { font-weight: 700; }
 .shot { margin: 28px 0; }
 .shot img { display: block; width: 100%; height: auto; border: var(--hair); box-sizing: border-box; }
+/* A portrait figure is scaled to the page height, as \includegraphics[height=…] would. */
+.shot img[data-tall] { width: auto; max-width: 100%; max-height: 62vh; }
 .cite-fallback {
   margin: var(--section-y) 0 0; padding: 16px; overflow-x: auto; background: var(--code);
   border-top: var(--book-heavy); border-bottom: var(--book-heavy);

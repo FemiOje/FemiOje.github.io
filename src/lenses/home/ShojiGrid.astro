@@ -13,7 +13,7 @@ const { projects } = Astro.props;
   {
     projects.map((project) => (
       <li class="ma-shoji__cell" data-tags={project.data.tags.join(' ')}>
-        <Well project={project} sizes="(min-width: 800px) 45vw, 90vw" />
+        <Well project={project} sizes="(min-width: 800px) 45vw, 90vw" decorative />
         <ProjectText project={project} />
       </li>
     ))

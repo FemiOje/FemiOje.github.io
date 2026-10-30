@@ -1,0 +1,24 @@
+---
+import { statusLabel, type Project } from '../../lib/content';
+import { workHref } from '../../lib/lenses';
+
+interface Props {
+  projects: Project[];
+}
+const { projects } = Astro.props;
+---
+
+<div class="ma-worklist" data-filter-group>
+  <h3 class="ma-label" id="other-work">other work/personal projects</h3>
+  <ul aria-labelledby="other-work">
+    {
+      projects.map(({ data: { title, slug, status, stack, years, tags } }) => (
+        <li data-tags={tags.join(' ')}>
+          <a href={workHref('home', slug)}>{title}</a>
+          <span class="ma-label">{[statusLabel[status], ...stack].join(' · ')}</span>
+          <span class="ma-label ma-worklist__years">{years}</span>
+        </li>
+      ))
+    }
+  </ul>
+</div>

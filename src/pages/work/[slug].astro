@@ -1,5 +1,6 @@
 ---
-import { factLabel, getLensProjects, statusLabel, type Project } from '../../lib/content';
+import { Image } from 'astro:assets';
+import { factLabel, galleryOf, getLensProjects, statusLabel, type Project } from '../../lib/content';
 import { workHref } from '../../lib/lenses';
 import Layout from '../../lenses/home/Layout.astro';
 import Well from '../../lenses/home/Well.astro';
@@ -35,12 +36,19 @@ const outbound = [
 <Layout title={`${title} — Femi Ojetokun`} description={summary}>
   <article class="ma-detail ma-container">
     <header class="ma-detail__head">
-      <p class="ma-label">work · {title.toLowerCase()}</p>
+      <p class="ma-label"><a class="ma-link ma-detail__back" href="/#work">work</a> · {title.toLowerCase()}</p>
       <h1 class="ma-h1">{title}</h1>
       <p class="ma-lead">{summary}</p>
     </header>
 
     <Well project={project} class="ma-detail__well" sizes="(min-width: 1200px) 1072px, 90vw" loading="eager" />
+    {
+      galleryOf(project).map(({ image, alt }) => (
+        <div class="ma-well ma-detail__well">
+          <Image src={image} alt={alt} widths={[480, 800, 1200]} sizes="(min-width: 1200px) 1072px, 90vw" data-tall={image.height > image.width || undefined} />
+        </div>
+      ))
+    }
 
     <div class="ma-detail__body">
       {

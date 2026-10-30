@@ -1,12 +1,48 @@
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { defineCollection } from 'astro:content';
+import type { Loader } from 'astro/loaders';
 import { z } from 'astro/zod';
 // The whole site renders from this one file.
-import portfolio from '../data/portfolio.js';
+import type portfolioData from '../data/portfolio.js';
+
+type Portfolio = typeof portfolioData;
+
+/** Imports data/portfolio.js afresh: a new URL each time, so Node's module cache can't hand back the old copy. */
+async function readPortfolio(path: string): Promise<Portfolio> {
+  return (await import(/* @vite-ignore */ `${pathToFileURL(path).href}?t=${Date.now()}`)).default;
+}
+
+/** Fills a collection from part of data/portfolio.js and, in `astro dev`, refills it whenever that file
+    is saved, so edits show without restarting the server. */
+function fromPortfolio(entries: (portfolio: Portfolio) => { id: string }[]): Loader {
+  return {
+    name: 'portfolio',
+    load: async ({ config, store, parseData, watcher, logger }) => {
+      const path = fileURLToPath(new URL('data/portfolio.js', config.root));
+      const sync = async () => {
+        const items = entries(await readPortfolio(path));
+        store.clear();
+        for (const item of items) store.set({ id: item.id, data: await parseData({ id: item.id, data: item }) });
+      };
+      await sync();
+      watcher?.on('change', async (changed) => {
+        if (changed !== path) return;
+        try {
+          await sync();
+          logger.info('reloaded data/portfolio.js');
+        } catch (error) {
+          // A half-finished edit: keep what was loaded and wait for the next save.
+          logger.error(`data/portfolio.js: ${(error as Error).message}`);
+        }
+      });
+    },
+  };
+}
 
 const lens = z.enum(['home', 'web', 'games', 'blockchain']);
 
 const profile = defineCollection({
-  loader: () => [{ id: 'profile', ...portfolio.profile }],
+  loader: fromPortfolio(({ profile }) => [{ id: 'profile', ...profile }]),
   schema: z.object({
     name: z.string(),
     fullName: z.string(),
@@ -25,7 +61,7 @@ const profile = defineCollection({
 });
 
 const projects = defineCollection({
-  loader: () => portfolio.projects.map((project) => ({ id: project.slug, ...project })),
+  loader: fromPortfolio(({ projects }) => projects.map((project) => ({ id: project.slug, ...project }))),
   schema: z.object({
     title: z.string(),
     slug: z.string(),
@@ -42,6 +78,8 @@ const projects = defineCollection({
     years: z.string().default('[years]'),
     /** Image path from the repo root, e.g. `img/web-dev/dashboard.png`. */
     cover: z.string().optional(),
+    /** More images for the project page, after the cover. `alt` says what each one shows. */
+    gallery: z.array(z.object({ src: z.string(), alt: z.string() })).default([]),
     kind: z.enum(['game', 'dapp', 'contract', 'web', 'tool', 'research']).optional(),
     net: z.enum(['mainnet', 'testnet']).optional(),
     /** `owner/repo` of the project this contributes to or forks. */
@@ -56,7 +94,7 @@ const projects = defineCollection({
 });
 
 const experience = defineCollection({
-  loader: () => portfolio.experience,
+  loader: fromPortfolio(({ experience }) => experience),
   schema: z.object({
     label: z.string(),
     title: z.string(),
@@ -68,7 +106,7 @@ const experience = defineCollection({
 
 // Dated events (a submission, a deployment, a merged contribution). The blockchain lens chains them into its ledger.
 const txs = defineCollection({
-  loader: () => portfolio.txs,
+  loader: fromPortfolio(({ txs }) => txs),
   schema: z.object({
     /** `YYYY-MM-DD` */
     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),

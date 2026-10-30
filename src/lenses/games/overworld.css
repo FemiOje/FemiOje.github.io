@@ -149,6 +149,8 @@ kbd { padding: 2px 5px 3px; border: 1px solid var(--rule-strong); border-bottom-
 .level-head .actions { margin-top: 6px; }
 .figure { margin: 0; }
 .figure img { display: block; width: 100%; height: auto; box-sizing: border-box; border: 2px solid var(--ink); background: var(--recess); }
+/* A portrait image keeps its shape but stays within the screen, like the map. */
+.figure img[data-tall] { width: auto; max-width: 100%; max-height: 62vh; }
 .figure figcaption { margin-top: 10px; font-size: 13px; letter-spacing: .04em; color: var(--ink-soft); }
 .level-card { display: grid; margin: 40px 0; border-bottom: 1px solid var(--rule); }
 .level-card > div { display: grid; grid-template-columns: minmax(120px, 200px) minmax(0, 1fr); gap: 4px 24px; padding-block: 14px; border-top: 1px solid var(--rule); }

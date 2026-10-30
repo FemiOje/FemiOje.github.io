@@ -1,5 +1,6 @@
-// Renders the raster brand files from their SVG masters. Re-run with `pnpm brand` after
-// changing public/favicon.svg or brand/social-card.svg.
+// Renders the brand files the site serves from their SVG masters in brand/. Re-run with
+// `pnpm brand` after changing brand/mark.svg or brand/social-card.svg.
+//   public/favicon.svg          brand/mark.svg as is: the page header and the tab show one drawing
 //   public/favicon.ico          32px, for browsers and crawlers that skip SVG icons
 //   public/apple-touch-icon.png 180px, for iOS home screens
 //   public/og.png               1200 × 630 social card, shared by every page
@@ -7,7 +8,8 @@ import { readFile, writeFile } from 'node:fs/promises';
 import sharp from 'sharp';
 
 const file = (path) => new URL(`../${path}`, import.meta.url);
-const favicon = await readFile(file('public/favicon.svg'));
+const favicon = await readFile(file('brand/mark.svg'));
+await writeFile(file('public/favicon.svg'), favicon);
 
 const png = (svg, size) => sharp(svg, { density: 72 * Math.ceil(size / 32) }).resize(size, size).png().toBuffer();
 

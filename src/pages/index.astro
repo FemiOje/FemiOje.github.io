@@ -10,11 +10,15 @@ import Rows from '../lenses/home/Rows.astro';
 import SectionHead from '../lenses/home/SectionHead.astro';
 import ShojiGrid from '../lenses/home/ShojiGrid.astro';
 import Tokonoma from '../lenses/home/Tokonoma.astro';
+import WorkList from '../lenses/home/WorkList.astro';
 
 const profile = await getProfile();
 const { name, role, bio, intro, email, links } = profile.data;
 const { all, featured, rest } = await getLensProjects('home');
 const experience = await getExperience();
+// One object in the alcove, five in the shoji, the rest as quiet rows.
+const shoji = rest.slice(0, 5);
+const others = rest.slice(5);
 const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'home');
 ---
 
@@ -61,7 +65,8 @@ const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'home');
       <SectionHead label="work" id="work">Selected work</SectionHead>
       <Filters projects={all} />
       {featured && <Tokonoma project={featured} />}
-      {rest.length > 0 && <ShojiGrid projects={rest} />}
+      {shoji.length > 0 && <ShojiGrid projects={shoji} />}
+      {others.length > 0 && <WorkList projects={others} />}
     </div>
   </section>
 
