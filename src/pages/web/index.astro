@@ -9,7 +9,7 @@ const { featuredFirst: projects } = await getLensProjects('web');
 const experience = await getExperience();
 ---
 
-<Layout title={`${name} — frontend engineering for the web`} description={intro.web ?? ''}>
+<Layout title={`${name} — frontend engineering for the web`} description={profile.data.meta.web}>
   <section class="hero" aria-labelledby="hero-title">
     <span class="hero__label">
       frontend engineer · {gmtOffset(timeZone).toLowerCase()}<span data-clock={timeZone} hidden>{' '}<time></time></span>

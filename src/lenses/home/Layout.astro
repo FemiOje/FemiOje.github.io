@@ -1,6 +1,7 @@
 ---
 import { Font } from 'astro:assets';
 import { ClientRouter, fade } from 'astro:transitions';
+import Seo from '../../lib/Seo.astro';
 import Header from './Header.astro';
 import Footer from './Footer.astro';
 import './ma.css';
@@ -17,10 +18,8 @@ const { title, description } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <Seo title={title} description={description} />
     <meta name="theme-color" content="#F4F0E6" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <Font cssVariable="--font-mincho" preload={[{ weight: 400 }]} />
     <Font cssVariable="--font-gothic" preload />
     <ClientRouter />

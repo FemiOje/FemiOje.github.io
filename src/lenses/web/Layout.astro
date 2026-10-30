@@ -3,6 +3,7 @@
 // viewport and the developer tools docked beside it. Pages fill the page's <main>.
 import { Font } from 'astro:assets';
 import { ClientRouter, fade } from 'astro:transitions';
+import Seo from '../../lib/Seo.astro';
 import { getProfile } from '../../lib/content';
 import Devtools from './Devtools.astro';
 import Icon from './Icon.astro';
@@ -34,10 +35,8 @@ const accentHexes = accents.map(([hex]) => hex);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <Seo title={title} description={description} />
     <meta name="theme-color" content="#ECEEF2" />
-    <link rel="icon" type="image/svg+xml" href="/favicon-web.svg" />
     <Font cssVariable="--font-archivo" preload />
     <Font cssVariable="--font-jetbrains-mono" preload={[{ weight: 400 }]} />
     <ClientRouter />

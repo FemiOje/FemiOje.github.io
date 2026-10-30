@@ -87,7 +87,7 @@ const map: MapNode[][] = stops.map((world) => world.map(({ id, sprite, label, sl
 const coins = stops.reduce((sum, world) => sum + world.length - 1, 0);
 ---
 
-<Layout title={`${name} — games`} description={intro.games ?? ''}>
+<Layout title={`${name} — games`} description={profile.meta.games}>
   <section class="intro">
     <div>
       <h1>Pick a level.</h1>

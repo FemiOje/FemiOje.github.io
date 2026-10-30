@@ -1,6 +1,7 @@
 ---
 import { Font } from 'astro:assets';
 import { ClientRouter, fade } from 'astro:transitions';
+import Seo from '../../lib/Seo.astro';
 import { getProfile } from '../../lib/content';
 import Header from './Header.astro';
 import './overworld.css';
@@ -18,10 +19,8 @@ const { data: profile } = await getProfile();
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <Seo title={title} description={description} />
     <meta name="theme-color" content="#F7F5EF" />
-    <link rel="icon" type="image/svg+xml" href="/favicon-games.svg" />
     <Font cssVariable="--font-pixelify" preload={[{ weight: 400 }]} />
     <Font cssVariable="--font-atkinson" preload={[{ weight: 400 }]} />
     <!-- The map needs scripting; the level list does not. -->

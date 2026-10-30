@@ -17,6 +17,8 @@ const profile = defineCollection({
     bio: z.array(z.string()),
     // The one line that changes per lens (AGENTS.md §5.3).
     intro: z.partialRecord(lens, z.string()),
+    // Each lens home page's search and social description.
+    meta: z.record(lens, z.string()),
     email: z.string(),
     links: z.array(z.object({ label: z.string(), url: z.string() })),
   }),

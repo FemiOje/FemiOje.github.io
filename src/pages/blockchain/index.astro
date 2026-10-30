@@ -37,7 +37,7 @@ const standards = 2;
 const refOf = (i: number) => standards + i + 1;
 ---
 
-<Layout title={`${name} — onchain systems`} description={intro.blockchain ?? ''}>
+<Layout title={`${name} — onchain systems`} description={profile.data.meta.blockchain}>
   <section class="titleblock prose" data-section="title" aria-labelledby="title">
     <p class="kicker mono">working paper · v<time datetime={build.month}>{build.version}</time></p>
     <h1 id="title">{title}</h1>

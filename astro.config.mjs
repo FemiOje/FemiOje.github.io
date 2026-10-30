@@ -1,4 +1,5 @@
 import { defineConfig, fontProviders } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
 // Fonts are self-hosted: Latin from the installed @fontsource packages, and the handful
 // of approved Japanese glyphs from a hand-made subset (see scripts/subset-ja.mjs).
@@ -22,6 +23,13 @@ const japanese = (weight) => ({
 export default defineConfig({
   // A GitHub Pages user site (the FemiOje.github.io repository), served from the domain root.
   site: 'https://femioje.github.io',
+  integrations: [
+    sitemap({
+      // A lens's copy of a project page points its canonical at the home lens's /work/<slug>/,
+      // so only that copy is listed.
+      filter: (page) => !/\/(?:web|games|blockchain)\/work\//.test(page),
+    }),
+  ],
   fonts: [
     {
       provider: fontProviders.local(),

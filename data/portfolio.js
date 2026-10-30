@@ -37,6 +37,13 @@ export default {
       games: "Open-source contributor to Loot Survivor 2 and Dope Wars, two onchain games.",
       blockchain: "Author of Hex'd, a fully onchain battle royale on Starknet, and contributor to herit, an onchain inheritance platform."
     },
+    /* The search and social description of each lens's home page: what a search result shows. */
+    meta: {
+      home: "I'm Femi Ojetokun, a software engineer working where the web, blockchains and games meet. My projects, open-source work and how to reach me.",
+      web: "Frontend work by Femi Ojetokun, a software engineer. Currently building Aux, a shared space for discovering new music through other people.",
+      games: "Games by Femi Ojetokun: Hex'd, a fully onchain battle royale on Starknet, Unity game jam entries, and open-source work on Loot Survivor 2 and Dope Wars.",
+      blockchain: "Onchain work by Femi Ojetokun: Hex'd, a fully onchain battle royale on Starknet, contributions to herit, an onchain inheritance platform, and Cairo contracts."
+    },
     email: "0xjinius@gmail.com",
     links: [
       { label: "github", url: "https://github.com/FemiOje" },

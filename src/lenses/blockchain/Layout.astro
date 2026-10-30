@@ -1,6 +1,7 @@
 ---
 import { Font } from 'astro:assets';
 import { ClientRouter, fade } from 'astro:transitions';
+import Seo from '../../lib/Seo.astro';
 import Colophon from './Colophon.astro';
 import RunHead from './RunHead.astro';
 import './whitepaper.css';
@@ -17,10 +18,8 @@ const { title, description } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <Seo title={title} description={description} />
     <meta name="theme-color" content="#FCFCFA" />
-    <link rel="icon" type="image/svg+xml" href="/favicon-blockchain.svg" />
     <Font cssVariable="--font-latin-modern" preload={[{ weight: 400, style: 'normal' }]} />
     <Font cssVariable="--font-plex-mono" preload={[{ weight: 400 }]} />
     <ClientRouter />

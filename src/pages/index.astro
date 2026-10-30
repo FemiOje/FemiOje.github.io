@@ -18,7 +18,7 @@ const experience = await getExperience();
 const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'home');
 ---
 
-<Layout title={`${name} — ${role.toLowerCase()}`} description={intro.home ?? ''}>
+<Layout title={`${name}, ${role.replace(/\b\w/g, (c) => c.toUpperCase())}`} description={profile.data.meta.home}>
   <section class="ma-hero" aria-labelledby="hero-title">
     <div class="ma-container">
       <span class="ma-hero__kanji" lang="ja" aria-hidden="true">間</span>
