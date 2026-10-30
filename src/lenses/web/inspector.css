@@ -5,6 +5,8 @@
    checks them against this file: change a declaration in one, change it in the other. */
 
 [data-lens='web'] {
+  color-scheme: light;
+
   /* Ground & chrome */
   --desk: #eceef2;
   --window-line: #d3d8df;
@@ -84,6 +86,10 @@
   outline: 2px solid var(--inspect);
   outline-offset: 2px;
 }
+[data-lens='web'] ::selection {
+  background: var(--row-selected);
+  color: var(--ink);
+}
 
 .sr {
   position: absolute;
@@ -143,7 +149,7 @@
 .dots {
   display: flex;
   gap: 7px;
-  padding: 0 6px 14px;
+  padding: 0 6px 16px;
 }
 .dots span {
   width: 11px;
@@ -169,7 +175,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: 38px;
+  min-height: 44px;
   margin-bottom: 1px;
   padding: 0 16px;
   border-radius: 8px 8px 0 0;
@@ -262,6 +268,9 @@ a.lens-tab:hover {
   font: 600 13px var(--font);
   cursor: pointer;
 }
+.dt-toggle:hover {
+  background: var(--row-hover);
+}
 .dt-toggle[aria-pressed='true'] {
   background: var(--row-selected);
 }
@@ -299,7 +308,8 @@ a.lens-tab:hover {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 5;
+  /* Under the sticky site nav, as the page's own content is. */
+  z-index: 3;
 }
 :root:not([data-devtools='open']) .overlay {
   display: none;
@@ -310,12 +320,22 @@ a.lens-tab:hover {
 .page {
   max-width: 880px;
   margin: 0 auto;
-  padding: 30px 48px 0;
+  /* No top padding: the sticky nav rests where it sticks, so it never moves. */
+  padding: 0 48px;
   font-family: var(--font);
   color: var(--ink);
 }
 .page a {
   color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.page :is(h1, h2, h3) {
+  text-wrap: balance;
+}
+.page p,
+.caption {
+  text-wrap: pretty;
 }
 .page :is(main, section, footer) {
   scroll-margin-top: 76px;
@@ -340,7 +360,7 @@ a.lens-tab:hover {
   clip-path: inset(0 -100vmax);
 }
 a.site-name {
-  font-weight: 800;
+  font-weight: 700;
   font-size: 16px;
   letter-spacing: -0.01em;
   text-decoration: none;
@@ -354,13 +374,23 @@ a.site-name {
   font-weight: 500;
 }
 .site-links a {
+  position: relative;
   color: var(--ink);
   text-decoration: none;
   padding-block: 6px;
 }
+.site-links a::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  right: -10px;
+  height: 44px;
+  transform: translateY(-50%);
+}
 .site-links a:hover {
   text-decoration: underline;
-  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
 }
 
 .hero {
@@ -374,12 +404,13 @@ a.site-name {
   font-size: 13px;
   font-weight: 600;
   color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
 }
 .hero__title {
   margin: 0;
   font-size: 64px;
-  font-weight: 800;
-  letter-spacing: -0.035em;
+  font-weight: 700;
+  letter-spacing: -0.025em;
   line-height: 1;
   max-width: 12ch;
 }
@@ -422,6 +453,7 @@ a.btn:hover {
   font: inherit;
   font-size: 15px;
   text-decoration: underline;
+  text-decoration-thickness: 1px;
   text-underline-offset: 3px;
   cursor: pointer;
 }
@@ -434,7 +466,6 @@ a.btn:hover {
   min-height: 44px;
   font-size: 15px;
   font-weight: 600;
-  text-underline-offset: 3px;
 }
 
 .work {
@@ -444,7 +475,7 @@ a.btn:hover {
 .page h2 {
   margin: 0 0 40px;
   font-size: 28px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -0.02em;
 }
 .projects__grid {
@@ -468,6 +499,7 @@ a.btn:hover {
   font-size: 12px;
   font-weight: 600;
   color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
 }
 .card__well {
   aspect-ratio: 16 / 10;
@@ -492,7 +524,7 @@ a.btn:hover {
 .card h3 {
   margin: 0;
   font-size: 22px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -0.015em;
   line-height: 1.15;
 }
@@ -513,8 +545,8 @@ a.btn:hover {
 }
 .card p {
   margin: 0;
-  font-size: 14px;
-  line-height: 1.55;
+  font-size: 15px;
+  line-height: 1.6;
   color: var(--ink-3);
 }
 .card__stack {
@@ -543,7 +575,7 @@ a.btn:hover {
 .about__body p {
   margin: 0;
   max-width: 56ch;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.6;
 }
 .facts {
@@ -571,8 +603,9 @@ a.btn:hover {
   list-style: none;
 }
 .facts a {
-  display: inline-block;
-  padding-block: 4px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
 }
 
 /* Project page */
@@ -586,12 +619,8 @@ a.btn:hover {
   font-weight: 600;
   text-decoration: none;
 }
-.back svg {
-  transform: scaleX(-1);
-}
 .back:hover {
   text-decoration: underline;
-  text-underline-offset: 3px;
 }
 .sheet {
   display: flex;
@@ -604,9 +633,6 @@ a.btn:hover {
 .sheet > :is(.card__well, .facts) {
   width: 100%;
 }
-.sheet h2 {
-  margin-bottom: -8px;
-}
 
 .contact {
   display: flex;
@@ -618,7 +644,7 @@ a.btn:hover {
 .contact h2 {
   margin: 0;
   font-size: 56px;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
   line-height: 1;
 }
 .contact__links {
@@ -632,8 +658,9 @@ a.btn:hover {
   font-weight: 600;
 }
 .contact__links a {
-  display: inline-block;
-  padding-block: 8px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
 }
 .contact small {
   padding-top: 24px;
@@ -775,6 +802,9 @@ a.btn:hover {
 .dt-tab:focus-visible {
   outline-offset: -2px;
 }
+.dt-tab:hover:not([aria-pressed='true']) {
+  background: var(--row-hover);
+}
 .dt-tab[aria-pressed='true'] {
   border-bottom-color: var(--inspect);
   color: var(--ink);
@@ -858,15 +888,19 @@ a.btn:hover {
   color: var(--syn-muted);
 }
 .grid-badge {
+  position: relative;
   flex: none;
-  height: 20px;
+  height: 24px;
   padding: 0 6px;
   border: 1px solid var(--grid-line);
   border-radius: 3px;
   background: var(--surface);
   color: var(--grid-line);
-  font: 10.5px/18px var(--mono);
+  font: 10.5px/22px var(--mono);
   cursor: pointer;
+}
+.grid-badge:hover:not([aria-pressed='true']) {
+  background: var(--row-hover);
 }
 .grid-badge[aria-pressed='true'] {
   background: var(--grid-line);
@@ -962,6 +996,9 @@ a.btn:hover {
   height: 14px;
   outline: 1px solid var(--line-strong);
   outline-offset: 1px;
+}
+.swatch:hover {
+  background: var(--row-hover);
 }
 .swatch[aria-pressed='true'] span {
   outline: 2px solid var(--ink);
@@ -1095,17 +1132,16 @@ a.btn:hover {
   opacity: 1;
 }
 
-/* Motion: minimal and mechanical */
+/* Motion: hover shifts the background and nothing else. Selection, overlays and the box model
+   update instantly, as real developer tools do. */
 a.btn,
-.tree-row,
 .dt-icon,
 .dt-tab,
 .dt-toggle,
-.swatch span {
-  transition:
-    background 120ms ease,
-    color 120ms ease,
-    outline-color 120ms ease;
+.swatch,
+.grid-badge,
+.con-chips button {
+  transition: background-color 140ms ease-out;
 }
 @media (prefers-reduced-motion: reduce) {
   [data-lens='web'] *,
@@ -1113,6 +1149,37 @@ a.btn,
   [data-lens='web'] *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
+  }
+}
+
+@media (pointer: coarse) {
+  .dt-icon,
+  .swatch {
+    width: 44px;
+    height: 44px;
+  }
+  .dt-bar,
+  .dt-tab,
+  .dt-toggle,
+  .tree-row,
+  .decl,
+  .con-chips button,
+  .con-input input {
+    min-height: 44px;
+  }
+  .tree-btn {
+    min-height: 44px;
+    line-height: 44px;
+  }
+  /* Small controls keep their size and take a 44px tall hit area. */
+  .grid-badge::before,
+  .inspect-chip::before {
+    content: '';
+    position: absolute;
+    inset: -11px 0;
+  }
+  .grid-badge::before {
+    inset: -10px 0;
   }
 }
 

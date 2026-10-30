@@ -40,6 +40,7 @@ document.addEventListener('astro:page-load', () => {
   const frame = $('.vp-frame');
   const page = $('.page');
   const overlay = $('.overlay');
+  const nav = $('.site-nav');
   const devtools = $('#devtools');
   const toggle = $('.dt-toggle');
   const tree = $('[data-tree]');
@@ -96,11 +97,13 @@ document.addEventListener('astro:page-load', () => {
       const target = first(id);
       if (!target) return;
       const r = rectIn(target);
-      // Cards carry theirs inside the top-right corner, clear of the grid's own.
+      // Above the element; below it when there is no room above (the nav at the top of the page),
+      // as real devtools do. Cards carry theirs inside the top-right corner, clear of the grid's own.
+      const above = r.y - 26;
       node.style.transform =
         id === 'card'
           ? `translate(${r.x + r.w - 8}px, ${r.y + 8}px) translateX(-100%)`
-          : `translate(${r.x}px, ${r.y - 26}px)`;
+          : `translate(${r.x}px, ${above < viewport!.scrollTop ? r.y + r.h + 4 : above}px)`;
       if (id === state.sel) node.textContent = `${selectorOf(target)}  ${Math.round(r.w)} × ${Math.round(r.h)}`;
       overlay!.append(node);
     };
@@ -257,12 +260,16 @@ document.addEventListener('astro:page-load', () => {
       }
     }
     const target = first(id);
-    if (reveal && target) {
-      // Bring the element into the viewport pane when it is selected from the tree.
+    // Bring the element into the viewport pane when it is selected from the tree, clear of the
+    // sticky nav with room for its label. The nav itself is always in sight.
+    if (reveal && target && target !== nav) {
       const r = rectIn(target);
       const top = viewport!.scrollTop;
       const height = viewport!.clientHeight;
-      if (r.y < top + 32 || r.y + Math.min(r.h, height - 64) > top + height) viewport!.scrollTop = Math.max(0, r.y - 64);
+      const clear = (nav?.offsetHeight ?? 0) + 32;
+      if (r.y < top + clear || r.y + Math.min(r.h, height - clear) > top + height) {
+        viewport!.scrollTop = Math.max(0, r.y - clear);
+      }
     }
     renderStyles();
     placeOverlay();
@@ -485,6 +492,20 @@ document.addEventListener('astro:page-load', () => {
   select(state.sel);
 
   // Sizes change with the window, device mode, toggled CSS and late fonts.
+  // The overlay scrolls with the page, but the stuck nav does not: keep its label or chip on it.
+  let placing = 0;
+  viewport.addEventListener(
+    'scroll',
+    () => {
+      if (placing || (!state.inspect && state.sel !== 'nav')) return;
+      placing = requestAnimationFrame(() => {
+        placing = 0;
+        placeOverlay();
+      });
+    },
+    { passive: true },
+  );
+
   frameObserver?.disconnect();
   frameObserver = new ResizeObserver(refresh);
   frameObserver.observe(frame);

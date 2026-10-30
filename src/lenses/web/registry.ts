@@ -38,8 +38,8 @@ export const registry: Record<string, Rule> = {
     rule: '.hero__title',
     decls: [
       { prop: 'font-size', value: '64px', off: '32px', narrow: '40px' },
-      { prop: 'font-weight', value: '800', off: '700' },
-      { prop: 'letter-spacing', value: '-0.035em', off: 'normal' },
+      { prop: 'font-weight', value: '700', off: '400' },
+      { prop: 'letter-spacing', value: '-0.025em', off: 'normal' },
       { prop: 'line-height', value: '1', off: 'normal' },
       { prop: 'max-width', value: '12ch', off: 'none' },
     ],
