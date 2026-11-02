@@ -135,7 +135,7 @@
     if (world.mount) world.mount(app);
     navLinks.forEach(function (a) { a.classList.toggle("active", a.getAttribute("data-world-link") === name); });
     var h = app.querySelector("h1");
-    document.title = (name && h ? h.textContent + " — " : "") + (world.title ? world.title + " — " : "") + C.site.name;
+    document.title = (name && h ? h.textContent + " , " : "") + (world.title ? world.title + " , " : "") + C.site.name;
     if (keepScroll !== true && location.hash !== last) window.scrollTo(0, 0);
     last = location.hash;
   };

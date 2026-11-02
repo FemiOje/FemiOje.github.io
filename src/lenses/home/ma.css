@@ -18,6 +18,8 @@
   /* Ink */
   --ink: #2B2A26;
   --ink-soft: #625D52;
+  /* An unlit screen: what a project shows until it has a screenshot */
+  --screen: #000000;
 
   /* The one accent: the seal */
   --seal: #B8412A;
@@ -479,7 +481,7 @@
   text-align: center;
 }
 /* A well takes its image's own shape, so the image fills it whole: never cropped, never banded.
-   Only an empty well keeps a fixed shape for its placeholder. */
+   Only an empty well keeps a fixed shape, an unlit screen until there is a screenshot. */
 .ma-well img {
   display: block;
   width: 100%;
@@ -565,6 +567,13 @@
 }
 .ma-shoji .ma-well--empty {
   aspect-ratio: 4 / 3;
+}
+/* A project without a screenshot yet shows an unlit screen with a short note. */
+.ma-well.ma-well--empty {
+  background: var(--screen);
+}
+.ma-well--empty .ma-label {
+  color: var(--paper);
 }
 
 /* other work and personal projects: dense hairline rows after the shoji. The whole row is the link's target. */

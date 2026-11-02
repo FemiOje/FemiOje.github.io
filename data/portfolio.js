@@ -71,9 +71,9 @@ export default {
   },
 
   experience: [
-    { id: "provable-labs", label: "work", title: "Provable Labs", detail: "Software Engineer · working directly under the co-founder to port Loot Survivor 2 and Dope Wars into the Embeddable Game Standard", years: "2025", order: 1 },
-    { id: "open-source", label: "open source", title: "Daydreams, Dope Wars, Loot Survivor 2, DojoByExample, etc.", detail: "contributor to both onchain games", order: 2 },
-    { id: "education", label: "education", title: "B.Sc. Computer Science", detail: "University of Lagos", years: "March 2027", order: 3 },
+    { id: "provable-labs", label: "work", title: "Provable Labs", detail: "Software Engineer. Implemented the rendering system for Loot Survivor 2 adventurers using modular, dynamic SVG components, and ported Dope Wars into the Embeddable Game Standard", years: "2025", order: 1 },
+    { id: "open-source", label: "open source", title: "Daydreams, Dope Wars, Loot Survivor 2, DojoByExample, etc.", detail: "contributor", order: 2 },
+    { id: "education", label: "education", title: "B.Sc. Computer Science", detail: "University of Lagos", years: "January 2020 to March 2027", order: 3 },
     { id: "learning", label: "learning", title: "Blockchain Security", detail: "", order: 4 }
   ],
 
@@ -132,15 +132,48 @@ export default {
       kind: "dapp", net: "testnet", upstream: "Kelechikizito/herit",
       facts: [
         { k: "co_creator", v: "Kelechi Kizito" },
-        { k: "award", v: "1st place, Best Use of ENSv2 — ETHOnline 2026" },
+        { k: "award", v: "1st place, ENS Track (Best Use of ENSv2), ETHOnline 2026" },
         { k: "my_commits_upstream", v: "28, between 2026-09-05 and 2026-09-12" }
+      ]
+    },
+    {
+      title: "Loot Survivor 2", slug: "loot-survivor-2", role: "Contributor", status: "contributor", years: "2025",
+      summary: "Provable Games' onchain adventure game on Starknet. Wrote its onchain renderer, merged upstream: Cairo that draws each adventurer as SVG NFT metadata, with inventory, item bag, battle and death pages.",
+      lenses: ["home", "games", "blockchain"], featured_in: [],
+      order: { home: 4, games: 2, blockchain: 3 },
+      tags: ["games", "onchain", "open-source"],
+      stack: ["Cairo", "Starknet", "SVG"],
+      links: { live: "https://www.lootsurvivor.io/", repo: "https://github.com/Provable-Games/death-mountain" },
+      cover: "img/smart-contracts/loot-survivor-1.png",
+      kind: "game", net: "mainnet", upstream: "Provable-Games/death-mountain",
+      facts: [
+        { k: "merged_pr", v: "#74, onchain renderer with SVG generation and tests, merged 2025-09-09" },
+        { k: "pr_size", v: "8 commits, 35 files, +4,217 / −751" }
+      ]
+    },
+    {
+      title: "Dope Wars", slug: "dope-wars", role: "Contributor", status: "contributor", years: "2025",
+      summary: "An onchain adaptation of the classic Drug Wars game, built with Dojo on Starknet. At Provable Labs I integrated it with the Embeddable Game Standard: each game is minted as a token, and play, leaderboards, claims and rewards follow whoever currently owns it.",
+      lenses: ["home", "web", "games", "blockchain"], featured_in: [],
+      order: { home: 5, web: 3, games: 3, blockchain: 4 },
+      tags: ["games", "onchain", "open-source"],
+      stack: ["Cairo", "Dojo", "Starknet", "TypeScript", "Cartridge Controller"],
+      links: { live: "https://dopewars.game", repo: "https://github.com/FemiOje/dopewars" },
+      cover: "img/smart-contracts/dopewars-1.png",
+      gallery: [
+        { src: "img/smart-contracts/dopewars-2.png", alt: "A DopewarsGameToken collection: one card per game, each showing the game, developer, player and final score." }
+      ],
+      kind: "game", net: "mainnet", upstream: "ftupas/rollyourown",
+      facts: [
+        { k: "integration", v: "Embeddable Game Standard: game token mint, ownership checks, owner-based claims and rewards" },
+        { k: "my_commits", v: "89 on provable-mainnet, between 2025-08-28 and 2025-11-24" }
       ]
     },
     {
       title: "Death Mountain Renderer", slug: "ls2-renderer", role: "Fork", status: "shipped", years: "2025",
       summary: "A Cairo contract that renders Loot Survivor adventurers as dynamic SVG NFT metadata: health bars coloured by remaining health, equipment icons, level and stats, all generated onchain and returned as Base64-encoded JSON.",
       lenses: ["home", "blockchain"], featured_in: [],
-      order: { home: 4, blockchain: 3 },
+      order: { home: 6, blockchain: 5 },
       tags: ["onchain"],
       stack: ["Cairo", "Starknet", "SVG"],
       links: { live: "https://www.lootsurvivor.io/", repo: "https://github.com/FemiOje/ls2-renderer" },
@@ -160,7 +193,7 @@ export default {
       lenses: ["home", "web"], featured_in: ["web"],
       order: { home: 1, web: 1 },
       tags: ["web", "open-source"],
-      stack: ["TypeScript", "Privy"],
+      stack: ["TypeScript"],
       links: { live: "coming soon", repo: "https://github.com/FemiOje/aux" },
       kind: "web"
     },
@@ -168,7 +201,7 @@ export default {
       title: "agent-sandbox", slug: "agent-sandbox", role: "Author", status: "shipped", years: "2026",
       summary: "A Docker sandbox that lets AI coding agents work on a project without access to your computer. Outgoing traffic is denied by default and unknown sites wait for approval; the agent runs unprivileged with every Linux capability removed; no host files are mounted.",
       lenses: ["home"], featured_in: [],
-      order: { home: 5 },
+      order: { home: 7 },
       tags: [],
       stack: ["Linux", "Docker"],
       links: { live: "https://github.com/FemiOje/agent-sandbox", repo: "https://github.com/FemiOje/agent-sandbox" },
@@ -184,7 +217,7 @@ export default {
       title: "daydreams", slug: "daydreams", role: "Contributor", status: "contributor", years: "2025",
       summary: "A generative agent framework for executing anything onchain. Contributed work on its Telegram client.",
       lenses: ["home", "blockchain"], featured_in: [],
-      order: { home: 6, blockchain: 4 },
+      order: { home: 8, blockchain: 6 },
       tags: ["onchain", "open-source"],
       stack: ["TypeScript"],
       links: { live: "https://taskmarket.dev/", repo: "https://github.com/daydreamsai/daydreams" },
@@ -198,7 +231,7 @@ export default {
       title: "FishFest", slug: "fish-fest", role: "Author", status: "shipped", years: "2025",
       summary: "A 2D underwater casual endless runner, built for the Fish Fest game jam by team Axolotl.",
       lenses: ["home", "games"], featured_in: [],
-      order: { home: 7, games: 2 },
+      order: { home: 9, games: 4 },
       tags: ["games"],
       stack: ["Unity", "C#"],
       links: { live: "https://femioje.itch.io/fishfest-gamejamnew-build", repo: "https://github.com/FemiOje/Fish-Fest-Game-Jam" },
@@ -209,7 +242,7 @@ export default {
       title: "Adventure of the Thing", slug: "adventure-of-the-thing", role: "Author", status: "shipped", years: "2024",
       summary: "A 2D adventure game with combat physics. Submission for the 2024 Scripto Game Jam.",
       lenses: ["home", "games"], featured_in: [],
-      order: { home: 8, games: 3 },
+      order: { home: 10, games: 5 },
       tags: ["games"],
       stack: ["Unity", "C#"],
       links: { live: "https://femioje.itch.io/adventure-of-the-thing", repo: "https://github.com/FemiOje/Adventure-of-the-Thing" },
@@ -220,7 +253,7 @@ export default {
       title: "Dungeon Generator 2D", slug: "dungeon-generator-2d", role: "Author", status: "shipped", years: "2025",
       summary: "A 2D game built around a dungeon generator.",
       lenses: ["home", "games"], featured_in: [],
-      order: { home: 9, games: 4 },
+      order: { home: 11, games: 6 },
       tags: ["games"],
       stack: ["Unity", "C#"],
       links: { live: "https://github.com/FemiOje/dungeon-generator-2d", repo: "https://github.com/FemiOje/dungeon-generator-2d" },
@@ -231,7 +264,7 @@ export default {
       title: "Penito Furniture", slug: "penito-furniture", role: "Author", status: "shipped", years: "2023",
       summary: "A furniture shopping app built with React, React Router, Redux Toolkit and localStorage.",
       lenses: ["home", "web"], featured_in: [],
-      order: { home: 10, web: 2 },
+      order: { home: 12, web: 2 },
       tags: ["web"],
       stack: ["React", "Redux Toolkit", "React Router"],
       links: { live: "https://penito-furniture.netlify.app/", repo: "https://github.com/FemiOje/penitoFurniture" },
@@ -247,6 +280,8 @@ export default {
     { id: "herit-dashboard", date: "2026-09-12", src: "commit", method: "merge", to: "herit", note: "Dashboard, roadmap page and mobile responsiveness", url: "https://github.com/Kelechikizito/herit/commits?author=FemiOje" },
     { id: "hexed-jam", date: "2026-03-08", src: "commit", method: "submit", to: "hexed", note: "[Submission]: Hex'd (#276) — Dojo game jams", url: "https://github.com/dojoengine/game-jams/pull/276" },
     { id: "ls2-renderer-push", date: "2025-12-01", src: "push", method: "deploy", to: "ls2-renderer", note: "SVG metadata renderer for Loot Survivor adventurers", url: "https://github.com/FemiOje/ls2-renderer" },
+    { id: "dope-wars-egs", date: "2025-11-24", src: "commit", method: "integrate", to: "dope-wars", note: "Embeddable Game Standard integration, provable-mainnet branch", url: "https://github.com/FemiOje/dopewars/commits/provable-mainnet/?author=FemiOje" },
+    { id: "loot-survivor-2-renderer", date: "2025-09-09", src: "commit", method: "merge", to: "loot-survivor-2", note: "Complete Renderer System Implementation with SVG Generation and Testing Suite (#74)", url: "https://github.com/Provable-Games/death-mountain/pull/74" },
     { id: "dungeon-deploy", date: "2025-04-20", src: "push", method: "deploy", to: "dungeon-generator-2d", note: "2D game with a dungeon generator", url: "https://github.com/FemiOje/dungeon-generator-2d" },
     { id: "dojobyexample-merge", date: "2025-03-23", src: "commit", method: "merge", ext: "AkatsukiLabs/DojoByExample", net: "mainnet", note: "feat: create RewardType enum (#44)", url: "https://github.com/AkatsukiLabs/DojoByExample/pull/44" },
     { id: "fish-fest-jam", date: "2025-02-12", src: "push", method: "submit", to: "fish-fest", note: "Fish Fest game jam, team Axolotl", url: "https://femioje.itch.io/fishfest-gamejamnew-build" },

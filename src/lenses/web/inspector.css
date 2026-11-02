@@ -62,6 +62,8 @@
   /* Page */
   --card-bg: #fafafb;
   --well: #f3f4f6;
+  /* An unlit screen: what a project shows until it has a screenshot */
+  --screen: #000000;
 
   --font: var(--font-archivo);
   --mono: var(--font-jetbrains-mono);
@@ -511,9 +513,11 @@ a.btn:hover {
   color: var(--ink-3);
 }
 /* The well takes its image's own shape, so the image fills it whole: never cropped, never banded.
-   Only an empty well keeps a fixed shape for its placeholder. */
+   Only an empty well keeps a fixed shape: an unlit screen with a short note, until there is a screenshot. */
 .card__well--empty {
   aspect-ratio: 16 / 10;
+  background: var(--screen);
+  color: var(--well);
 }
 .card__well img {
   display: block;
