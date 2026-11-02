@@ -8,7 +8,7 @@ const [first, ...rest] = profile.name.toLowerCase().split(' ');
 ---
 
 <header class="runhead container mono">
-  <a class="runhead-name" href="/blockchain">{first[0]}. {rest.join(' ')} — onchain systems</a>
+  <a class="runhead-name" href="/blockchain">{first[0]}. {rest.join(' ')}: onchain systems</a>
   <LensSwitcher />
   <p class="runhead-meta">
     <span data-runhead-section>title</span><span class="sep">&nbsp;·&nbsp;</span>{gmtOffset(profile.timeZone).toLowerCase()}<span data-clock={profile.timeZone} hidden>&nbsp;<time></time></span>

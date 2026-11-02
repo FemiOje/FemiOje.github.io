@@ -84,7 +84,7 @@ document.addEventListener('astro:page-load', () => {
       prev = hash;
       if (!still) await new Promise((done) => setTimeout(done, 90));
     }
-    status.textContent = valid ? `chain valid · ${chain.length} blocks` : 'chain broken — rebuild the site';
+    status.textContent = valid ? `chain valid · ${chain.length} blocks` : 'chain broken: rebuild the site';
     status.classList.toggle('ok', valid);
     button.disabled = false;
   });
@@ -116,7 +116,7 @@ document.addEventListener('astro:page-load', () => {
           citeFallback.textContent = bib;
           citeFallback.hidden = false;
         }
-        if (citeStatus) citeStatus.textContent = 'copy failed — bibtex shown at the end of the page';
+        if (citeStatus) citeStatus.textContent = 'copy failed; bibtex shown at the end of the page';
       }
     });
   }

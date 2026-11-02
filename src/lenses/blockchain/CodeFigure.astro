@@ -14,5 +14,5 @@ const { n, code, lang, file } = Astro.props;
 
 <figure class="codefig wide">
   <Code code={code.trim()} lang={lang as any} theme={paperMono} />
-  <figcaption><b>Figure {n}:</b> <code class="mono">{file}</code> — <slot /></figcaption>
+  <figcaption><b>Figure {n}:</b> <code class="mono">{file}</code>; <slot /></figcaption>
 </figure>

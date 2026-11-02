@@ -33,7 +33,7 @@
   function target(t) {
     var c = byId[t.to];
     if (c) return '<a href="' + R + '/contract/' + esc(c.id) + '">' + esc(c.name) + "</a>";
-    return t.ext ? ext("https://github.com/" + t.ext, esc(t.ext) + " ↗") : "—";
+    return t.ext ? ext("https://github.com/" + t.ext, esc(t.ext) + " ↗") : "none";
   }
   function txRow(t) {
     return '<div class="row">' +
@@ -94,7 +94,7 @@
       "</section>" +
       strip() +
       '<section class="stats">' +
-        stat("Latest block", bl.length ? "#" + blockNo(bl[0].key) : "—", bl.length ? monthName(bl[0].key) : "") +
+        stat("Latest block", bl.length ? "#" + blockNo(bl[0].key) : "none", bl.length ? monthName(bl[0].key) : "") +
         stat("Transactions", cf.length, pd.length ? pd.length + " pending" : "confirmed") +
         stat("Contracts", cs.length, "projects on " + net) +
         stat("Tokens held", o.holdings.length, "languages") +
@@ -207,8 +207,8 @@
         panel("Account", kv([
           ["Transactions", mine.length + ' <span class="muted">across both networks</span>'],
           ["Contracts", C.contracts.filter(onChain).length],
-          ["First seen", mine.length ? esc(mine[mine.length - 1].date) : "—"],
-          ["Last active", mine.length ? esc(mine[0].date) + ' <span class="muted">· ' + age(mine[0].date) + "</span>" : "—"]
+          ["First seen", mine.length ? esc(mine[mine.length - 1].date) : "none"],
+          ["Last active", mine.length ? esc(mine[0].date) + ' <span class="muted">· ' + age(mine[0].date) + "</span>" : "none"]
         ])) +
       "</div>" +
       panel("Latest transactions", confirmed().slice(0, 8).map(txRow).join("") || empty("No transactions on " + net + "."), '<a class="more" href="' + R + '/txs">View all →</a>');
@@ -331,7 +331,7 @@
         '<div class="btns"><a class="btn primary" href="' + R + '">Open the explorer →</a></div>' +
       "</div>" +
       '<div class="stats">' +
-        stat("Latest block", bl.length ? "#" + blockNo(bl[0].key) : "—", bl.length ? monthName(bl[0].key) : "") +
+        stat("Latest block", bl.length ? "#" + blockNo(bl[0].key) : "none", bl.length ? monthName(bl[0].key) : "") +
         stat("Transactions", cf.length, "confirmed") +
         stat("Contracts", cs.length, "on " + net) +
       "</div></div>" +

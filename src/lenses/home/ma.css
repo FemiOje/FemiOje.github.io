@@ -1,4 +1,4 @@
-/* Ma — the home lens. Every value here traces to DESIGN(MA).md. */
+/* Ma: the home lens. Every value here traces to DESIGN(MA).md. */
 
 [data-lens="home"] {
   /* Paper */
@@ -230,10 +230,11 @@
 .ma-lens__item[aria-current="page"] {
   color: var(--ink);
 }
+/* The current lens's mark is ink, like its word. */
 .ma-lens__mark {
   width: 6px;
   height: 6px;
-  background: var(--seal);
+  background: var(--ink);
 }
 
 /* Bamboo divider */

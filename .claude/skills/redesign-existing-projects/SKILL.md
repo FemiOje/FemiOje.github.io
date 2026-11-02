@@ -17,9 +17,9 @@ To adapt this skill to a different design system, edit only the Design Values se
 
 ## How this works
 
-1. **Scan** — Read the codebase. Identify the framework, styling method (Tailwind, vanilla CSS, styled-components, CSS modules), and the current design patterns.
-2. **Diagnose** — Run the full audit below. List every generic pattern, weak point, and missing state you find. Report before fixing.
-3. **Fix** — Apply targeted upgrades inside the existing stack, in the Fix Priority order. Do not rewrite from scratch. Improve what is there.
+1. **Scan**: Read the codebase. Identify the framework, styling method (Tailwind, vanilla CSS, styled-components, CSS modules), and the current design patterns.
+2. **Diagnose**: Run the full audit below. List every generic pattern, weak point, and missing state you find. Report before fixing.
+3. **Fix**: Apply targeted upgrades inside the existing stack, in the Fix Priority order. Do not rewrite from scratch. Improve what is there.
 
 ---
 
@@ -197,15 +197,15 @@ Note: none of these may reintroduce a background gradient. Depth comes from nois
 
 Maximum visual impact, minimum risk, in this order:
 
-1. **Font swap** — biggest instant improvement, lowest risk
-2. **Color and surface cleanup** — snap to the approved palette, remove background gradients
-3. **Hover, active, and focus states** — makes the interface feel alive
-4. **Layout and spacing** — grid, max width, spacing scale, nested radius formula
-5. **Motion pass** — custom easing curves, scroll reveals via IntersectionObserver, island nav
-6. **Replace generic components** — swap cliche patterns for the alternatives above
-7. **Loading, empty, and error states** — makes it feel finished
-8. **Copy pass** — remove cliches, add specificity, fix CTAs
-9. **Type scale polish** — the premium final touch
+1. **Font swap**: biggest instant improvement, lowest risk
+2. **Color and surface cleanup**: snap to the approved palette, remove background gradients
+3. **Hover, active, and focus states**: makes the interface feel alive
+4. **Layout and spacing**: grid, max width, spacing scale, nested radius formula
+5. **Motion pass**: custom easing curves, scroll reveals via IntersectionObserver, island nav
+6. **Replace generic components**: swap cliche patterns for the alternatives above
+7. **Loading, empty, and error states**: makes it feel finished
+8. **Copy pass**: remove cliches, add specificity, fix CTAs
+9. **Type scale polish**: the premium final touch
 
 ---
 
@@ -240,7 +240,7 @@ The site is one person seen through **four lenses**. Each lens is its own visual
 1. Find the lens you are working in from the route or `data-lens`. Load its lens skill and `design/<lens>/DESIGN.md`.
 2. Use only that lens's block below. Never carry a token, font, radius or motif from one lens into another.
 3. Apply the **Shared values** to every lens, then the lens block, then the **Human pass** for that lens.
-4. A `—` in a line height column means the build inherits it; leave it inherited. Values marked **change** differ from what the current build ships. They are the refinement target; list them in the diagnosis so they can be vetoed before you apply them.
+4. `inherit` in a line height column means the build inherits it; leave it inherited. Values marked **change** differ from what the current build ships. They are the refinement target; list them in the diagnosis so they can be vetoed before you apply them.
 
 ---
 
@@ -323,7 +323,7 @@ The audit above was written for generic product sites. For this portfolio, these
 
 ---
 
-## Lens: home (`/`) — Ma
+## Lens: home (`/`), Ma
 
 **Keep:** a calm Japanese home. Washi paper, ink, bamboo, lattice, a hanko seal. Vast negative space. One object on display at a time.
 
@@ -359,9 +359,9 @@ Selection (**change**): background `--lattice`, colour `--ink`.
 | Bio | Mincho | 400 | `clamp(19px, 1.6vw, 22px)` | 1.85 | 0 |
 | Lead | Gothic | 400 | `clamp(16px, 1.3vw, 18px)` | 1.9 | 0.02em |
 | Body | Gothic | 400 | 16px | 1.8 | 0.02em |
-| Nav | Gothic | 400 | 14px | — | 0.08em |
+| Nav | Gothic | 400 | 14px | inherit | 0.08em |
 | Label, meta | Gothic | 400 | 13px | 1.6 | 0.10–0.14em |
-| Vertical kanji label | Mincho | 400 | 15px | — | 0.3em, `vertical-rl` |
+| Vertical kanji label | Mincho | 400 | 15px | inherit | 0.3em, `vertical-rl` |
 
 Measure: h1 ≤ 13ch, lead ≤ 40ch, bio ≤ 56ch, detail prose ≤ 64ch. Weights 400 and 500 only (600 inside the seal).
 
@@ -384,7 +384,7 @@ Measure: h1 ≤ 13ch, lead ≤ 40ch, bio ≤ 56ch, detail prose ≤ 64ch. Weight
 
 ---
 
-## Lens: web (`/web`) — Browser + Inspector
+## Lens: web (`/web`), Browser + Inspector
 
 **Keep:** the portfolio rendered inside a light, generic browser window with working devtools docked beside it. Tabs are the lens switcher. "Here is my work, and here is how it is built."
 
@@ -419,16 +419,16 @@ Selection (**change**): background `--row-selected`, colour `--ink`.
 |---|---|---|---|---|---|
 | Page h1 | Archivo | **700** (change, was 800) | 64px / 40px phone | 1 | **−0.025em** (change, was −0.035em) |
 | Contact h2 | Archivo | **700** (change) | 56px / 40px | 1 | **−0.025em** (change, was −0.03em) |
-| Section h2 | Archivo | **700** (change) | 28px | — | −0.02em |
-| Card h3 | Archivo | **700** (change) | 22px | — | −0.015em |
-| Site name | Archivo | **700** (change) | 16px | — | −0.01em |
+| Section h2 | Archivo | **700** (change) | 28px | inherit | −0.02em |
+| Card h3 | Archivo | **700** (change) | 22px | inherit | −0.015em |
+| Site name | Archivo | **700** (change) | 16px | inherit | −0.01em |
 | Lead | Archivo | 400 | 19px / 17px | 1.6 | 0 |
 | Body | Archivo | 400 | 16px (15px in cards) | 1.6 | 0 |
-| Button | Archivo | 700 | 15px | — | 0 |
-| Label, meta | Archivo | 600 | 12–13px | — | 0 |
-| Chrome tabs | Archivo | 400, active 700 | 13px | — | 0 |
+| Button | Archivo | 700 | 15px | inherit | 0 |
+| Label, meta | Archivo | 600 | 12–13px | inherit | 0 |
+| Chrome tabs | Archivo | 400, active 700 | 13px | inherit | 0 |
 | Devtools code | JetBrains Mono | 400 | 12.5px | 1.5 | 0 |
-| Breadcrumb · chips | JetBrains Mono | 400 | 11.5px · 11px | — | 0 |
+| Breadcrumb · chips | JetBrains Mono | 400 | 11.5px · 11px | inherit | 0 |
 
 Measure: h1 ≤ 12ch, lead ≤ 46ch.
 
@@ -451,7 +451,7 @@ Measure: h1 ≤ 12ch, lead ≤ 46ch.
 
 ---
 
-## Lens: games (`/games`) — Overworld
+## Lens: games (`/games`), Overworld
 
 **Keep:** a light paper page carrying one tiny game. A pixel art overworld map in muted print tones, like the fold out map in an old game manual. Each game project is a level you walk to; one coin per road.
 
@@ -481,12 +481,12 @@ Selection (**change**): background `--rule`, colour `--ink`.
 | h1 (index) | Pixelify | 400 | `clamp(40px, 6.4vw, 76px)` | 1.02 | −0.01em |
 | h1 (level page) | Pixelify | 400 | `clamp(40px, 6vw, 72px)` | 1.04 | 0 |
 | Level title | Pixelify | 400 | `clamp(30px, 3.4vw, 42px)` | 1.08 | 0 |
-| Section h2 | Pixelify | 400 | `clamp(26px, 3vw, 34px)` | — | 0 |
-| Level list name | Pixelify | 400 | 22px | — | 0 |
+| Section h2 | Pixelify | 400 | `clamp(26px, 3vw, 34px)` | inherit | 0 |
+| Level list name | Pixelify | 400 | 22px | inherit | 0 |
 | Brand · buttons | Pixelify | 500 · 400 | 18px · 15px | 1 | 0.02em |
 | Body | Atkinson | 400 | 16px | 1.7 | 0.01em |
 | Lead (level page) | Atkinson | 400 | 18px | 1.7 | 0.01em |
-| Meta, eyebrow, caption | Atkinson | 400 | 13–14px | — | 0.04–0.1em |
+| Meta, eyebrow, caption | Atkinson | 400 | 13–14px | inherit | 0.04–0.1em |
 
 Measure: write ups ≤ 62ch, level lead ≤ 52ch. The pixel face never sets a paragraph and never goes above 500.
 
@@ -509,7 +509,7 @@ Measure: write ups ≤ 62ch, level lead ≤ 52ch. The pixel face never sets a pa
 
 ---
 
-## Lens: blockchain (`/blockchain`) — Whitepaper + Ledger
+## Lens: blockchain (`/blockchain`), Whitepaper + Ledger
 
 **Keep:** the page set as a scientific paper (title block, abstract, numbered sections, sidenotes, booktabs tables, one display equation, references) carrying a working ledger of SHA-256 chained blocks that visitors verify in the browser.
 
@@ -539,14 +539,14 @@ Selection (**change**): background `--rule`, colour `--ink`.
 |---|---|---|---|---|---|
 | Title h1 | LM | 400 | `clamp(32px, 4.8vw, 52px)` | 1.15 | centred, ≤ 18ch, −0.005em |
 | Section h2 | LM | 700 | 26px | 1.25 | number, 1em gap, title |
-| Paper h3 | LM | 700 | 20px | — | `2.1  Title` |
-| Authors | LM | 400 | 20px | — | |
-| Affiliation, byline | LM italic | 400 | 16px | — | ink soft |
+| Paper h3 | LM | 700 | 20px | inherit | `2.1  Title` |
+| Authors | LM | 400 | 20px | inherit | |
+| Affiliation, byline | LM italic | 400 | 16px | inherit | ink soft |
 | Body | LM | 400 | 18px | 1.55 | justified + `hyphens: auto` ≥ 640px, ragged below |
 | Abstract | LM | 400 | 16px | 1.5 | 34rem wide, label 15px bold |
-| Caption | LM | 400 | 15px | — | "Figure n:" bold |
+| Caption | LM | 400 | 15px | inherit | "Figure n:" bold |
 | Sidenote | LM | 400 | 14px | 1.45 | ink soft; number mono 12px ink faint |
-| Mono UI | Plex Mono | 400/500 | 13px | — | lowercase, tabular |
+| Mono UI | Plex Mono | 400/500 | 13px | inherit | lowercase, tabular |
 | Code | Plex Mono | 400 | 13.5px | 1.6 | keywords 600, comments italic ink soft |
 
 Body never below 17px; Latin Modern runs thin on screens.
@@ -557,7 +557,7 @@ Body never below 17px; Latin Modern runs thin on screens.
 
 **Motion:** UI 140ms `cubic-bezier(.2, .6, .2, 1)`. Ledger tick 90ms per block. Crossfade 180ms. Nothing types, counts or scrolls by itself.
 
-**Header and switcher:** sticky mono running head, hairline below: `f. ojetokun — onchain systems` left, switcher centre (current lens as `[blockchain]` with confirm green brackets), current `§` section and `lagos HH:MM` right.
+**Header and switcher:** sticky mono running head, hairline below: `f. ojetokun: onchain systems` left, switcher centre (current lens as `[blockchain]` with confirm green brackets), current `§` section and `lagos HH:MM` right.
 
 **Links:** ink, 1px underline in `--rule-strong`, offset 3px; underline turns ink on hover. External links end in ↗.
 

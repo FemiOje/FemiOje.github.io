@@ -1,4 +1,4 @@
-# AGENTS.md — Femi Ojetokun's portfolio
+# AGENTS.md: Femi Ojetokun's portfolio
 
 Read this file first. It explains what you are building, who it is for, how the site is structured, and which skill to load for which part. The visual rules live in the skills; this file holds the context and the contracts that all four lenses share.
 
@@ -10,10 +10,10 @@ Read this file first. It explains what you are building, who it is for, how the 
 - **Role:** Frontend / software engineer, based in Lagos, Nigeria.
 - **Education:** B.Sc. Computer Science, University of Lagos (recent graduate).
 - **Works at the intersection of:** frontend web, blockchain, and games.
-- **Experience:** Provable Labs — one-person team working directly under the CEO/co-founder.
+- **Experience:** Provable Labs, as a one-person team working directly under the CEO/co-founder.
 - **Open source:** contributor to **Dope Wars** and **Loot Survivor 2** (onchain games).
-- **Own project:** **Aux** — a live, music-app-agnostic shared space where people share their music taste and discover new music through each other. Stack: React, Node, Postgres, Redis; Monad onchain features (drop records, tips to curators) are core to it. Status: in progress.
-- **Currently learning:** smart contracts — Speedrun Ethereum → Ethernaut → Damn Vulnerable DeFi.
+- **Own project:** **Aux**, a live, music-app-agnostic shared space where people share their music taste and discover new music through each other. Stack: React, Node, Postgres, Redis; Monad onchain features (drop records, tips to curators) are core to it. Status: in progress.
+- **Currently learning:** smart contracts (Speedrun Ethereum → Ethernaut → Damn Vulnerable DeFi).
 
 **Never invent facts.** No made-up metrics, dates, employers, testimonials, client names, or project descriptions. Anything not listed here is a visible placeholder in square brackets, e.g. `[one line on what you built]`, `[years]`, `[your email]`, until Femi supplies it.
 
@@ -25,10 +25,10 @@ The site presents the same person and the same work through **four lenses**. A v
 
 | Lens | Route | Who it speaks to | Design | Skill to load |
 |---|---|---|---|---|
-| `home` | `/` | everyone (the home page) | **Ma** — entering a Japanese home: washi paper, Mincho type, vast space, subtle bamboo | `skills/ma-classic/` |
-| `web` | `/web` | people hiring a frontend / web engineer | **Browser + Inspector** — the page inside a light browser window whose tabs are the lens switcher, with working developer tools docked beside it (Elements, Styles, box model, Console) | `inspector-web` (guidelines in `design/web/DESIGN.md`) |
-| `games` | `/games` | game studios, onchain game teams | **Overworld** — a light paper page carrying one tiny game: a pixel-art map where each game project is a level the visitor walks to | `overworld-games` (guidelines in `design/games/DESIGN.md`) |
-| `blockchain` | `/blockchain` | blockchain / protocol teams | **Whitepaper + Ledger** — the page set as a scientific paper carrying a SHA-256 hash chain of the work that visitors can verify | `whitepaper-blockchain` (guidelines in `design/blockchain/DESIGN.md`) |
+| `home` | `/` | everyone (the home page) | **Ma**, entering a Japanese home: washi paper, Mincho type, vast space, subtle bamboo | `skills/ma-classic/` |
+| `web` | `/web` | people hiring a frontend / web engineer | **Browser + Inspector**, the page inside a light browser window whose tabs are the lens switcher, with working developer tools docked beside it (Elements, Styles, box model, Console) | `inspector-web` (guidelines in `design/web/DESIGN.md`) |
+| `games` | `/games` | game studios, onchain game teams | **Overworld**, a light paper page carrying one tiny game: a pixel-art map where each game project is a level the visitor walks to | `overworld-games` (guidelines in `design/games/DESIGN.md`) |
+| `blockchain` | `/blockchain` | blockchain / protocol teams | **Whitepaper + Ledger**, the page set as a scientific paper carrying a SHA-256 hash chain of the work that visitors can verify | `whitepaper-blockchain` (guidelines in `design/blockchain/DESIGN.md`) |
 
 The lenses share **content**, **routes** and **the switcher contract** (below). They do **not** share layout components or styling: each lens is its own visual world, built strictly from its skill.
 
@@ -87,7 +87,7 @@ Default lens assignments (adjust when Femi says otherwise):
 |---|---|---|---|---|---|---|
 | Aux | ✓ | ✓ | | ✓ | home, web | web, onchain |
 | Loot Survivor 2 | ✓ | ✓ | ✓ | ✓ | games | games, onchain, open-source |
-| Dope Wars | ✓ | ✓ | ✓ | ✓ | — | games, onchain, open-source |
+| Dope Wars | ✓ | ✓ | ✓ | ✓ | none | games, onchain, open-source |
 
 ---
 

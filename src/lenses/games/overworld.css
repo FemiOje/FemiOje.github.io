@@ -14,7 +14,7 @@
   --ink-soft:    #5C5A53;
 
   /* Rules */
-  --rule:        #D8D4C8;            /* hairlines — decoration only */
+  --rule:        #D8D4C8;            /* hairlines, decoration only */
   --rule-strong: #8C887C;            /* link underlines, key caps (3.2:1) */
 
   /* The one accent: "you / you got it" */
@@ -38,7 +38,7 @@
   margin: 0; background: var(--paper); color: var(--ink);
   font-family: var(--font-body); font-size: 16px; line-height: 1.7; letter-spacing: .01em;
 }
-/* Base element rules use :where() so they carry zero specificity — component classes always win */
+/* Base element rules use :where() so they carry zero specificity; component classes always win */
 :where([data-lens="games"]) a {
   color: var(--ink); text-decoration-thickness: 1px; text-underline-offset: 3px;
   text-decoration-color: var(--rule-strong);

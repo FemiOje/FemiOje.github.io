@@ -37,7 +37,7 @@ const rows = [
 ].filter(({ value }) => value && !value.startsWith('['));
 ---
 
-<Layout title={`${title} — ${profile.name}`} description={summary}>
+<Layout title={`${title}, ${profile.name}`} description={summary}>
   <article data-level-page={slug} data-node={nodeId(level)}>
     <header class="level-head">
       <a class="back" href="/games">← world map</a>
@@ -65,7 +65,7 @@ const rows = [
             loading={i === 0 ? 'eager' : 'lazy'}
             data-tall={image.height > image.width || undefined}
           />
-          <figcaption>Figure {i + 1} — {title}</figcaption>
+          <figcaption>Figure {i + 1}: {title}</figcaption>
         </figure>
       ))
     }

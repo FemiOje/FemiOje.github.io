@@ -1,4 +1,4 @@
-# Design Guidelines — Overworld (games lens)
+# Design Guidelines: Overworld (games lens)
 
 ## Visual Style
 - **Aesthetic**: A printed game map on light paper. The page is a calm sibling of the home (washi) and blockchain (whitepaper) lenses: paper, near-black ink, hairlines, square corners, one small accent. The only game-flavoured layer is the overworld itself, a small pixel-art map in muted print tones with thin ink outlines, like the fold-out map in an old game manual
@@ -9,24 +9,24 @@
 ## Color Palette
 
 ### Page (CSS)
-- **Paper**: `#F7F5EF` — sits between home's warm washi `#F4F0E6` and blockchain's cool white `#FCFCFA`. Never pure white
-- **Recess**: `#EEEBE2` — the level dialog, hover fills
-- **Ink**: `#1E1D1A` — text, borders, the map frame, primary buttons. Never pure black
-- **Ink soft**: `#5C5A53` — secondary text, labels, meta
-- **Rule**: `#D8D4C8` — hairlines between rows, decorative only
-- **Rule strong**: `#8C887C` — link underlines, key-cap borders (3.2:1 on paper)
-- **Gold (the one accent)**: `#A97409` — means "this is you / you got it". Only on: the current-lens square in the switcher, the focus ring, the coin square in the HUD, the "visited" square in the level list, the achievement square in the toast. Never on text, links, headings, buttons or backgrounds
+- **Paper**: `#F7F5EF`, sits between home's warm washi `#F4F0E6` and blockchain's cool white `#FCFCFA`. Never pure white
+- **Recess**: `#EEEBE2`, the level dialog, hover fills
+- **Ink**: `#1E1D1A`, text, borders, the map frame, primary buttons. Never pure black
+- **Ink soft**: `#5C5A53`, secondary text, labels, meta
+- **Rule**: `#D8D4C8`, hairlines between rows, decorative only
+- **Rule strong**: `#8C887C`, link underlines, key-cap borders (3.2:1 on paper)
+- **Gold (the one accent)**: `#A97409`, means "this is you / you got it". Only on: the current-lens square in the switcher, the focus ring, the coin square in the HUD, the "visited" square in the level list, the achievement square in the toast. Never on text, links, headings, buttons or backgrounds
 
-### Map art (canvas only — never used as page CSS)
+### Map art (canvas only; never used as page CSS)
 - **Ground**: `#DFE5D2` · tufts `#C3CDB1`
 - **Road**: `#F7F3E7` · edge `#9C9783`
 - **Water**: `#C4D7DD` · shimmer `#E6F0F1` · bank `#93AEB7`
 - **Wood (bridges)**: `#D2BF98` · planks `#8E7C5D`
 - **Foliage**: leaf `#A3B58F` · dark `#81966F` · light `#C3D0B0` · trunk `#7A6A55`
 - **Rock**: `#BDBAAE` · light `#DCD9CE`
-- **Outline**: `#2E2D29` — every sprite gets a 1px outline in this colour
-- **Shadow**: `rgba(46, 45, 41, .13)` — flat 2px ellipse under sprites
-- **Coin**: `#D9A21B` · dark `#9C720F` · shine `#F3DC93` — brighter than the page gold because it sits inside a 1px ink outline
+- **Outline**: `#2E2D29`, every sprite gets a 1px outline in this colour
+- **Shadow**: `rgba(46, 45, 41, .13)`, flat 2px ellipse under sprites
+- **Coin**: `#D9A21B` · dark `#9C720F` · shine `#F3DC93`, brighter than the page gold because it sits inside a 1px ink outline
 - **Player**: hair `#3A3530`, skin `#9A6A4A`, scarf = coin gold, tunic `#7D93B6` / `#61779C`, trousers `#5A5850`
 
 ## Typography
@@ -80,7 +80,7 @@
 - **Achievement toast**: paper box with a 2px ink border, centred at the top of the map: gold square + "explorer" + ink-soft "visited every level". Two achievements only: explorer (all levels visited) and coin collector (all coins). 3.2s on screen
 - **Level select list**: h2 "Level select" + one line, then hairline rows: code (`1-1`), name (Pixelify 22px), kind (body 14px), status ("visited" with a gold square, or "not yet"). Each row is a real link to the level page
 - **Level page header**: "← world map" link, eyebrow "level 1-3 · world 1", h1 project title, one-line summary, status chip in words ("live", "in development", "archived"), primary "play ↗" and secondary "code ↗"
-- **Hero figure**: screenshot or short muted looping clip in a 2px ink frame, `image-rendering: auto`, caption below in ink soft ("Figure 1 — the dungeon screen")
+- **Hero figure**: screenshot or short muted looping clip in a 2px ink frame, `image-rendering: auto`, caption below in ink soft ("Figure 1: the dungeon screen")
 - **Level card**: hairline rows like home's about rows: role · team · dates · engine / stack · chain · platform · status. A row with no data is omitted, never shown empty
 - **Write-up sections**: "How it plays", "What I built", "What I learned" as sentence-case h2s in Pixelify with body paragraphs at a 62ch measure
 - **Media strip**: further figures in a two-column grid (one column on mobile), each framed and captioned

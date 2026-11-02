@@ -43,7 +43,7 @@ export async function getInspectorData(): Promise<InspectorData> {
     commands: {
       about: {
         kind: 'ret',
-        text: `"${profile.fullName} — ${profile.role.toLowerCase()}. ${profile.bio.join(' ')}"`,
+        text: `"${profile.fullName}, ${profile.role.toLowerCase()}. ${profile.bio.join(' ')}"`,
       },
       experience: {
         kind: 'out',

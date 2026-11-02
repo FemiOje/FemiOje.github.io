@@ -1,4 +1,4 @@
-# DESIGN.md — Ma (web lens)
+# DESIGN.md: Ma (web lens)
 
 ## 1. Visual theme
 
@@ -52,8 +52,8 @@ Rules
 | Body | Zen Kaku Gothic New | 400 | 16px | 1.8 | 0.02em |
 | Lead (under h1) | Zen Kaku Gothic New | 400 | `clamp(16px, 1.3vw, 18px)` | 1.9 | 0.02em |
 | Label / meta | Zen Kaku Gothic New | 400 | 13px | 1.6 | 0.10–0.14em |
-| Nav | Zen Kaku Gothic New | 400 | 14px | — | 0.08em |
-| Vertical kanji label | Shippori Mincho | 400 | 15px | — | 0.3em, `writing-mode: vertical-rl` |
+| Nav | Zen Kaku Gothic New | 400 | 14px | inherit | 0.08em |
+| Vertical kanji label | Shippori Mincho | 400 | 15px | inherit | 0.3em, `writing-mode: vertical-rl` |
 
 - Both fonts: SIL Open Font License (Google Fonts / `@fontsource`). Fallbacks: Mincho → `"Hiragino Mincho ProN", "Yu Mincho", serif`; Gothic → `"Hiragino Sans", "Yu Gothic", system-ui, sans-serif`.
 - Headings in sentence case. Labels, nav and meta in lowercase.
@@ -73,7 +73,7 @@ Rules
 | 一期一会 | ichigo ichie | one time, one meeting | footer, followed by the English gloss |
 | フェミ | femi | "Femi" in katakana | inside the hanko seal (`aria-hidden`) |
 
-English concept words may appear in labels: `tokonoma — the one thing on display`. Anything beyond this table needs Femi's approval and a native speaker's check.
+English concept words may appear in labels: `tokonoma: the one thing on display`. Anything beyond this table needs Femi's approval and a native speaker's check.
 
 ## 5. Layout principles
 
@@ -94,7 +94,7 @@ English concept words may appear in labels: `tokonoma — the one thing on displ
 
 **Hanko seal.** 34 × 34px, radius 3px, `--seal` fill, `--on-seal` text, フェミ set vertically (`writing-mode: vertical-rl`), Mincho 10px weight 600. Decorative: `aria-hidden="true"`; the name beside it is the accessible text.
 
-**Lens switcher (Ma style).** Three lowercase words in a row (`web · chain · games`), 13px, tracking 0.12em. The active one has a 6px seal-coloured square before it (a tiny seal) and `aria-current="page"`. Disabled `chain — soon` in `--ink-soft` with no link. Lives in the header, and once more in the hero under the actions.
+**Lens switcher (Ma style).** Three lowercase words in a row (`web · chain · games`), 13px, tracking 0.12em. The active one has a 6px seal-coloured square before it (a tiny seal) and `aria-current="page"`. Disabled `chain (soon)` in `--ink-soft` with no link. Lives in the header, and once more in the hero under the actions.
 
 **Primary action.** Text "enter" + thin arrow, 1px `--ink` border, radius 2px, min-height 48px, padding 0 22px, transparent fill. Hover: background `--paper-recess`. Secondary action: plain underlined link.
 
@@ -110,7 +110,7 @@ English concept words may appear in labels: `tokonoma — the one thing on displ
 
 **Project detail page.** Same frame. Genkan-style label (`作品 · <project>`), Mincho h1, lead sentence, then one full-width image well, then prose (≤ 64ch) alternating with single images placed off-centre. End with a quiet "next project" link and the bamboo divider.
 
-**Footer.** Bamboo divider (node at 70%), then © line left, `一期一会 — one time, one meeting` right, 13px.
+**Footer.** Bamboo divider (node at 70%), then © line left, `一期一会: one time, one meeting` right, 13px.
 
 ## 7. Depth and elevation
 
@@ -149,4 +149,4 @@ None. No shadows, no blur, no gradients. Depth = paper tone change (`--paper` �
 
 Paste-ready brief: *"Using the ma-web skill, build the web lens home page: washi paper background #F4F0E6, ink text #2B2A26, Shippori Mincho headings at weight 400 with Zen Kaku Gothic New body, vast vertical spacing, a hanko seal reading フェミ as the logo, a three-stalk pale bamboo cluster in the hero, a tokonoma alcove for the featured project and a 1px-lattice shoji grid for the rest. Only the seal is coloured. No other Japanese imagery."*
 
-Reference mockup: the "v2 — Ma (Japanese home)" artboard on Femi's Portfolio Homepage canvas.
+Reference mockup: the "v2: Ma (Japanese home)" artboard on Femi's Portfolio Homepage canvas.

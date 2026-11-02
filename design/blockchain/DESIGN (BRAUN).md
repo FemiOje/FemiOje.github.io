@@ -1,4 +1,4 @@
-# DESIGN.md — Braun (games lens)
+# DESIGN.md: Braun (games lens)
 
 ## 1. Visual theme
 
@@ -69,7 +69,7 @@ Family: **Inter** (SIL OFL), variable with the optical-size (`opsz`) axis so lar
 
 **Header.** Wordmark `femi ojetokun` (15px, 600) left; nav (`work`, `about`, `contact`); lens switcher; `lagos · HH:MM wat` (13px, `--text-2`, Africa/Lagos time). 16px vertical padding, 1px `--panel-grey` bottom border.
 
-**Status line.** 8px accent dot + `frontend engineer — web, onchain, games` (13px, `--text-2`). Sits above the h1.
+**Status line.** 8px accent dot + `frontend engineer: web, onchain, games` (13px, `--text-2`). Sits above the h1.
 
 **Primary button.** Accent fill, `--on-accent` text 15px/500, radius 4px, min-height 48px, padding 0 22px, trailing 16px stroke arrow. Hover: darken fill 6%. Focus: 2px `--charcoal` outline, 2px offset. Secondary: underlined charcoal link.
 
@@ -78,9 +78,9 @@ Family: **Inter** (SIL OFL), variable with the optical-size (`opsz`) axis so lar
 - Speaker grille: 188px tall, radius 4px, dot pattern `radial-gradient(circle, var(--line-grey) 0 2.2px, transparent 2.8px)` on a 13px grid. `aria-hidden`.
 - Bottom row: a 96px circular **dial** (`--chassis` fill, 1px `--line-grey` rim) with a 2 × 28px charcoal pointer rotated to −50° / 0° / +50° for `web` / `chain` / `games`, 160ms ease-out; beside it the three position labels, each with a 6px dot (accent when current, `--line-grey` otherwise), and a one-line readout for the current position.
 - Behaviour: on this lens the pointer rests at `games`. The position labels are the switcher links (AGENTS.md §4). Clicking the dial or pressing →/← while it is focused rotates the pointer to the next position and follows that lens's link after the 160ms turn. `chain` is skipped while disabled. Dial: `<button aria-label="Turn the dial to switch lens">`.
-- Readout copy: `web` → "Interfaces and frontend engineering for the web." · `chain` → "Onchain products — Monad, Ethereum." · `games` → "Onchain games — Dope Wars, Loot Survivor 2."
+- Readout copy: `web` → "Interfaces and frontend engineering for the web." · `chain` → "Onchain products: Monad, Ethereum." · `games` → "Onchain games: Dope Wars, Loot Survivor 2."
 
-**Lens switcher (header).** Three lowercase words, 13px, each preceded by a 6px dot; current = accent dot + `--charcoal` text + `aria-current="page"`; others `--line-grey` dot + `--text-2` text; `chain — soon` disabled.
+**Lens switcher (header).** Three lowercase words, 13px, each preceded by a 6px dot; current = accent dot + `--charcoal` text + `aria-current="page"`; others `--line-grey` dot + `--text-2` text; `chain (soon)` disabled.
 
 **Spec plate.** A row of cells between 1px `--panel-grey` top/bottom borders: label (13px `--text-2`) over value (15px). Cells: based in, focus, education, previously.
 
@@ -91,7 +91,7 @@ Family: **Inter** (SIL OFL), variable with the optical-size (`opsz`) axis so lar
 4. Stack line: lowercase items separated by `·`.
 Model numbers follow the lens's project order: featured project is `fo-01`.
 
-**Section header.** Label `01 — selected work` (13px `--text-2`) over the h2 (`Units shipped.` / `Spec sheet.`), with a count on the right (`03 units`).
+**Section header.** Label `01: selected work` (13px `--text-2`) over the h2 (`Units shipped.` / `Spec sheet.`), with a count on the right (`03 units`).
 
 **Spec sheet rows (about).** Grid of label / value / detail / years, 16px vertical padding, 1px `--panel-grey` lines.
 
@@ -133,7 +133,7 @@ Flat. No shadows at rest. Panels separate from the chassis by tone (`--chassis-w
 
 Paste-ready brief: *"Using the braun-games skill, build the games lens home page: cream chassis #F2EFE9, charcoal text #221F1A, Inter with display optical size for one bold 700 headline (tracking −0.045em), everything else small and lowercase; a tuner unit with a speaker grille and a working dial that switches lenses; projects as numbered units (fo-01…) in #E9E5DC panels with status dots; braun orange #E8501E only on the primary button and active dots; 4px radius, no shadows."*
 
-Reference mockup: the "v1 — Braun" artboard on Femi's Portfolio Homepage canvas.
+Reference mockup: the "v1: Braun" artboard on Femi's Portfolio Homepage canvas.
 
 ## 11. Attribution
 
