@@ -44,8 +44,8 @@ const outbound = [
     <Well project={project} class="ma-detail__well" sizes="(min-width: 1200px) 1072px, 90vw" loading="eager" />
     {
       galleryOf(project).map(({ image, alt }) => (
-        <div class="ma-well ma-detail__well">
-          <Image src={image} alt={alt} widths={[480, 800, 1200]} sizes="(min-width: 1200px) 1072px, 90vw" data-tall={image.height > image.width || undefined} />
+        <div class="ma-well ma-detail__well" data-tall={image.height > image.width || undefined}>
+          <Image src={image} alt={alt} widths={[480, 800, 1200]} sizes="(min-width: 1200px) 1072px, 90vw" />
         </div>
       ))
     }

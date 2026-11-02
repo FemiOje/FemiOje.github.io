@@ -1,9 +1,10 @@
 ---
-import { getExperience, getLensProjects, getProfile } from '../lib/content';
+import { getExperience, getLensProjects, getProfile, type Project } from '../lib/content';
 import { lenses } from '../lib/lenses';
 import Layout from '../lenses/home/Layout.astro';
 import Bamboo from '../lenses/home/Bamboo.astro';
 import BambooDivider from '../lenses/home/BambooDivider.astro';
+import Current from '../lenses/home/Current.astro';
 import Filters from '../lenses/home/Filters.astro';
 import LensSwitcher from '../lenses/home/LensSwitcher.astro';
 import Rows from '../lenses/home/Rows.astro';
@@ -16,9 +17,15 @@ const profile = await getProfile();
 const { name, role, bio, intro, email, links } = profile.data;
 const { all, featured, rest } = await getLensProjects('home');
 const experience = await getExperience();
+// Work in progress gets its own small note above the selected work, which holds only finished work.
+const inProgress = ({ data }: Project) => data.status === 'in-progress';
+const current = all.filter(inProgress);
+const work = all.filter((project) => !inProgress(project));
+const showcase = featured && !inProgress(featured) ? featured : undefined;
 // One object in the alcove, five in the shoji, the rest as quiet rows.
-const shoji = rest.slice(0, 5);
-const others = rest.slice(5);
+const remaining = rest.filter((project) => !inProgress(project));
+const shoji = remaining.slice(0, 5);
+const others = remaining.slice(5);
 const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'home');
 ---
 
@@ -60,11 +67,13 @@ const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'home');
 
   <div class="ma-container"><BambooDivider at="30%" /></div>
 
+  {current.length > 0 && <Current projects={current} />}
+
   <section class="ma-work ma-container" aria-labelledby="work">
     <div class="ma-blocks">
       <SectionHead label="work" id="work">Selected work</SectionHead>
-      <Filters projects={all} />
-      {featured && <Tokonoma project={featured} />}
+      <Filters projects={work} />
+      {showcase && <Tokonoma project={showcase} />}
       {shoji.length > 0 && <ShojiGrid projects={shoji} />}
       {others.length > 0 && <WorkList projects={others} />}
     </div>
@@ -96,10 +105,10 @@ const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'home');
           {email.startsWith('[') ? <span>{email}</span> : <a class="ma-link" href={`mailto:${email}`}>{email}</a>}
         </li>
         {
-          links.map(({ label, url }) => (
+          links.map(({ label, url, text }) => (
             <li>
               <span class="ma-label">{label}</span>
-              <a class="ma-link" href={url}>{url.replace(/^https?:\/\//, '')}</a>
+              <a class="ma-link" href={url}>{text ?? url.replace(/^https?:\/\//, '')}</a>
             </li>
           ))
         }

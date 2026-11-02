@@ -204,11 +204,11 @@ const refOf = (i: number) => standards + i + 1;
       <dt>email</dt>
       <dd>{hasEmail ? <a href={`mailto:${email}`}>{email}</a> : email}</dd>
       {
-        links.map(({ label, url }) => (
+        links.map(({ label, url, text }) => (
           <>
             <dt>{label}</dt>
             <dd>
-              <a href={url}>{bare(url)}</a> ↗
+              <a href={url}>{text ?? bare(url)}</a> ↗
             </dd>
           </>
         ))

@@ -2,7 +2,8 @@
    src/content.config.ts, which checks every entry against the schema.
    Every entry must be traceable to a real repo, PR, or live URL.
 
-   profile     who the site is about. `intro` is the one line that changes per lens.
+   profile     who the site is about. `intro` is the one line that changes per lens. A link shows its URL
+               without the scheme, or its `text` when it has one; the URL stays the href either way.
    experience  the rows in the about section, in `order`.
    projects    one entry per project:
      lenses       which lenses show it: home (everything), web, games, blockchain
@@ -51,7 +52,7 @@ export default {
       { label: "github", url: "https://github.com/FemiOje" },
       { label: "x", url: "https://x.com/0xjinius" },
       { label: "itch.io", url: "https://femioje.itch.io" },
-      { label: "discord", url: "https://discord.com/users/968871471206264872" }
+      { label: "discord", url: "https://discord.com/users/968871471206264872", text: "jinius" }
     ],
     /* Language of each original (non-fork) public repo on GitHub, counted on asOf. */
     holdings: [
@@ -122,7 +123,7 @@ export default {
     {
       title: "Herit", slug: "herit", role: "Co-creator", status: "shipped", years: "2026",
       summary: "An onchain inheritance platform built on ENSv2 subnames and World ID: if an owner is no longer alive, their heirs gain access. Took first place for Best Use of ENSv2 at ETHOnline 2026.",
-      lenses: ["home", "blockchain"], featured_in: [],
+      lenses: ["home", "blockchain"], featured_in: ["home"],
       order: { home: 3, blockchain: 2 },
       tags: ["onchain", "open-source"],
       stack: ["TypeScript", "ENSv2", "World ID"],
@@ -156,7 +157,7 @@ export default {
     {
       title: "aux", slug: "aux", role: "Contributor", status: "in-progress", years: "2026",
       summary: "For the audiophiles looking for niche music, the music nerds looking to be put on, and the hobbyists looking to refresh their taste.",
-      lenses: ["home", "web"], featured_in: ["home", "web"],
+      lenses: ["home", "web"], featured_in: ["web"],
       order: { home: 1, web: 1 },
       tags: ["web", "open-source"],
       stack: ["TypeScript", "Privy"],
@@ -223,6 +224,7 @@ export default {
       tags: ["games"],
       stack: ["Unity", "C#"],
       links: { live: "", repo: "https://github.com/FemiOje/dungeon-generator-2d" },
+      cover: "img/game-dev/dungeon-generator-2d.png",
       kind: "game"
     },
     {

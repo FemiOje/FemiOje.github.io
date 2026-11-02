@@ -56,7 +56,8 @@ const profile = defineCollection({
     // Each lens home page's search and social description.
     meta: z.record(lens, z.string()),
     email: z.string(),
-    links: z.array(z.object({ label: z.string(), url: z.string() })),
+    // `text` is what a link shows in place of its bare URL, e.g. a handle for a profile URL with an id.
+    links: z.array(z.object({ label: z.string(), url: z.string(), text: z.string().optional() })),
   }),
 });
 

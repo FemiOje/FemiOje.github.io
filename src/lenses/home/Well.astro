@@ -15,7 +15,7 @@ const { title } = project.data;
 const cover = coverOf(project);
 ---
 
-<div class:list={['ma-well', className]}>
+<div class:list={['ma-well', className, !cover && 'ma-well--empty']} data-tall={(cover && cover.height > cover.width) || undefined}>
   {
     cover ? (
       <Image
@@ -24,7 +24,6 @@ const cover = coverOf(project);
         widths={[480, 800, 1200]}
         sizes={sizes}
         loading={loading}
-        data-tall={cover.height > cover.width || undefined}
       />
     ) : (
       <p class="ma-label">[project screenshot]</p>

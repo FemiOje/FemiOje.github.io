@@ -18,7 +18,7 @@ const cover = coverOf(project);
     <span>{String(index + 1).padStart(2, '0')}</span>
     <span>{statusLabel[status]}</span>
   </div>
-  <div class="card__well">
+  <div class:list={['card__well', !cover && 'card__well--empty']} data-tall={(cover && cover.height > cover.width) || undefined}>
     {
       cover ? (
         <Image src={cover} alt={`${title} screenshot`} widths={[320, 480, 720]} sizes="(min-width: 720px) 300px, 90vw" />
