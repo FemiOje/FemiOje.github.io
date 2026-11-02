@@ -56,27 +56,57 @@
 main:focus { outline: 0; }
 
 /* ── Header + lens switcher ── */
-.site-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 32px; padding-block: 24px; }
-/* Sticky while it is one row; on phones it wraps, so it scrolls away instead. The spread paints the paper edge to edge. */
-@media (min-width: 641px) {
-  [data-lens="games"] { scroll-padding-top: 104px; }
-  .site-header { position: sticky; top: 0; z-index: 10; background: var(--paper); box-shadow: 0 0 0 100vmax var(--paper); clip-path: inset(0 -100vmax); }
-}
+.site-header { display: flex; justify-content: space-between; align-items: center; gap: 8px 32px; padding-block: 24px; }
+/* Sticky at every width, a hairline under it. The border image paints its paper and the hairline edge to edge. */
+[data-lens="games"] { scroll-padding-top: 93px; }
+.site-header { position: sticky; top: 0; z-index: 10; border-image: linear-gradient(to top, var(--rule) 1px, var(--paper) 1px) fill 0 / / 0 100vmax; }
 .brand { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; text-decoration: none; }
 .brand canvas { width: 30px; height: 30px; image-rendering: pixelated; }      /* the player's head, 20×20 */
 .brand-name { font: 500 18px/1 var(--font-pixel); letter-spacing: .02em; }
-.lens-nav { display: flex; flex-wrap: wrap; gap: 0 18px; font-size: 14px; letter-spacing: .06em; }
-.lens-nav :is(a, span) { display: inline-flex; align-items: center; gap: 8px; min-width: 44px; min-height: 44px; justify-content: center; text-decoration: none; color: var(--ink-soft); }
-.lens-nav a:hover { color: var(--ink); }
-.lens-nav a[aria-current="page"] { color: var(--ink); }
-.lens-nav a[aria-current="page"]::before { content: ""; width: 6px; height: 6px; background: var(--gold); }
-.clock { font-size: 13px; letter-spacing: .08em; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+/* ── Lens menu: a button in the header, a game-menu window from the right edge ── */
+.menu-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; margin-right: -10px; padding: 0; border: 0; background: none; color: var(--ink); cursor: pointer; }
+.menu-btn:hover { color: var(--ink-soft); }
+.menu-icon { display: block; width: 24px; height: 24px; }
+
+/* It steps in like a sprite (six frames), then prints its entries one at a time. Closing runs it
+   backwards: the entries go, then the window steps out. */
+.menu-drawer {
+  position: fixed; inset: 0 0 0 auto; z-index: 30; display: flex; flex-direction: column;
+  width: min(86vw, 340px); overflow-y: auto; border-left: 2px solid var(--ink); background: var(--paper);
+  transform: translateX(100%); transition: transform 300ms steps(6, end) 200ms;
+}
+.menu-drawer[data-drawer="open"] { transform: none; transition-delay: 0s; }
+.menu-drawer__head { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 24px var(--pad-x); }
+.menu-drawer__title { margin: 0; font: 500 18px/1 var(--font-pixel); letter-spacing: .02em; }
+.menu-drawer__list { margin: 0; padding: 0; list-style: none; border-top: 2px solid var(--ink); }
+.menu-drawer__list li { border-bottom: 1px solid var(--rule); opacity: 0; transition: opacity 0s linear calc((3 - var(--i)) * 50ms); }
+.menu-drawer[data-drawer="open"] .menu-drawer__list li { opacity: 1; transition-delay: calc(300ms + var(--i) * 80ms); }
+.menu-drawer__list :is(a, span[aria-disabled]) {
+  display: flex; align-items: center; gap: 12px; min-height: 64px; padding-inline: var(--pad-x);
+  color: var(--ink-soft); font: 400 24px/1.15 var(--font-pixel); text-decoration: none;
+}
+/* The cursor: an arrow beside the entry you point at; the current lens keeps the gold square. */
+.menu-drawer__list a::before { content: "→"; width: 1ch; color: var(--ink); visibility: hidden; }
+.menu-drawer__list a:is(:hover, :focus-visible) { background: var(--recess); color: var(--ink); }
+.menu-drawer__list a:is(:hover, :focus-visible)::before { visibility: visible; }
+.menu-drawer__list a[aria-current="page"] { color: var(--ink); }
+.menu-drawer__list a[aria-current="page"]:not(:hover, :focus-visible)::before { content: ""; width: 8px; height: 8px; margin-inline: calc((1ch - 8px) / 2); background: var(--gold); visibility: visible; }
+.menu-drawer__list span[aria-disabled] { color: var(--rule-strong); }
+.menu-drawer__keys { margin: auto 0 0; padding: 24px var(--pad-x); font-size: 13px; letter-spacing: .04em; color: var(--ink-soft); }
+
+/* Behind it, the page dimmed in three steps, and held still. */
+.menu-scrim {
+  position: fixed; inset: 0; z-index: 25; background: color-mix(in srgb, var(--ink) 30%, transparent);
+  opacity: 0; pointer-events: none; transition: opacity 300ms steps(3, end) 200ms;
+}
+[data-lens="games"]:has(.menu-drawer[data-drawer="open"]) .menu-scrim { opacity: 1; pointer-events: auto; transition-delay: 0s; }
+[data-lens="games"]:has(.menu-drawer[data-drawer="open"]) { overflow: hidden; }
 
 /* ── Intro + HUD ── */
 .intro { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 40px; padding-block: clamp(24px, 5vw, 56px) 4px; }
 .intro h1 { margin: 0; font-size: clamp(40px, 6.4vw, 76px); line-height: 1.02; letter-spacing: -.01em; text-wrap: balance; }
 .intro .lead { margin: 14px 0 0; max-width: 46ch; color: var(--ink-soft); }
-.intro .lens-nav { margin-top: 10px; }
 .hud { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; font: 400 15px/1 var(--font-pixel); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
 .hud b { font-weight: 500; color: var(--ink); }
 .hud .sq { display: inline-block; width: 8px; height: 8px; margin-right: 8px; background: var(--gold); vertical-align: 1px; }
@@ -170,7 +200,7 @@ kbd { padding: 2px 5px 3px; border: 1px solid var(--rule-strong); border-bottom-
 
 /* Lens transitions crossfade like the other lenses; nothing else on the page moves. */
 @media (prefers-reduced-motion: reduce) {
-  .toast, .btn { transition: none; }
+  .toast, .btn, .menu-drawer, .menu-drawer__list li, .menu-scrim { transition: none; }
   .btn:active { transform: none; }
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }

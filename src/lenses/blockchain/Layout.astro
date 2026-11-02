@@ -3,6 +3,7 @@ import { Font } from 'astro:assets';
 import { ClientRouter, fade } from 'astro:transitions';
 import Seo from '../../lib/Seo.astro';
 import Colophon from './Colophon.astro';
+import Drawer from './Drawer.astro';
 import RunHead from './RunHead.astro';
 import './whitepaper.css';
 
@@ -27,6 +28,7 @@ const { title, description } = Astro.props;
   <body class="justify">
     <a class="skip mono" href="#main">skip to content</a>
     <RunHead />
+    <Drawer />
     <main id="main" class="container" tabindex="-1">
       <slot />
       <pre class="cite-fallback" data-cite-fallback tabindex="0" hidden></pre>
@@ -34,9 +36,8 @@ const { title, description } = Astro.props;
     <Colophon />
     <p class="sr-only" aria-live="polite" data-cite-status></p>
     <script>
-      import '../../lib/client/lens-memory';
       import '../../lib/client/lens-transition';
-      import '../../lib/client/clock';
+      import '../../lib/client/drawer';
       import './interactions';
     </script>
   </body>

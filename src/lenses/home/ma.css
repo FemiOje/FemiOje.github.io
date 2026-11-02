@@ -4,15 +4,11 @@
   /* Paper */
   --paper: #F4F0E6;
   --paper-recess: #ECE6D7;
-  --paper-faint: #EAE4D4;
 
   /* Wood and bamboo (decor, never text) */
   --wood-beam: #D2C9AE;
   --lattice: #D9D1BB;
   --node: #C9C0A6;
-  --bamboo-1: #E6DFCA;
-  --bamboo-2: #EAE4D2;
-  --bamboo-3: #EDE8D8;
   --numeral: #A39B85;
 
   /* Ink */
@@ -25,16 +21,25 @@
   --seal: #B8412A;
   --on-seal: #FBF8F1;
 
+
   --mincho: var(--font-mincho);
   --gothic: var(--font-gothic);
 
   --gutter: clamp(24px, 5vw, 64px);
-  --kanji: clamp(120px, 16vw, 220px);
+  /* The header's height: 20px padding twice around the 44px logo and menu button. */
+  --header: 84px;
+  --hero-pad: clamp(24px, 5svh, 64px);
   --hover: 160ms ease-out;
+  /* The sidebar slides in quickly and settles; its wooden doors are heavier: a slow start, a long
+     glide, a soft stop. */
+  --slide: 380ms cubic-bezier(0.2, 0, 0, 1);
+  --doors: 620ms cubic-bezier(0.55, 0, 0.1, 1);
 
   color-scheme: light;
   background: var(--paper);
   scroll-behavior: smooth;
+  /* Anchored sections stop below the sticky header. */
+  scroll-padding-top: var(--header);
   -webkit-text-size-adjust: 100%;
 }
 
@@ -126,41 +131,25 @@
   color: var(--ink-soft);
 }
 
-/* Header */
+/* Header: the logo on the left, the menu button on the right; it stays at the top as the page
+   scrolls, a lattice hairline under it. The border image paints its paper and the hairline edge to
+   edge without clipping the sidebar inside it (a clip-path would). */
 .ma-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-image: linear-gradient(to top, var(--lattice) 1px, var(--paper) 1px) fill 0 / / 0 100vmax;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 4px clamp(16px, 2.6vw, 36px);
-  padding-block: 28px;
-}
-/* Sticky from tablet up; on phones the header stacks, so it scrolls away instead. The spread paints the paper edge to edge. */
-@media (min-width: 768px) {
-  [data-lens="home"] {
-    scroll-padding-top: 164px;
-  }
-  .ma-header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: var(--paper);
-    box-shadow: 0 0 0 100vmax var(--paper);
-    clip-path: inset(0 -100vmax);
-  }
-}
-@media (min-width: 1200px) {
-  [data-lens="home"] {
-    scroll-padding-top: 112px;
-  }
+  justify-content: space-between;
+  gap: 24px;
+  padding-block: 20px;
 }
 .ma-brand {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  min-width: 44px;
   min-height: 44px;
-  margin-right: auto;
-  font: 400 17px/1.2 var(--mincho);
-  letter-spacing: 0;
   text-decoration: none;
 }
 /* The site's mark, at the 32px it is drawn for. */
@@ -169,72 +158,181 @@
   width: 32px;
   height: 32px;
 }
-.ma-nav ul {
-  display: flex;
-  margin-inline: -8px;
+/* In the alcove's wood: the lintel's tone behind, ink letters on it (8.7:1). */
+.ma-mark rect {
+  fill: var(--wood-beam);
 }
-.ma-nav a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 44px;
-  min-height: 44px;
-  padding-inline: 12px;
-  color: var(--ink-soft);
-  font-size: 14px;
-  letter-spacing: 0.08em;
-  text-decoration: none;
-}
-.ma-nav a:hover {
-  color: var(--ink);
-}
-.ma-clock {
-  color: var(--ink-soft);
-  font-size: 13px;
-  letter-spacing: 0.1em;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
+.ma-mark path {
+  fill: var(--ink);
 }
 
-/* Lens switcher */
-.ma-lens ul {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-inline: -8px;
-}
-.ma-lens li {
-  display: flex;
-  align-items: center;
-  font-size: 13px;
-  letter-spacing: 0.12em;
-}
-/* The dot trails its word, so a wrapped line never starts with one. */
-.ma-lens li:not(:last-child)::after {
-  content: "·";
-  color: var(--ink-soft);
-}
-.ma-lens__item {
+/* The menu button: three hairlines. Open, the outer two cross into a close mark and the middle one
+   goes. It stays above the drawer, so the close mark sits where the menu mark was. */
+.ma-menu {
+  position: relative;
+  z-index: 30;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
   min-width: 44px;
   min-height: 44px;
-  padding-inline: 8px;
-  color: var(--ink-soft);
-  text-decoration: none;
-  white-space: nowrap;
+  margin-right: -11px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
 }
-.ma-lens a.ma-lens__item:hover,
-.ma-lens__item[aria-current="page"] {
+.ma-menu:hover {
+  color: var(--ink-soft);
+}
+.ma-menu svg {
+  width: 22px;
+  height: 16px;
+  overflow: visible;
+}
+.ma-menu__line {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 240ms ease-out, opacity 240ms ease-out;
+}
+.ma-menu[aria-expanded="true"] .ma-menu__line:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.ma-menu[aria-expanded="true"] .ma-menu__line:nth-child(2) {
+  opacity: 0;
+}
+.ma-menu[aria-expanded="true"] .ma-menu__line:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* The lens sidebar: full height from the right edge, over the dimmed page. A tokonoma inside:
+   the label, then one bay per lens under a wood lintel, lattice between them. */
+.ma-alcove {
+  position: fixed;
+  inset: 0 0 0 auto;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: min(84vw, 340px);
+  padding-top: calc(var(--header) + 24px);
+  overflow: hidden;
+  border-left: 1px solid var(--lattice);
+  background: var(--paper-recess);
+  /* Closing: out only once the doors have shut. */
+  transform: translateX(100%);
+  transition: transform var(--slide) 560ms;
+}
+/* Opening: in at once; the doors wait for it. */
+.ma-alcove[data-drawer="open"] {
+  transform: none;
+  transition-delay: 0s;
+}
+.ma-alcove__title {
+  padding-inline: 32px;
+}
+.ma-alcove ul {
+  display: grid;
+  gap: 1px;
+  border-block: 1px solid var(--lattice);
+  border-top: 3px solid var(--wood-beam);
+  background: var(--lattice);
+}
+.ma-alcove li {
+  display: flex;
+  background: var(--paper-recess);
+}
+.ma-alcove__bay {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-height: 64px;
+  padding: 8px 32px;
+  color: var(--ink-soft);
+  font: 400 22px/1.3 var(--mincho);
+  letter-spacing: 0;
+  text-decoration: none;
+  transition: background var(--hover), color var(--hover);
+}
+/* The room you are in is open paper; the others stay in the alcove's shade until you reach for them. */
+.ma-alcove__bay[aria-current="page"],
+a.ma-alcove__bay:hover {
+  background: var(--paper);
   color: var(--ink);
 }
-/* The current lens's mark is ink, like its word. */
-.ma-lens__mark {
-  width: 6px;
-  height: 6px;
-  background: var(--ink);
+
+/* The dojo doors: two full-height leaves of vertical boards in a darker frame, two rails across,
+   a round recessed pull on each by the meeting stiles. Shut, they cover the sidebar; open, each has
+   slid out past its own side. */
+.ma-alcove__doors {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  pointer-events: none;
+}
+.ma-alcove__doors > span {
+  position: relative;
+  flex: 1;
+  border: 5px solid var(--node);
+  background:
+    linear-gradient(var(--node), var(--node)) 0 30% / 100% 4px no-repeat,
+    linear-gradient(var(--node), var(--node)) 0 70% / 100% 4px no-repeat,
+    repeating-linear-gradient(90deg, var(--wood-beam) 0 27px, var(--node) 27px 28px);
+  /* Closing: they shut at once. */
+  transition: transform var(--doors);
+}
+.ma-alcove__doors > span:first-child {
+  border-right-width: 3px;
+}
+.ma-alcove__doors > span:last-child {
+  border-left-width: 3px;
+}
+.ma-alcove__doors > span::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - 9px);
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--node);
+  border-radius: 50%;
+  background: var(--paper-recess);
+}
+.ma-alcove__doors > span:first-child::after {
+  right: 12px;
+}
+.ma-alcove__doors > span:last-child::after {
+  left: 12px;
+}
+/* Opening: they part once the sidebar has nearly arrived. */
+.ma-alcove[data-drawer="open"] .ma-alcove__doors > span {
+  transition-delay: 300ms;
+}
+.ma-alcove[data-drawer="open"] .ma-alcove__doors > span:first-child {
+  transform: translateX(-100%);
+}
+.ma-alcove[data-drawer="open"] .ma-alcove__doors > span:last-child {
+  transform: translateX(100%);
+}
+
+/* The page behind, dimmed while the sidebar is open, and still. */
+.ma-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  background: color-mix(in srgb, var(--ink) 32%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--slide) 560ms;
+}
+.ma-menu[aria-expanded="true"] ~ .ma-scrim {
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+[data-lens="home"]:has(.ma-menu[aria-expanded="true"]) {
+  overflow: hidden;
 }
 
 /* Bamboo divider */
@@ -265,37 +363,31 @@
   overflow: clip;
   display: flex;
   align-items: center;
-  /* With the header (about 100px) the hero fills the first screen. */
-  min-height: max(560px, calc(100svh - 100px));
-  padding-block: clamp(48px, 6vw, 96px);
+  /* Header and hero together are exactly the first screen. */
+  min-height: calc(100svh - var(--header));
+  padding-block: var(--hero-pad);
+}
+/* Name and intro on the left, the desk on the right. */
+.ma-hero__row {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: center;
+  gap: 56px clamp(48px, 7vw, 120px);
 }
 .ma-hero > .ma-container {
   position: relative;
   width: 100%;
 }
-/* 間 sits behind the text, in the paper, and takes no room of its own. */
-.ma-hero__kanji {
-  position: absolute;
-  left: calc(var(--gutter) - 0.34em);
-  top: -0.3em;
-  color: var(--paper-faint);
-  font: 400 var(--kanji) / 1 var(--mincho);
-  letter-spacing: 0;
-  pointer-events: none;
-  user-select: none;
-}
-.ma-hero__row {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(180px, 320px);
-  align-items: end;
-  gap: 48px clamp(32px, 6vw, 96px);
-}
+
 .ma-hero__stack {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 36px;
+  gap: 32px;
+}
+.ma-hero .ma-h1 {
+  max-width: none;
+  font-size: clamp(40px, 4.8vw, 72px);
 }
 .ma-h1 {
   max-width: 13ch;
@@ -337,67 +429,55 @@
   align-items: center;
   min-height: 44px;
 }
-.ma-hero__lens {
+/* The desk: what is on it now, in hairline rows. */
+.ma-desk > div {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
+  padding-block: 14px;
+  border-top: 1px solid var(--lattice);
 }
-
-/* Bamboo cluster */
-.ma-bamboo {
-  position: relative;
-  justify-self: end;
-  width: 100%;
-  max-width: 320px;
-  height: clamp(300px, 42vw, 540px);
-  overflow: hidden;
+.ma-desk > div:last-child {
+  border-bottom: 1px solid var(--lattice);
 }
-.ma-stalk {
-  position: absolute;
-  top: var(--top);
-  bottom: 0;
-  left: var(--left);
-  width: var(--w);
-  transform-origin: 50% 100%;
-  rotate: var(--lean);
+.ma-desk dd {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
-.ma-culm {
-  height: 100%;
-  overflow: hidden;
-  border-radius: var(--w) var(--w) 0 0;
+.ma-desk__title {
+  font: 500 22px/1.3 var(--mincho);
+  letter-spacing: 0;
 }
-.ma-culm span {
-  display: block;
-  height: var(--h);
-  border-bottom: 2px solid var(--ring);
-  background: var(--tone);
+a.ma-desk__title {
+  align-self: flex-start;
+  text-decoration: none;
 }
-.ma-spray {
-  position: absolute;
-  left: 50%;
-  top: var(--at);
-  width: 1px;
-  height: 1px;
-  overflow: visible;
+.ma-desk dd p {
+  max-width: 44ch;
+  font-size: 15px;
+  line-height: 1.7;
 }
-.ma-spray path {
-  fill: var(--tone);
-  stroke: var(--node);
-  stroke-width: 1;
+.ma-desk__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 24px;
 }
-@keyframes ma-sway {
-  0%, 100% { rotate: calc(var(--lean) - 1.6deg); }
-  50% { rotate: calc(var(--lean) + 1.6deg); }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .ma-stalk {
-    animation: ma-sway var(--dur) ease-in-out infinite;
-  }
+.ma-desk__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
 }
 
 /* Sections */
 .ma-work {
-  padding-top: clamp(96px, 12vw, 168px);
+  padding-top: clamp(48px, 6vw, 80px);
+}
+/* The heading and its filters read as one: the filters sit just under it. */
+.ma-work__head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 .ma-about {
   padding-top: clamp(120px, 14vw, 200px);
@@ -610,30 +690,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Currently working on: a small note between the entryway and the selected work, in hairline rows
-   like the other work, so the tokonoma stays the one showcase. Each row is its title link's target. */
-.ma-current {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding-top: clamp(72px, 9vw, 120px);
-}
-.ma-current li {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr) auto;
-  gap: 8px 32px;
-  align-items: baseline;
-  padding-block: 24px;
-  border-top: 1px solid var(--lattice);
-}
-.ma-current li:last-child {
-  border-bottom: 1px solid var(--lattice);
-}
-.ma-current li:hover a {
-  color: var(--ink-soft);
-}
-
 /* About */
 .ma-bio {
   display: flex;
@@ -737,45 +793,20 @@
   letter-spacing: 0;
 }
 
-/* Below 1200px the header becomes two rows: name and clock, then nav and switcher. */
-@media (max-width: 1199.98px) {
-  .ma-header {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-  }
-  .ma-clock {
-    grid-area: 1 / 2;
-    justify-self: end;
-  }
-  .ma-header .ma-lens {
-    justify-self: end;
-  }
-}
-
 /* Below 768px everything stacks. */
 @media (max-width: 767.98px) {
-  .ma-nav,
-  .ma-header .ma-lens {
-    grid-column: 1 / -1;
-    justify-self: start;
+  /* The columns stack: the name, intro and actions fill the first screen on their own, centred in
+     it, and the desk waits just below the fold. */
+  .ma-hero {
+    min-height: 0;
   }
-  /* Four words do not fit one phone line: set them two by two. */
-  .ma-lens ul {
-    display: grid;
-    grid-template-columns: auto auto;
-    justify-content: start;
-    justify-items: start;
-    column-gap: 16px;
-  }
-  .ma-lens li:not(:last-child)::after {
-    content: none;
+  .ma-hero__stack {
+    justify-content: center;
+    min-height: calc(100svh - var(--header) - 2 * var(--hero-pad));
   }
   .ma-hero__row,
   .ma-tokonoma {
     grid-template-columns: minmax(0, 1fr);
-  }
-  .ma-bamboo {
-    height: 300px;
   }
   .ma-rows > div {
     grid-template-columns: minmax(0, 1fr);
@@ -785,9 +816,6 @@
   }
   .ma-worklist li > :nth-child(2) {
     grid-row: 2;
-  }
-  .ma-current li {
-    grid-template-columns: minmax(0, 1fr);
   }
 }
 

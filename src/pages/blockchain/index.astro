@@ -4,7 +4,6 @@ import { getExperience, getLensProjects, getProfile } from '../../lib/content';
 import Cite from '../../lenses/blockchain/Cite.astro';
 import CodeFigure from '../../lenses/blockchain/CodeFigure.astro';
 import Layout from '../../lenses/blockchain/Layout.astro';
-import LensSwitcher from '../../lenses/blockchain/LensSwitcher.astro';
 import Paper from '../../lenses/blockchain/Paper.astro';
 import Sidenote from '../../lenses/blockchain/Sidenote.astro';
 import { getLedger, short } from '../../lenses/blockchain/ledger';
@@ -69,7 +68,6 @@ const refOf = (i: number) => standards + i + 1;
       <a class="btn btn-primary" href="#papers">read the papers ↓</a>
       <a class="btn" href="#ledger">verify the ledger</a>
     </div>
-    <div class="mono"><LensSwitcher /></div>
   </section>
 
   <section id="introduction" class="section prose" data-section="§1 introduction" aria-labelledby="h-introduction">

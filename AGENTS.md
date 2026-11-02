@@ -50,7 +50,6 @@ Defaults below; Femi may override any of them, and his instructions win.
   - `/games` → the `games` lens
   - `/blockchain` → the `blockchain` lens
   - Project detail pages per lens: `/<lens>/work/<slug>` (`/work/<slug>` for `home`).
-- **Remembering the choice:** store the last chosen lens in `localStorage` (`lens`). On `/`, if a different lens is remembered, offer it with a single quiet link ("continue in games") rather than auto-redirecting. Wrap storage access in try/catch; the site must work without it.
 - **Transitions:** Astro View Transitions. Inside a lens: crossfade only, 200–300 ms. Between lenses: a full-page CSS overlay (`src/lib/client/lens-transition.*`) in which the lens being left closes over the page in its own motif and the lens being entered opens onto the new one. Both are disabled under `prefers-reduced-motion`.
 - **Styling:** each lens's tokens are CSS custom properties scoped to `[data-lens="home"]`, `[data-lens="web"]`, `[data-lens="games"]`, `[data-lens="blockchain"]` on `<html>`. No shared global palette.
 - **Fonts:** self-host via `@fontsource` packages where available; never hotlink fonts in production.
@@ -99,7 +98,7 @@ Every lens renders the switcher **in its own visual language**, but it must beha
 - Labels are those lowercase words. Each lens may add its own flourish around them (Ma: a small seal mark; web: a favicon square in each browser tab), but the words stay readable.
 - Each option is a real `<a href>` to that lens's route. The current lens has `aria-current="page"`.
 - Wrap the options in `<nav aria-label="Choose a lens">`.
-- Placement: in the header on every page, plus one prominent instance in the hero. Exception: in the `web` lens the browser tabs are the only switcher; it has no second instance.
+- Placement: a menu button in every lens's header (on `web`, in the page's site nav, inside the browser window) opens a full-height sidebar from the right edge with the four options, drawn and animated in that lens's own style. The behaviour is shared (`src/lib/client/drawer.ts`): `aria-expanded` on the button, Escape and a click outside close it, the page behind is inert while it is open. The header is sticky, with a hairline under it. There is no second instance in the hero; the `web` lens keeps its browser tabs as well, because they are part of the browser.
 - Keyboard: Tab reaches every option; visible focus ring; touch targets ≥ 44 × 44 px.
 
 ---

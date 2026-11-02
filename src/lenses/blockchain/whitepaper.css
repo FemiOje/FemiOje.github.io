@@ -75,26 +75,61 @@
 .skip:focus { top: 8px; }
 main:focus { outline: 0; }
 
-/* ── Running head + lens switcher ── */
+/* ── Running head + lens menu ── */
+/* Sticky at every width; on phones the section name goes, so it stays one row. */
 .runhead {
   position: sticky; top: 0; z-index: 10; background: var(--paper);
-  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
-  gap: 0 24px; border-bottom: var(--hair); color: var(--ink-soft);
+  display: flex; align-items: center; gap: 0 24px; border-bottom: var(--hair); color: var(--ink-soft);
 }
-.runhead a, .lens-nav a, .lens-nav span[aria-disabled] {
-  color: inherit; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center;
-}
-.runhead a:hover, .lens-nav a:hover { color: var(--ink); }
+.runhead a { color: inherit; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+.runhead a:hover { color: var(--ink); }
+.runhead-name { margin-right: auto; }
 .runhead-meta { margin: 0; min-height: 44px; display: inline-flex; align-items: center; font-size: inherit; line-height: inherit; }
-.lens-nav { display: flex; flex-wrap: wrap; gap: 0 16px; }
-.lens-nav a[aria-current="page"] { color: var(--ink); }
-.lens-nav a[aria-current="page"]::before { content: "["; color: var(--confirm); }
-.lens-nav a[aria-current="page"]::after  { content: "]"; color: var(--confirm); }
-.lens-nav span[aria-disabled] { color: var(--ink-faint); }
-@media (max-width: 639px) {   /* on phones the head wraps, so it scrolls away instead of sticking */
-  .runhead { position: static; gap: 0 16px; }
-  [data-runhead-section], [data-runhead-section] + .sep { display: none; }
+@media (max-width: 639px) {
+  .runhead { gap: 0 16px; }
+  .runhead-meta { display: none; }
 }
+.menu-btn {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; margin-right: -12px;
+  padding: 0; border: 0; background: none; color: var(--ink); cursor: pointer;
+}
+.menu-btn:hover { color: var(--ink-soft); }
+.menu-icon { display: block; }
+
+/* The lens menu: a sidebar typeset as Table A. It is appended top down in six blocks, like the
+   ledger, and taken off again bottom up. */
+.menu-drawer {
+  position: fixed; inset: 0 0 0 auto; z-index: 30; display: flex; flex-direction: column;
+  width: min(88vw, 22rem); padding-inline: var(--pad-x); overflow-y: auto;
+  border-left: var(--hair); background: var(--paper); color: var(--ink-soft);
+  clip-path: inset(0 0 100% 0); transition: clip-path 420ms steps(6, end);
+}
+.menu-drawer[data-drawer="open"] { clip-path: inset(0); }
+.menu-drawer[hidden] { display: none; }
+.menu-drawer__head {
+  display: flex; justify-content: space-between; align-items: center; min-height: 45px;
+  margin-inline: calc(-1 * var(--pad-x)); padding-inline: var(--pad-x); border-bottom: var(--hair);
+}
+.menu-drawer__table { margin: 40px 0 0; font-size: 15px; }
+.menu-drawer__table caption { font-family: var(--font-text); }
+.menu-drawer__table th { font-weight: 500; color: var(--ink-soft); }
+.menu-drawer__table td { padding-block: 0; }
+.menu-drawer__table td:first-child { font-size: 15px; color: var(--ink); }
+.menu-drawer__table td:last-child { color: var(--ink-faint); font-size: 13px; }
+.menu-drawer__table :is(a, span[aria-disabled]) { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); text-decoration: none; }
+.menu-drawer__table a:hover { text-decoration: underline; text-decoration-color: var(--ink); text-underline-offset: 3px; }
+.menu-drawer__table a[aria-current="page"]::before { content: "["; color: var(--confirm); }
+.menu-drawer__table a[aria-current="page"]::after { content: "]"; color: var(--confirm); }
+.menu-drawer__table span[aria-disabled] { color: var(--ink-faint); }
+.menu-drawer__keys { margin: auto 0 0; padding-block: 24px; }
+
+/* Behind it, the page faded back, and held still. */
+.menu-scrim {
+  position: fixed; inset: 0; z-index: 25; background: color-mix(in srgb, var(--ink) 20%, transparent);
+  opacity: 0; pointer-events: none; transition: opacity 180ms var(--ease);
+}
+[data-lens="blockchain"]:has(.menu-drawer[data-drawer="open"]) .menu-scrim { opacity: 1; pointer-events: auto; }
+[data-lens="blockchain"]:has(.menu-drawer[data-drawer="open"]) { overflow: hidden; }
 
 /* ── Buttons ── */
 .btn {

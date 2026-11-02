@@ -1,0 +1,46 @@
+---
+// The lens menu: a sidebar from the right edge, typeset like a table in the paper: a booktabs table
+// of the four lenses and their routes, the current one in confirm-green brackets. It is appended top
+// down in blocks, like the ledger, and taken off bottom up (whitepaper.css); drawer.ts opens and
+// closes it. It sits outside the sticky running head and carries its own close button.
+import { lenses } from '../../lib/lenses';
+import MenuIcon from './MenuIcon.astro';
+---
+
+<div class="menu-scrim" data-drawer-part aria-hidden="true"></div>
+<nav class="menu-drawer mono" id="lens-menu" aria-label="Choose a lens" data-drawer-part hidden>
+  <div class="menu-drawer__head">
+    <span>lenses</span>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="lens-menu" aria-label="close lenses" data-drawer-toggle>
+      <MenuIcon name="close" />
+    </button>
+  </div>
+  <table class="booktabs menu-drawer__table">
+    <caption><b>Table A:</b> one paper, four lenses.</caption>
+    <thead>
+      <tr><th scope="col">lens</th><th scope="col">route</th></tr>
+    </thead>
+    <tbody>
+      {
+        lenses.map(({ id, href, ready }) => (
+          <tr>
+            <td>
+              {ready ? (
+                <a href={href} aria-current={id === 'blockchain' ? 'page' : undefined}>
+                  {id}
+                </a>
+              ) : (
+                <span aria-disabled="true">
+                  {id}
+                  <span class="sr-only">, coming soon</span>
+                </span>
+              )}
+            </td>
+            <td aria-hidden="true">{href}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+  <p class="menu-drawer__keys">esc closes</p>
+</nav>

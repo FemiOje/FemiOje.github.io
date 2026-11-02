@@ -1,0 +1,47 @@
+---
+// The hero's second column: what is on the desk right now, in hairline rows. Everything
+// comes from the data: work in progress, and where to reach Femi.
+import { getProfile, type Project } from '../../lib/content';
+import { workHref } from '../../lib/lenses';
+
+interface Props {
+  /** The projects still in progress. */
+  projects: Project[];
+}
+const { projects } = Astro.props;
+const { links } = (await getProfile()).data;
+---
+
+<dl class="ma-desk">
+  {
+    projects.length > 0 && (
+      <div>
+        <dt class="ma-label">currently working on</dt>
+        {projects.map(({ data: { title, slug, summary } }) => (
+          <dd>
+            <a class="ma-desk__title ma-link" href={workHref('home', slug)}>
+              {title}
+            </a>
+            <p class="ma-soft">{summary}</p>
+          </dd>
+        ))}
+      </div>
+    )
+  }
+  <div>
+    <dt class="ma-label">contact</dt>
+    <dd>
+      <ul class="ma-desk__links">
+        {
+          links.map(({ label, url }) => (
+            <li>
+              <a class="ma-link" href={url}>
+                {label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </dd>
+  </div>
+</dl>

@@ -3,6 +3,7 @@ import { Font } from 'astro:assets';
 import { ClientRouter, fade } from 'astro:transitions';
 import Seo from '../../lib/Seo.astro';
 import { getProfile } from '../../lib/content';
+import Drawer from './Drawer.astro';
 import Header from './Header.astro';
 import './overworld.css';
 
@@ -30,6 +31,7 @@ const { data: profile } = await getProfile();
   <body>
     <a class="skip" href="#main">skip to content</a>
     <Header />
+    <Drawer />
     <main id="main" class="container" tabindex="-1">
       <slot />
     </main>
@@ -40,9 +42,8 @@ const { data: profile } = await getProfile();
       </div>
     </footer>
     <script>
-      import '../../lib/client/lens-memory';
       import '../../lib/client/lens-transition';
-      import '../../lib/client/clock';
+      import '../../lib/client/drawer';
       import './interactions';
     </script>
   </body>

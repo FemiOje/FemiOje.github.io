@@ -1,0 +1,21 @@
+---
+// The menu and close marks, drawn on a pixel grid at 2× like the map's sprites.
+interface Props {
+  /** `menu`: three bars. `close`: a stepped cross. */
+  name: 'menu' | 'close';
+}
+const { name } = Astro.props;
+// The cross: two diagonals of 2 × 2 blocks on a 12 × 12 grid.
+const cross = [0, 2, 4, 6, 8, 10].flatMap((i) => [
+  [i, i],
+  [10 - i, i],
+]);
+---
+
+<svg class="menu-icon" viewBox="0 0 12 12" width="24" height="24" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true">
+  {
+    name === 'menu'
+      ? [1, 5, 9].map((y) => <rect x="0" y={y} width="12" height="2" />)
+      : cross.map(([x, y]) => <rect x={x} y={y} width="2" height="2" />)
+  }
+</svg>

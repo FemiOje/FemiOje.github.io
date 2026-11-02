@@ -69,8 +69,8 @@
 - Never chain-link icons, wallet icons, token/chain logos (including the Ethereum or Bitcoin marks), coins, cubes or rockets
 
 ## Components Spotted
-- **Running head** (sticky, mono 13px, hairline below): `f. ojetokun: onchain systems` left · lens switcher centre · current section (`§2 selected papers`) + `lagos HH:MM` (+ optional `block #…`) right
-- **Lens switcher**: four lowercase mono links (`home`, `web`, `games`, `blockchain`); the current one shown as `[blockchain]` with accent brackets, ink text and `aria-current="page"`; others ink-soft
+- **Running head** (sticky, mono 13px, hairline below): `f. ojetokun: onchain systems` left · current section (`§2 selected papers`) (+ optional `block #…`) · the menu button right (three booktabs rules, 2px / 1px / 2px). Sticky at every width; the section hides on phones. No clock
+- **Lens switcher**: a sidebar from the right edge, opened by the menu button, typeset as "Table A": a booktabs table of the four lenses (lowercase mono links) and their routes; the current one shown as `[blockchain]` with accent brackets and `aria-current="page"`. It is appended top down in six steps, like the ledger, and taken off bottom up. No second instance in the title block
 - **Title block**: kicker `working paper · v2026.10` (version = build month), title ("Contracts you can read, interfaces you can trust."), author with sidenote ¹ (correspondence), italic affiliation (`University of Lagos · Lagos, Nigeria`), build month, abstract, keywords, equation (1) `Hₙ = SHA-256(Hₙ₋₁ ∥ eₙ)` with its number at the right edge, actions (`read the papers ↓` primary, `verify the ledger` secondary)
 - **Section heading**: number + title, bold, flush-left; `data-section` drives the running head
 - **Sidenote**: superscript number in the text; the note floats into the margin at ≥ 1100px, opens on tap below, stays inline without JS

@@ -1,19 +1,17 @@
 ---
-import { getExperience, getLensProjects, getProfile, gmtOffset } from '../../lib/content';
+import { getExperience, getLensProjects, getProfile } from '../../lib/content';
 import Layout from '../../lenses/web/Layout.astro';
 import ProjectCard from '../../lenses/web/ProjectCard.astro';
 
 const profile = await getProfile();
-const { name, bio, timeZone, intro } = profile.data;
+const { name, bio, intro } = profile.data;
 const { featuredFirst: projects } = await getLensProjects('web');
 const experience = await getExperience();
 ---
 
 <Layout title={`${name}: frontend engineering for the web`} description={profile.data.meta.web}>
   <section class="hero" aria-labelledby="hero-title">
-    <span class="hero__label">
-      frontend engineer · {gmtOffset(timeZone).toLowerCase()}<span data-clock={timeZone} hidden>{' '}<time></time></span>
-    </span>
+    <span class="hero__label">frontend engineer</span>
     <h1 class="hero__title" id="hero-title" data-inspect="h1">Interfaces that hold up under inspection.</h1>
     <p class="hero__lead" data-inspect="lead">
       {intro.web} Go ahead, take this page apart in the developer tools.

@@ -1,0 +1,22 @@
+---
+// The menu and close marks. Menu: three booktabs rules, \toprule, \midrule and \bottomrule (2px, 1px,
+// 2px). Close: a cross in the same 1px ink.
+interface Props {
+  name: 'menu' | 'close';
+}
+const { name } = Astro.props;
+---
+
+<svg class="menu-icon" viewBox="0 0 20 14" width="20" height="14" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true">
+  {
+    name === 'menu' ? (
+      <>
+        <rect x="0" y="0" width="20" height="2" />
+        <rect x="0" y="6.5" width="20" height="1" />
+        <rect x="0" y="12" width="20" height="2" />
+      </>
+    ) : (
+      <path d="M3 0l14 14M17 0 3 14" fill="none" stroke="currentColor" stroke-width="1.25" shape-rendering="geometricPrecision" />
+    )
+  }
+</svg>

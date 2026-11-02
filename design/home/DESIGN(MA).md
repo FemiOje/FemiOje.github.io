@@ -58,7 +58,7 @@ Rules
 - Both fonts: SIL Open Font License (Google Fonts / `@fontsource`). Fallbacks: Mincho → `"Hiragino Mincho ProN", "Yu Mincho", serif`; Gothic → `"Hiragino Sans", "Yu Gothic", system-ui, sans-serif`.
 - Headings in sentence case. Labels, nav and meta in lowercase.
 - Measure: prose ≤ 56ch (bio), ≤ 40ch (lead), h1 ≤ 13ch.
-- Numbers in clocks and meta: `font-variant-numeric: tabular-nums`.
+- Numbers in meta: `font-variant-numeric: tabular-nums`.
 
 ## 4. Japanese vocabulary (the only Japanese allowed)
 
@@ -90,7 +90,7 @@ English concept words may appear in labels: `tokonoma: the one thing on display`
 
 ## 6. Components
 
-**Header.** Seal + name (Mincho 17px) on the left, nav centre/right, then `lagos · HH:MM` (Africa/Lagos time, 13px, tabular). 28px vertical padding. No border.
+**Header.** Seal + name (Mincho 17px) on the left, nav centre/right. No clock. 28px vertical padding. No border.
 
 **Hanko seal.** 34 × 34px, radius 3px, `--seal` fill, `--on-seal` text, フェミ set vertically (`writing-mode: vertical-rl`), Mincho 10px weight 600. Decorative: `aria-hidden="true"`; the name beside it is the accessible text.
 

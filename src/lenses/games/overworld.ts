@@ -410,6 +410,8 @@ export function mountOverworld(root: HTMLElement, worlds: MapNode[][]) {
     (event) => {
       if (event.altKey || event.ctrlKey || event.metaKey) return;
       if ((event.target as Element).closest?.('input, textarea, select, [contenteditable]')) return;
+      // The lens menu is open over the map: keys are its, not the player's.
+      if (canvas.closest('[inert]')) return;
       const focused = document.activeElement === canvas;
       if (!focused && !inView) return;
       const direction = KEYS[event.key.toLowerCase()];

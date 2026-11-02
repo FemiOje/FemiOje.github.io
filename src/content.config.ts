@@ -47,7 +47,6 @@ const profile = defineCollection({
     name: z.string(),
     fullName: z.string(),
     role: z.string(),
-    timeZone: z.string(),
     focus: z.string(),
     /** One paragraph per entry. */
     bio: z.array(z.string()),

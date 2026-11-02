@@ -29,12 +29,6 @@ export function galleryOf({ data }: Project) {
   return data.gallery.map(({ src, alt }) => ({ image: imageAt(data.slug, src), alt }));
 }
 
-/** `Etc/GMT-1` → `GMT+1`: the profile's time zone as an offset. */
-export const gmtOffset = (timeZone: string) =>
-  new Intl.DateTimeFormat('en-GB', { timeZone, timeZoneName: 'shortOffset' })
-    .formatToParts(new Date())
-    .find(({ type }) => type === 'timeZoneName')?.value ?? 'GMT';
-
 /** `max_concurrent_games` → `max concurrent games` */
 export const factLabel = (key: string) => key.replaceAll('_', ' ');
 

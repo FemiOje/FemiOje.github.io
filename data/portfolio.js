@@ -27,8 +27,6 @@ export default {
     fullName: "Oluwafemi Ojetokun",
     handle: "jinius",
     role: "Software engineer",
-    /* A fixed offset, not a place. The Etc zones invert the sign: this is GMT+1. */
-    timeZone: "Etc/GMT-1",
     focus: "web, blockchain, games",
     bio: [
       "I'm a software engineer and blockchain security researcher.",
@@ -73,7 +71,7 @@ export default {
   experience: [
     { id: "provable-labs", label: "work", title: "Provable Labs", detail: "Software Engineer. Implemented the rendering system for Loot Survivor 2 adventurers using modular, dynamic SVG components, and ported Dope Wars into the Embeddable Game Standard", years: "2025", order: 1 },
     { id: "open-source", label: "open source", title: "Daydreams, Dope Wars, Loot Survivor 2, DojoByExample, etc.", detail: "contributor", order: 2 },
-    { id: "education", label: "education", title: "B.Sc. Computer Science", detail: "University of Lagos", years: "January 2020 to March 2027", order: 3 },
+    { id: "education", label: "education", title: "B.Sc. Computer Science", detail: "University of Lagos", years: "2020 - 2026 (Convocation March 2027)", order: 3 },
     { id: "learning", label: "learning", title: "Blockchain Security", detail: "", order: 4 }
   ],
 

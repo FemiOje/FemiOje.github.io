@@ -67,7 +67,7 @@ Family: **Inter** (SIL OFL), variable with the optical-size (`opsz`) axis so lar
 
 ## 5. Components
 
-**Header.** Wordmark `femi ojetokun` (15px, 600) left; nav (`work`, `about`, `contact`); lens switcher; `lagos · HH:MM wat` (13px, `--text-2`, Africa/Lagos time). 16px vertical padding, 1px `--panel-grey` bottom border.
+**Header.** Wordmark `femi ojetokun` (15px, 600) left; nav (`work`, `about`, `contact`); lens switcher. No clock. 16px vertical padding, 1px `--panel-grey` bottom border.
 
 **Status line.** 8px accent dot + `frontend engineer: web, onchain, games` (13px, `--text-2`). Sits above the h1.
 

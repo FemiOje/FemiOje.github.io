@@ -1,7 +1,6 @@
 ---
 import { getProfile } from '../../lib/content';
 import Layout from '../../lenses/games/Layout.astro';
-import LensSwitcher from '../../lenses/games/LensSwitcher.astro';
 import { getLevels, nodeId, worldsOf } from '../../lenses/games/levels';
 import type { MapNode } from '../../lenses/games/overworld';
 
@@ -92,7 +91,6 @@ const coins = stops.reduce((sum, world) => sum + world.length - 1, 0);
     <div>
       <h1>Pick a level.</h1>
       <p class="lead">{intro.games}</p>
-      <LensSwitcher />
     </div>
     <div class="hud">
       <span data-needs-js><i class="sq" aria-hidden="true"></i>coins <b data-hud="coins">0/{coins}</b></span>

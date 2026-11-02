@@ -35,7 +35,7 @@
 - **Scale**: h1 `clamp(40px, 6.4vw, 76px)` / line-height 1.02 · level title `clamp(30px, 3.4vw, 42px)` · section h2 `clamp(26px, 3vw, 34px)` · level-list name 22px · body 16px / 1.7 · meta 13–14px with `letter-spacing: .06–.1em`
 - **Case**: headings in sentence case ("Pick a level.", "Level select"). Labels, nav, buttons, tags, eyebrows and map labels in lowercase. Never uppercase
 - **Weight**: pixel face never above 500. Body bold only for inline emphasis
-- **Numerals**: `font-variant-numeric: tabular-nums` on the HUD, level codes, dates and the clock
+- **Numerals**: `font-variant-numeric: tabular-nums` on the HUD, level codes and dates
 
 ## Spacing & Layout
 - **Container**: `max-width: 1040px`, `padding-inline: clamp(20px, 5vw, 56px)`
@@ -69,7 +69,7 @@
 - Each level's sprite comes from a small fixed set chosen by the project's `kind` (see Components › Level sprite)
 
 ## Components Spotted
-- **Header**: same contract as every lens. Brand mark (the player's head, 20 × 20 sprite, 1.5× scale) + "Femi Ojetokun" in Pixelify 18px; lens switcher (home · web · games · blockchain) with a 6px gold square before the current lens; "lagos · HH:MM" clock in ink soft
+- **Header**: same contract as every lens. Brand mark (the player's head, 20 × 20 sprite, 1.5× scale) + "Femi Ojetokun" in Pixelify 18px; a pixel menu button (three bars; a stepped cross when open) that opens the lens menu: a sidebar from the right edge, 2px ink frame on paper, the four lenses in Pixelify 24px with a 6px gold square before the current one and a → cursor beside the one pointed at; it steps in over six frames and prints its entries one at a time. No clock
 - **Intro**: h1 "Pick a level." + one-sentence lead; HUD on the right: gold square + "coins 0/n", "levels 1/n", and "skip the map ↓" anchor to the level list
 - **Overworld map**: canvas in a 2px ink frame. one winding road on a fixed route: START (home) at the bottom-left, one node per game along the road in data order, GOAL (contact) right after the last game. Up to 7 games per world; an 8th starts world 2. The river gets a bridge where the road crosses it. Level names float above nodes as small paper labels (1px ink border); the current level's label inverts to ink
 - **Level sprite**: 16 × 16 building with a 1px outline, chosen by kind: `onchain` → dungeon mouth with torches, `jam` → tent, `prototype` → workshop, `tool` → tower, `multiplayer` → city block, `music` → speaker, anything else → scroll. START = house, GOAL = castle with a gold flag

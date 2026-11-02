@@ -79,7 +79,7 @@
         '<div class="door-name">' + label + "</div>" +
         '<p class="door-sum">' + verb + "</p>" +
         '<div class="door-list">' + list.slice(0, 3).map(function (c) { return esc(c.name); }).join(" · ") + "</div>" +
-        '<span class="door-go">Enter →</span>' +
+        '<span class="door-go">Enter</span>' +
       "</div></a>";
   }
   /* A world that exports preview() gets a homepage section drawn in its own design;

@@ -1,0 +1,46 @@
+---
+// The lens menu: a browser side panel from the right edge, in the window's chrome: one row per lens
+// with its favicon square and route, the current one selected like a tab. It docks in with a short,
+// mechanical slide (inspector.css); drawer.ts opens and closes it. It sits outside the window and
+// carries its own close button.
+import { lenses } from '../../lib/lenses';
+import Icon from './Icon.astro';
+---
+
+<div class="menu-scrim" data-drawer-part aria-hidden="true"></div>
+<nav class="menu-drawer" id="lens-menu" aria-label="Choose a lens" data-drawer-part hidden>
+  <div class="menu-drawer__head">
+    <span>lenses</span>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="lens-menu" aria-label="close lenses" data-drawer-toggle>
+      <Icon name="close" />
+    </button>
+  </div>
+  <ul class="menu-drawer__list">
+    {
+      lenses.map(({ id, href, ready }) => (
+        <li>
+          {ready ? (
+            <a href={href} aria-current={id === 'web' ? 'page' : undefined}>
+              <span class="fav" aria-hidden="true">
+                {id[0]}
+              </span>
+              {id}
+              <span class="menu-drawer__route" aria-hidden="true">
+                {href}
+              </span>
+            </a>
+          ) : (
+            <span aria-disabled="true">
+              <span class="fav" aria-hidden="true">
+                {id[0]}
+              </span>
+              {id}
+              <span class="sr">, coming soon</span>
+            </span>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+  <p class="menu-drawer__keys"><kbd>esc</kbd> closes</p>
+</nav>

@@ -1,0 +1,28 @@
+---
+// The lens switcher: a full-height sidebar from the right edge, opened by the header's menu button
+// (drawer.ts). It arrives shut behind a pair of dojo doors, which then slide apart onto a tokonoma:
+// four bays under a wood lintel, one per lens. Closing runs it backwards.
+import { lenses } from '../../lib/lenses';
+---
+
+<nav class="ma-alcove" id="lens-alcove" aria-label="Choose a lens" hidden>
+  <p class="ma-label ma-alcove__title">lenses</p>
+  <ul>
+    {
+      lenses.map(({ id, href, ready }) => (
+        <li>
+          {ready ? (
+            <a class="ma-alcove__bay" href={href} aria-current={id === 'home' ? 'page' : undefined}>
+              {id}
+            </a>
+          ) : (
+            <span class="ma-alcove__bay" aria-disabled="true">
+              {id} (soon)
+            </span>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+  <span class="ma-alcove__doors" aria-hidden="true"><span></span><span></span></span>
+</nav>

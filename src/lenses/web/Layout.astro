@@ -6,6 +6,7 @@ import { ClientRouter, fade } from 'astro:transitions';
 import Seo from '../../lib/Seo.astro';
 import { getProfile } from '../../lib/content';
 import Devtools from './Devtools.astro';
+import Drawer from './Drawer.astro';
 import Icon from './Icon.astro';
 import LensTabs from './LensTabs.astro';
 import { accents } from './registry';
@@ -22,8 +23,6 @@ const { name, fullName, email, links } = profile;
 
 const path = Astro.url.pathname.replace(/\/$/, '').split('/');
 const page = path.pop();
-// Section links work from project pages too.
-const home = path.length === 1 ? '' : '/web';
 
 // `<` is escaped so nothing in the content can close the script element.
 const inspectorData = JSON.stringify(await getInspectorData()).replaceAll('<', '\\u003c');
@@ -79,11 +78,9 @@ const accentHexes = accents.map(([hex]) => hex);
               <div class="page">
                 <nav class="site-nav" aria-label="Site" data-inspect="nav">
                   <a class="site-name" href="/web">{name}</a>
-                  <div class="site-links">
-                    <a href={`${home}#work`}>work</a>
-                    <a href={`${home}#about`}>about</a>
-                    <a href="#contact">contact</a>
-                  </div>
+                  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="lens-menu" aria-label="lenses" data-drawer-toggle>
+                    <Icon name="menu" />
+                  </button>
                 </nav>
                 <main id="vp-main" tabindex="-1">
                   <slot />
@@ -115,11 +112,11 @@ const accentHexes = accents.map(([hex]) => hex);
         grid, switch to a phone, or type <code>help()</code> in the Console.
       </p>
     </div>
+    <Drawer />
     <script type="application/json" id="inspector-data" set:html={inspectorData} />
     <script>
-      import '../../lib/client/lens-memory';
       import '../../lib/client/lens-transition';
-      import '../../lib/client/clock';
+      import '../../lib/client/drawer';
       import './interactions';
     </script>
   </body>

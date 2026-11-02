@@ -264,7 +264,7 @@ The goal is a site a visitor would believe one careful person designed by hand. 
 - No uppercase anywhere. Headings in sentence case. Labels, nav, buttons, tags and meta in lowercase.
 - Italics only in the blockchain lens, and only where LaTeX would use them.
 - `text-wrap: balance` on every heading, `text-wrap: pretty` on every paragraph.
-- `font-variant-numeric: tabular-nums` on clocks, dates, counters, level codes, block heights and hashes.
+- `font-variant-numeric: tabular-nums` on dates, counters, level codes, block heights and hashes.
 - Measure: prose never wider than the lens's stated `ch` limit.
 
 **Shape and lines**
@@ -289,7 +289,7 @@ The goal is a site a visitor would believe one careful person designed by hand. 
 - No em dashes inside prose sentences; use a full stop or a comma. Em dashes are allowed only in fixed patterns the lens defines (a footer gloss, a figure caption, a running head).
 - No rhetorical triads ("fast, accessible and beautiful"), no "passionate", "crafting", "pixel perfect", "seamless", "elevate", "journey". No exclamation marks.
 - The middle dot `·` is the separator for meta lines across all lenses.
-- Small true details beat claims: the live `lagos · HH:MM` clock, a build month, a real git sha, real hashes, real role and status labels.
+- Small true details beat claims: a build month, a real git sha, real hashes, real role and status labels.
 
 **Small craft details (all lenses)**
 - Links: 1px underline, offset 3px (the home lens uses 5px), colour per lens below.
@@ -371,7 +371,7 @@ Measure: h1 ≤ 13ch, lead ≤ 40ch, bio ≤ 56ch, detail prose ≤ 64ch. Weight
 
 **Motion:** hover 160ms ease-out (colour, background, underline colour). Crossfade 240ms ease-out. Bamboo sway ±1.6° over 9–11s, ease-in-out; off under reduced motion.
 
-**Header and switcher:** seal + name (Mincho 17px) left, nav, `lagos · HH:MM` 13px tabular. No border, 28px vertical padding. Switcher: lowercase words, 13px, 0.12em tracking, a 6px seal square before the current lens.
+**Header and switcher:** seal + name (Mincho 17px) left, nav. No clock. No border, 28px vertical padding. Switcher: lowercase words, 13px, 0.12em tracking, a 6px seal square before the current lens.
 
 **Links:** ink, 1px underline, offset 5px.
 
@@ -496,7 +496,7 @@ Measure: write ups ≤ 62ch, level lead ≤ 52ch. The pixel face never sets a pa
 
 **Motion:** UI 160ms `cubic-bezier(0, 0, .2, 1)`, background only. Toast 240ms opacity and transform, 3.2s on screen. Coin pickup 0.45s. Press: `translateY(2px)`. Reduced motion: the player moves instantly, water and coins stop.
 
-**Header and switcher:** player head sprite + "Femi Ojetokun" in Pixelify 18px, lens switcher with a 6px gold square before the current lens, `lagos · HH:MM` in ink soft. Sticky, paper background.
+**Header and switcher:** player head sprite + "Femi Ojetokun" in Pixelify 18px, lens switcher with a 6px gold square before the current lens. No clock. Sticky, paper background.
 
 **Links:** ink, 1px underline in `--rule-strong`, offset 3px.
 
@@ -557,7 +557,7 @@ Body never below 17px; Latin Modern runs thin on screens.
 
 **Motion:** UI 140ms `cubic-bezier(.2, .6, .2, 1)`. Ledger tick 90ms per block. Crossfade 180ms. Nothing types, counts or scrolls by itself.
 
-**Header and switcher:** sticky mono running head, hairline below: `f. ojetokun: onchain systems` left, switcher centre (current lens as `[blockchain]` with confirm green brackets), current `§` section and `lagos HH:MM` right.
+**Header and switcher:** sticky mono running head, hairline below: `f. ojetokun: onchain systems` left, switcher centre (current lens as `[blockchain]` with confirm green brackets), current `§` section right. No clock.
 
 **Links:** ink, 1px underline in `--rule-strong`, offset 3px; underline turns ink on hover. External links end in ↗.
 

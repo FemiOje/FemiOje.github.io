@@ -1,6 +1,6 @@
 ---
-import { getProfile, gmtOffset } from '../../lib/content';
-import LensSwitcher from './LensSwitcher.astro';
+import { getProfile } from '../../lib/content';
+import MenuIcon from './MenuIcon.astro';
 
 const { data: profile } = await getProfile();
 ---
@@ -10,8 +10,7 @@ const { data: profile } = await getProfile();
     <canvas data-brand width="20" height="20" aria-hidden="true"></canvas>
     <span class="brand-name">{profile.name}</span>
   </a>
-  <LensSwitcher />
-  <span class="clock">
-    {gmtOffset(profile.timeZone).toLowerCase()}<span data-clock={profile.timeZone} hidden> · <time></time></span>
-  </span>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="lens-menu" aria-label="lenses" data-drawer-toggle>
+    <MenuIcon name="menu" />
+  </button>
 </header>

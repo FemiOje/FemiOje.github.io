@@ -1,0 +1,38 @@
+---
+// The lens menu: a sidebar from the right edge, set like a game's menu window: an ink frame on
+// paper, the lenses listed in Pixelify, the current one with the gold square, an arrow cursor on
+// the one you point at. It steps in like a sprite, then prints its entries one at a time
+// (overworld.css); drawer.ts opens and closes it. It sits outside the sticky header, whose
+// clip-path would cut it, and carries its own close button where the menu button is.
+import { lenses } from '../../lib/lenses';
+import MenuIcon from './MenuIcon.astro';
+---
+
+<div class="menu-scrim" data-drawer-part aria-hidden="true"></div>
+<nav class="menu-drawer" id="lens-menu" aria-label="Choose a lens" data-drawer-part hidden>
+  <div class="menu-drawer__head">
+    <p class="menu-drawer__title">lenses</p>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="lens-menu" aria-label="close lenses" data-drawer-toggle>
+      <MenuIcon name="close" />
+    </button>
+  </div>
+  <ul class="menu-drawer__list">
+    {
+      lenses.map(({ id, href, ready }, i) => (
+        <li style={`--i: ${i}`}>
+          {ready ? (
+            <a href={href} aria-current={id === 'games' ? 'page' : undefined}>
+              {id}
+            </a>
+          ) : (
+            <span aria-disabled="true">
+              {id}
+              <span class="sr-only">, coming soon</span>
+            </span>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+  <p class="menu-drawer__keys"><kbd>esc</kbd> closes</p>
+</nav>

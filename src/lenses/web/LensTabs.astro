@@ -9,7 +9,7 @@ import { lenses } from '../../lib/lenses';
       lenses.map(({ id, href, ready }) => (
         <li>
           {ready ? (
-            <a class="lens-tab" href={href} data-lens-link={id} aria-current={id === 'web' ? 'page' : undefined}>
+            <a class="lens-tab" href={href} aria-current={id === 'web' ? 'page' : undefined}>
               <span class="fav" aria-hidden="true">
                 {id[0]}
               </span>

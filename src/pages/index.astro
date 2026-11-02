@@ -1,12 +1,9 @@
 ---
 import { getExperience, getLensProjects, getProfile, type Project } from '../lib/content';
-import { lenses } from '../lib/lenses';
 import Layout from '../lenses/home/Layout.astro';
-import Bamboo from '../lenses/home/Bamboo.astro';
 import BambooDivider from '../lenses/home/BambooDivider.astro';
-import Current from '../lenses/home/Current.astro';
+import Desk from '../lenses/home/Desk.astro';
 import Filters from '../lenses/home/Filters.astro';
-import LensSwitcher from '../lenses/home/LensSwitcher.astro';
 import Rows from '../lenses/home/Rows.astro';
 import SectionHead from '../lenses/home/SectionHead.astro';
 import ShojiGrid from '../lenses/home/ShojiGrid.astro';
@@ -17,7 +14,7 @@ const profile = await getProfile();
 const { name, role, bio, intro, email, links } = profile.data;
 const { all, featured, rest } = await getLensProjects('home');
 const experience = await getExperience();
-// Work in progress gets its own small note above the selected work, which holds only finished work.
+// Work in progress sits on the hero's desk; the selected work holds only finished work.
 const inProgress = ({ data }: Project) => data.status === 'in-progress';
 const current = all.filter(inProgress);
 const work = all.filter((project) => !inProgress(project));
@@ -26,53 +23,31 @@ const showcase = featured && !inProgress(featured) ? featured : undefined;
 const remaining = rest.filter((project) => !inProgress(project));
 const shoji = remaining.slice(0, 5);
 const others = remaining.slice(5);
-const otherLenses = lenses.filter(({ id, ready }) => ready && id !== 'home');
 ---
 
 <Layout title={`${name}, ${role.replace(/\b\w/g, (c) => c.toUpperCase())}`} description={profile.data.meta.home}>
   <section class="ma-hero" aria-labelledby="hero-title">
-    <div class="ma-container">
-      <span class="ma-hero__kanji" lang="ja" aria-hidden="true">間</span>
-      <div class="ma-hero__row">
-        <div class="ma-hero__stack">
-          <p class="ma-label">entryway</p>
-          <h1 class="ma-h1" id="hero-title">{name}, {role.toLowerCase()}.</h1>
-          <p class="ma-lead">{intro.home}</p>
-          <div class="ma-actions">
-            <a class="ma-enter" href="#work">
-              enter
-              <svg viewBox="0 0 22 8" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
-                <path d="M0 4h21M17.5 0.5 21 4l-3.5 3.5"></path>
-              </svg>
-            </a>
-            <a class="ma-link" href="#contact">leave a note</a>
-          </div>
-          <div class="ma-hero__lens">
-            <LensSwitcher />
-            <p class="ma-label" data-lens-offer hidden>
-              {
-                otherLenses.map(({ id, href }) => (
-                  <a class="ma-link" href={href} data-offer={id} data-lens-link={id} hidden>
-                    continue in {id}
-                  </a>
-                ))
-              }
-            </p>
-          </div>
+    <div class="ma-container ma-hero__row">
+      <div class="ma-hero__stack">
+        <h1 class="ma-h1" id="hero-title">{name}, {role.toLowerCase()}.</h1>
+        <p class="ma-lead">{intro.home}</p>
+        <div class="ma-actions">
+          <a class="ma-enter" href="#work">view my work</a>
+          <a class="ma-link" href="#contact">contact me</a>
         </div>
-        <Bamboo />
       </div>
+      <Desk projects={current} />
     </div>
   </section>
 
   <div class="ma-container"><BambooDivider at="30%" /></div>
 
-  {current.length > 0 && <Current projects={current} />}
-
   <section class="ma-work ma-container" aria-labelledby="work">
     <div class="ma-blocks">
-      <SectionHead label="work" id="work">Selected work</SectionHead>
-      <Filters projects={work} />
+      <div class="ma-work__head">
+        <SectionHead id="work">Selected work</SectionHead>
+        <Filters projects={work} />
+      </div>
       {showcase && <Tokonoma project={showcase} />}
       {shoji.length > 0 && <ShojiGrid projects={shoji} />}
       {others.length > 0 && <WorkList projects={others} />}

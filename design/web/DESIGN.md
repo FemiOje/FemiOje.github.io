@@ -82,7 +82,7 @@
 ## Components Spotted
 - **Tab strip = lens switcher**: three neutral window dots, then four tabs (`home`, `web`, `games`, `blockchain`); the current lens is the raised white tab with `aria-current="page"`
 - **Toolbar**: decorative back/forward/reload, URL field (`lock` + host + `/`**web**), "devtools" toggle on the right
-- **Viewport page**: site nav (name + work/about/contact), hero (label with Lagos time, h1, lead, CTA + console link), "Selected work" grid of cards, About (heading + paragraph + facts list), Contact ("Say hello." + links), © line
+- **Viewport page**: site nav (name + the menu button: three 1.5px lines, square, ink, accent on hover; it opens the lens menu, a side panel from the right edge in the window's chrome, one row per lens with its favicon square and route, the current one selected like a tab, docking in with a 220ms slide), hero (label, h1, lead, CTA + console link), "Selected work" grid of cards, About (heading + paragraph + facts list), Contact ("Say hello." + links), © line
 - **Card**: 1px border, 20px padding, `#FAFAFB`; number + status row, 16:10 image well, title, summary, mono stack line
 - **Selection overlay**: 2px inspect-blue outline (offset 2px) + inset tint on the selected element; 1px dashed outline on the hovered one; a blue label above it reading `selector  W × H`
 - **Inspect mode**: every inspectable element gets a small white chip (tag name, inspect-blue text) at its top-left; clicking one selects it; the selected chip turns blue and shows the full label
@@ -101,7 +101,7 @@
 Key things an AI coding tool must know to nail this style:
 
 - **Light family**: desk `#ECEEF2`, white window, white page. No dark mode, no full-bleed colour fields
-- **The tabs are the lens switcher**: real `<a href>` links inside `<nav aria-label="Choose a lens">`
+- **The tabs and the menu are the lens switcher**: real `<a href>` links inside `<nav aria-label="Choose a lens">`, in the tab strip and in the side panel
 - **The inspector must be real**: selecting, hover-highlighting, unticking CSS, swapping `--accent`, grid overlay, device mode, box model and console all work. A static picture of devtools misses the point
 - **Inspect blue is fixed**; `--accent` is the page's colour and is user-swappable. Keep them separate
 - **Two fonts**: Archivo for the page and chrome, JetBrains Mono for code. Page buttons and cards are square; chrome has gentle radii
