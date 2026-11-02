@@ -86,6 +86,7 @@ export default {
       tags: ["onchain", "games"],
       stack: ["Cairo", "Dojo", "Starknet", "React", "Three.js", "Cartridge Controller"],
       links: { live: "", repo: "https://github.com/FemiOje/hexed" },
+      cover: "img/smart-contracts/hexed.png",
       kind: "game", net: "testnet",
       excerpt: {
         file: "combat.cairo", lang: "rust",
@@ -170,6 +171,7 @@ export default {
       tags: [],
       stack: ["Shell", "Docker", "iptables", "Foundry"],
       links: { live: "", repo: "https://github.com/FemiOje/agent-sandbox" },
+      cover: "img/agent-sandbox.png",
       kind: "tool",
       facts: [
         { k: "self_test", v: "55 checks via ./sandbox test, also run in GitHub Actions" },
@@ -185,6 +187,7 @@ export default {
       tags: ["onchain", "open-source"],
       stack: ["TypeScript"],
       links: { live: "", repo: "https://github.com/daydreamsai/daydreams" },
+      cover: "img/smart-contracts/daydreams.png",
       kind: "tool", net: "mainnet", upstream: "daydreamsai/daydreams",
       facts: [
         { k: "my_commits_upstream", v: "11, between 2025-01-29 and 2025-01-31" }
