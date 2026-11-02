@@ -86,7 +86,7 @@ export default {
       order: { home: 2, games: 1, blockchain: 1 },
       tags: ["onchain", "games"],
       stack: ["Cairo", "Dojo", "Starknet", "React", "Three.js", "Cartridge Controller"],
-      links: { live: "", repo: "https://github.com/FemiOje/hexed" },
+      links: { live: "https://hexed-silk.vercel.app/", repo: "https://github.com/FemiOje/hexed" },
       cover: "img/smart-contracts/hexed.png",
       kind: "game", net: "testnet",
       excerpt: {
@@ -127,7 +127,7 @@ export default {
       order: { home: 3, blockchain: 2 },
       tags: ["onchain", "open-source"],
       stack: ["TypeScript", "ENSv2", "World ID"],
-      links: { live: "", repo: "https://github.com/FemiOje/herit" },
+      links: { live: "https://herit-psi.vercel.app/", repo: "https://github.com/FemiOje/herit" },
       cover: "img/smart-contracts/herit.png",
       kind: "dapp", net: "testnet", upstream: "Kelechikizito/herit",
       facts: [
@@ -143,7 +143,7 @@ export default {
       order: { home: 4, blockchain: 3 },
       tags: ["onchain"],
       stack: ["Cairo", "Starknet", "SVG"],
-      links: { live: "", repo: "https://github.com/FemiOje/ls2-renderer" },
+      links: { live: "https://www.lootsurvivor.io/", repo: "https://github.com/FemiOje/ls2-renderer" },
       cover: "img/smart-contracts/loot-survivor-2.png",
       gallery: [
         { src: "img/smart-contracts/loot-survivor-3.png", alt: "A dead adventurer's card: a gravestone, the line \"Death Mountain has claimed another\" and a final score of 80 XP." }
@@ -161,7 +161,7 @@ export default {
       order: { home: 1, web: 1 },
       tags: ["web", "open-source"],
       stack: ["TypeScript", "Privy"],
-      links: { live: "", repo: "https://github.com/Kelechikizito/aux" },
+      links: { live: "coming soon", repo: "https://github.com/FemiOje/aux" },
       kind: "web"
     },
     {
@@ -170,8 +170,8 @@ export default {
       lenses: ["home"], featured_in: [],
       order: { home: 5 },
       tags: [],
-      stack: ["Shell", "Docker", "iptables", "Foundry"],
-      links: { live: "", repo: "https://github.com/FemiOje/agent-sandbox" },
+      stack: ["Linux", "Docker"],
+      links: { live: "https://github.com/FemiOje/agent-sandbox", repo: "https://github.com/FemiOje/agent-sandbox" },
       cover: "img/agent-sandbox.png",
       kind: "tool",
       facts: [
@@ -187,7 +187,7 @@ export default {
       order: { home: 6, blockchain: 4 },
       tags: ["onchain", "open-source"],
       stack: ["TypeScript"],
-      links: { live: "", repo: "https://github.com/daydreamsai/daydreams" },
+      links: { live: "https://taskmarket.dev/", repo: "https://github.com/daydreamsai/daydreams" },
       cover: "img/smart-contracts/daydreams.png",
       kind: "tool", net: "mainnet", upstream: "daydreamsai/daydreams",
       facts: [
@@ -223,7 +223,7 @@ export default {
       order: { home: 9, games: 4 },
       tags: ["games"],
       stack: ["Unity", "C#"],
-      links: { live: "", repo: "https://github.com/FemiOje/dungeon-generator-2d" },
+      links: { live: "https://github.com/FemiOje/dungeon-generator-2d", repo: "https://github.com/FemiOje/dungeon-generator-2d" },
       cover: "img/game-dev/dungeon-generator-2d.png",
       kind: "game"
     },
