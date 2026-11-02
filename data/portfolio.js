@@ -86,7 +86,7 @@ export default {
       tags: ["onchain", "games"],
       stack: ["Cairo", "Dojo", "Starknet", "React", "Three.js", "Cartridge Controller"],
       links: { live: "", repo: "https://github.com/FemiOje/hexed" },
-      kind: "game", net: "mainnet",
+      kind: "game", net: "testnet",
       excerpt: {
         file: "combat.cairo", lang: "rust",
         caption: "combat goes to the player with more XP, and a tie goes to the attacker.",
@@ -127,7 +127,7 @@ export default {
       stack: ["TypeScript", "ENSv2", "World ID"],
       links: { live: "", repo: "https://github.com/FemiOje/herit" },
       cover: "img/smart-contracts/herit.png",
-      kind: "dapp", net: "mainnet", upstream: "Kelechikizito/herit",
+      kind: "dapp", net: "testnet", upstream: "Kelechikizito/herit",
       facts: [
         { k: "co_creator", v: "Kelechi Kizito" },
         { k: "award", v: "1st place, Best Use of ENSv2 — ETHOnline 2026" },
@@ -160,7 +160,7 @@ export default {
       tags: ["web", "open-source"],
       stack: ["TypeScript", "Privy"],
       links: { live: "", repo: "https://github.com/Kelechikizito/aux" },
-      kind: "web", net: "mainnet", upstream: "Kelechikizito/aux"
+      kind: "web"
     },
     {
       title: "agent-sandbox", slug: "agent-sandbox", role: "Author", status: "shipped", years: "2026",
@@ -170,7 +170,7 @@ export default {
       tags: [],
       stack: ["Shell", "Docker", "iptables", "Foundry"],
       links: { live: "", repo: "https://github.com/FemiOje/agent-sandbox" },
-      kind: "tool", net: "mainnet",
+      kind: "tool",
       facts: [
         { k: "self_test", v: "55 checks via ./sandbox test, also run in GitHub Actions" },
         { k: "network_policy", v: "default deny, approval proxy" },
@@ -199,7 +199,7 @@ export default {
       stack: ["Unity", "C#"],
       links: { live: "https://femioje.itch.io/fishfest-gamejamnew-build", repo: "https://github.com/FemiOje/Fish-Fest-Game-Jam" },
       cover: "img/game-dev/fishfest_gamejam.png",
-      kind: "game", net: "mainnet"
+      kind: "game"
     },
     {
       title: "Adventure of the Thing", slug: "adventure-of-the-thing", role: "Author", status: "shipped", years: "2024",
@@ -210,7 +210,7 @@ export default {
       stack: ["Unity", "C#"],
       links: { live: "https://femioje.itch.io/adventure-of-the-thing", repo: "https://github.com/FemiOje/Adventure-of-the-Thing" },
       cover: "img/game-dev/adventure-of-the-thing.png",
-      kind: "game", net: "mainnet"
+      kind: "game"
     },
     {
       title: "Dungeon Generator 2D", slug: "dungeon-generator-2d", role: "Author", status: "shipped", years: "2025",
@@ -220,7 +220,7 @@ export default {
       tags: ["games"],
       stack: ["Unity", "C#"],
       links: { live: "", repo: "https://github.com/FemiOje/dungeon-generator-2d" },
-      kind: "game", net: "mainnet"
+      kind: "game"
     },
     {
       title: "Penito Furniture", slug: "penito-furniture", role: "Author", status: "shipped", years: "2023",
@@ -231,7 +231,7 @@ export default {
       stack: ["React", "Redux Toolkit", "React Router"],
       links: { live: "https://penito-furniture.netlify.app/", repo: "https://github.com/FemiOje/penitoFurniture" },
       cover: "img/web-dev/penito-furniture.png",
-      kind: "web", net: "mainnet"
+      kind: "web"
     },
   ],
 
